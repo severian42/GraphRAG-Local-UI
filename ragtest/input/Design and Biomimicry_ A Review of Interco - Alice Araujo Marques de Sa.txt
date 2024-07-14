@@ -1,0 +1,2371 @@
+biomimetics
+
+Article
+
+Design and Biomimicry: A Review of Interconnections and
+
+Creative Potentials
+
+Alice Araujo Marques de Sá 1, *
+
+and Dianne Magalhães Viana 2
+
+1
+
+Department of Design, Institute of Arts, University of Brasília, Brasília 70910-900, Brazil 2
+
+Department of Mechanical Engineering, Faculty of Technology, University of Brasília, Brasília 70910-900, Brazil
+
+*
+
+Correspondence: alicearaujoms@gmail.com
+
+Abstract: The study and application of biological knowledge favor the creation of innovative projects in several areas, so it is necessary to better understand the use of these resources specifically in the field of design. Thus, a systematic review was undertaken to identify, describe, and analyze the contributions of biomimicry to design. For this purpose, the integrative systematic review model, called the Theory of Consolidated Meta-Analytical Approach, was used, carrying out a search on the Web of Science with the descriptors “design” and “biomimicry”. For the period from 1991 to 2021, 196 publications were retrieved. The results were organized according to areas of knowledge, countries, journals, institutions, authors, and years. Citation, co-citation, and bibliographic coupling analyses were also performed. The investigation highlighted the following research emphases: the conception of products, buildings, and environments; the exploration of natural structures and systems to create materials and technologies; the use of biomimetic creative tools in product design; and projects focused on saving resources and implementing sustainability. It was noted that there was a tendency for authors to adopt a problem-based approach. It was concluded that the study of biomimicry can stimulate the development of multiple skills in design, improving creativity, and enhancing the potential integration of sustainability into production cycles.
+
+Keywords: design; biomimicry; biomimetic design; systematic review; bio-inspiration; bionics; bio-inspired design; nature-inspired design; bio-informed design; sustainability Citation: Sá, A.A.M.d.; Viana, D.M.
+
+Design and Biomimicry: A Review of
+
+Interconnections and Creative
+
+1. Introduction
+
+Potentials. Biomimetics 2023, 8, 61.
+
+Creative activities, in their most varied manifestations, often adopt interdisciplinary
+
+https://doi.org/10.3390/
+
+knowledge as a reference for their performance. Thus, from this diversified and integrative
+
+biomimetics8010061
+
+approach, the interconnections between the multiple spheres of knowledge are promoted, Academic Editor: Stanislav N. Gorb
+
+providing opportunities for innovation. In the opinion of Cardoso [1], the adoption of this type of approach in the processes of teaching, learning, and practice, is essential Received: 18 November 2022
+
+to expand the range of resources available to designers. It should be noted that, based Revised: 26 January 2023
+
+on the conception of authors such as Bonsiepe [2], Munari [3], and Flusser [4], design Accepted: 26 January 2023
+
+consists of envisioning and planning functional creations through the combination of art Published: 2 February 2023
+
+and technique, giving rise to new forms of culture and expression. Design professionals constantly search for guidelines and methods that enable proposals for products and services that are better adapted to the demands of society. Faced with these enduring Copyright: © 2023 by the authors.
+
+challenges, it is essential to explore possibilities and alternatives, such as those that can be Licensee MDPI, Basel, Switzerland.
+
+offered by biomimicry [5,6].
+
+This article is an open access article
+
+It is worth mentioning that biomimicry is defined in ISO Standard 18458:2015 as a set distributed under the terms and
+
+of interdisciplinary philosophical and creative approaches that consider nature as a model conditions of the Creative Commons
+
+to guide the development of projects, including aspects related to environmental, social, Attribution (CC BY) license (https://
+
+and economic sustainability. In this field, it is understood that the outcomes implemented
+
+creativecommons.org/licenses/by/
+
+by nature provide possible answers to questions of function or practice, simultaneously 4.0/).
+
+Biomimetics 2023, 8, 61. https://doi.org/10.3390/biomimetics8010061
+
+https://www.mdpi.com/journal/biomimetics
+
+Biomimetics 2023, 8, 61
+
+2 of 16
+
+allowing choices appropriate to the goals of a project. In this way, by observing organisms, biological processes, and ecosystems, solutions can be developed to meet the needs and challenges of the various spheres of human activity, such as in the design of products, environments, services, and digital technologies [6–8].
+
+Given the scope of the present work, it is necessary to remark on the persistent im-passes regarding the use of terminologies by scholars and professionals involved in creative activities inspired by nature. Some authors adopt the bio-derived terms interchange-ably [9]. That is, in a given publication, they globally adopt some bio-derived expressions, which does not allow to sufficiently distinguish the understanding they possessed from the conceptual point of view when structuring and carrying out their studies. Other researchers rely on the specific conceptualization of terms, in line with the ISO 18458:2015
+
+Standard [10,11]. However, for some biomimicry researchers—such as Iouguina et al. [12]
+
+and Speck et al. [13]—this field of inspiration in nature has been expanding rapidly, and it is increasingly necessary to differentiate even more clearly and objectively several basic notions, such as biomimicry, biomimetics, bionics, and bioinspiration. For authors who share this concern, even though there are already different understandings of these terms, they are still insufficient. This happens because many authors use different nomenclatures, but, depending on the specific contexts in which each researcher or professional is inserted, these words may reflect cultural factors and aspects of their specializations, which need to be clarified to enhance future work and research. In other words, more theoretical and empirical studies are needed to better delimit the concepts underlying biomimicry. In this sense, review works are very important, despite the advances already achieved. In summary, a close examination of the area reveals that certain biomimetic concepts can be understood as equivalent by certain authors, while, for others, they are perceived as different or complementary [12–14]. In view of the above, it is essential to explain that, in the present work, the word “biomimicry” was adopted due to the advantages that still exist when opting for a comprehensive term with wide dissemination. Furthermore, as evidenced by Iouguina et al. [12] and Gamage and Hyde [15], this nomenclature refers to a theoretical and technical framework that can be considered more accessible, in addition to being closely associated with the disciplines of design, architecture, and philosophy.
+
+Additionally, to support the bibliographical research that was undertaken, which will be presented and discussed later, it is worth remembering that a survey of the specialized literature constitutes an essential approach for the systematization of knowledge already gathered, in addition to allowing the identification of trends and to suggesting an agenda for future research, especially in the case of emerging areas of knowledge. Indeed, many review techniques are available (e.g., narrative, integrative, systematic, meta-analyses) [16–18].
+
+Among these possibilities is the integrative systematic review model called the Theory of Consolidated Meta-Analytical Approach (TEMAC). This resource, based on bibliometric laws, helps in the development of: research preparation; presentation and interrelation of data; integrative model and validation by evidences. TEMAC is a multilingual model that enables research in various databases, such as the Web of Science, Scopus, and Google Scholar, for reviewing international literature in different areas of knowledge. Furthermore, this resource recommends the adoption of free software such as VOSViewer and TagCrowd for processing and visualization of data. Through TEMAC, it is possible to obtain an overview of the works and productions of an area, to elaborate integrative models, and to carry out comparisons between publications, institutions, and countries [19].
+
+In summary, as the study and application of biological knowledge enables the realization of creative projects in several areas, it is necessary to better understand the use of these resources specifically in design. Thus, in this work, emphasis was given to biomimetic design, also understood as biomimicry-based design, that could be defined as the creative implementation of biologically-inspired concepts, ideas, and strategies into functional products to solve human challenges, that may have the potential to meet the current needs of sustainability in design. This definition is based on the perspectives of authors such as Gamage and Hyde [15]; Hsiao and Chou [20]; Volstad and Boks [21]. Aiming, therefore, to
+
+
+
+
+
+Biomimetics 2023, 8, 61
+
+3 of 16
+
+aid the grounding, guiding, planning, creation, and evaluation of biomimetic productions in this field, the general objective of this article was to identify, describe and analyze the contributions of biomimicry to design based on a survey of publications indexed in the Web of Science database.
+
+2. Materials and Methods
+
+The investigation was carried out in the Web of Science database, using the descriptors biomimicry and design. The period between 1991 and 2021 was configured as the time range for the searches, totaling three decades. It should be noted that the first decade of this interval coincides with the publication of the work by Benyus, Biomimicry: Innovation Inspired by Nature, which contributed to the dissemination of the term “biomimicry” [22].
+
+To carry out the systematic review, the Theory of Consolidated Meta-Analytical Approach (TEMAC) integrative model was adopted. This resource recommends organizing the information collected in the database according to areas of knowledge, countries, journals, institutions, authors, and years. In addition, TEMAC guides the performance of citation, co-citation, coupling, co-occurrence, and word cloud analyses with the generation of images, such as heat maps and network or line maps. For this purpose, the VOSViewer and TagCrowd platforms were used [23].
+
+It is worth clarifying that citation analysis is one of the means of measuring the impact of authors’ production based on the number of citations listed in the database. Evidently, it is important not to mistake the popularity of an author or publication with the relevance of the scientific work developed, but it is an interesting comparative parameter. The co-citation analysis corresponds to works that are frequently cited together by other publications.
+
+The greater the number of co-citations of a document, the greater its prominence in the literature, and the more likely its semantic relationship with the other two documents will be. Coupling establishes that when two documents cite the same third publication in their bibliographies, this is an indicator that these works have similarities [19, 23].
+
+In TEMAC, it is common to delimit longer periods for co-citation than for coupling, since the first type of analysis is adopted to highlight the most-used thematic approaches in the study of a given topic (comprehensive panorama), while the second type, focuses on reduced intervals and, therefore, tends to show the main fronts of contemporary research [19, 23,24]. Therefore, in the present work, co-citation covered the period from 1991 to 2021, and coupling comprised the years from 2018 to 2021. Bearing in mind these methodological guidelines, interrelationships were established between the data obtained with the help of TEMAC and the content of the identified works.
+
+3. Results
+
+Preliminarily, 633 documents were obtained. It is considered essential to point out that, as biomimicry is a recent area—especially when associated with the field of design—various types of documents were examined in the present literature review, including articles, publications in proceedings of events, and books. The research of such works is pertinent because they represent important sources of information and can contain and record discoveries in emerging areas.
+
+The oldest work found on the Web of Science was the article by Li et al. (1995), in which the authors explored structural applications of synthetic composites and natural bamboo fibers [25]. The material produced showed mechanical behavior similar to resistant structures present in nature. Considering this pioneering study with a biomimetic approach, it is pertinent to highlight that the initial works on the subject were directed mainly at the study of materials from an engineering perspective (especially at microscopic and nanoscopic scales), including physicochemical and structural investigations. With regard to pioneering efforts and research, it should be noted that studies and applications, more clearly related to the areas of design and architecture, followed in greater numbers after the publication of the book by Janine Benyus (1997), that is, from the end of the 1990s [22].
+
+Biomimetics 2023, 8, 61
+
+4 of 16
+
+Based on the examination of previous evidence, a filter according to knowledge areas was implemented in the subsequent step of the review. Thus, divergent categories were excluded (e.g., agriculture, medicine, dentistry, physics, chemistry, biochemistry, materials science, electrical engineering, computer science, mathematics, nanoscience, nanotechnology, pharmacy, and neurosciences). This reduced the number of selected works to n = 196. Table 1 presents the analysis categories used to process the information and the respective quantitative data obtained from the search on the Web of Science. In this set of documents, it was noted that the areas of knowledge with the highest number of contributions, in descending order, were: engineering (n = 64), the science of technology (n = 41), environmental sciences, and ecology (n = 31), and architecture (n = 24). It is vital to mention that the Web of Science does not have a specific category for filtering documents published exclusively in the domain of design, unlike other areas of knowledge.
+
+This limitation impacts the investigation and means that works of interest in this field are obtained only in related areas.
+
+Table 1. Classification of information collected in the Web of Science database, distributed quantitatively into categories. Source: the authors.
+
+Categories
+
+Data from Web of Science
+
+Engineering (n = 64)
+
+Science of Technology (n = 41)
+
+Knowledge areas with the highest number of contributions
+
+Environmental Sciences and Ecology (n = 31)
+
+Architecture (n = 24)
+
+United States (n = 68)
+
+Countries with the highest number of publications
+
+United Kingdom (n = 19)
+
+Turkey (n = 15)
+
+WIT Transactions on Ecology and the Environment (n = 9)
+
+Scientific Reports (n = 6)
+
+Journals that published the most works
+
+Architectural Science Review (n = 5)
+
+Procedia Social and Behavioral Sciences (n = 5)
+
+University of California System (n = 8)
+
+Victoria University of Wellington (n = 8)
+
+Institutions that published the most works
+
+University System of Georgia (n = 7)
+
+Delft University of Technology and University of Akron (n = 6)
+
+Maibritt Pedersen Zari (n = 8)
+
+Authors who published the most works
+
+Donnison, Faludi, Jones, Niewiarowski and Pauw (n = 3)
+
+2019 (n = 27)
+
+Years with the highest number of publications
+
+2016 (n = 26)
+
+2020 (n = 24)
+
+The three countries with the highest number of publications were, respectively: United States (n = 68), United Kingdom (n = 19), and Turkey (n = 15). The following journals published the highest number of works on the subject: WIT Transactions on Ecology and the Environment (n = 9), Scientific Reports (n = 6), Architectural Science Review (n = 5), and Procedia Social and Behavioral Sciences (n = 5). Regarding the institutions associated with publications about interconnections between design and biomimicry, the following stood out: University of California System (n = 8), Victoria University of Wellington (n = 8), University System of Georgia (n = 7), Delft University of Technology (n = 6), University of Akron (n = 6). It was also found that Maibritt Pedersen Zari was the author with the most published works (n = 8), followed by Donnison, Faludi, Jones, Niewiarowski, and Pauw (n = 3). The years with the greatest profusion of works were: 2019 (n = 27), 2016 (n = 26), and 2020 (n = 24).
+
+In order to provide an overview of the bibliographic production regarding design and biomimicry analyzed in the review reported here, Table 2 presents a summary of publications that showed 35 or more citations in the Web of Science between 1991 and 2021.
+
+Biomimetics 2023, 8, 61
+
+5 of 16
+
+Table 2. Synthesis of works with 35 or more citations registered in the Web of Science. Source: the authors.
+
+Title
+
+Citations
+
+Main Contributions of the Author(s)
+
+Biomimetic approaches on a microscopic scale, inspired by morphological and
+
+“Biomimetics: lessons from
+
+physicochemical properties for the development of materials, devices, and 691
+
+nature—an overview” [26]
+
+surfaces were identified. The authors gathered a set of inspiring natural elements and pointed out applications in products.
+
+Characteristics of nature relevant to the field of bio-inspired textile design
+
+“Biomimicry in textiles: past,
+
+were highlighted: fiber diversity (strength, structure); functional surfaces present and potential
+
+81
+
+(adhesion, hydrophobicity); thermal insulation and optical systems (structural
+
+—an overview” [27]
+
+colors and photonic materials).
+
+Applications based on the defensive strategies of the species Erethizon dorsatum
+
+“Microstructured barbs on the
+
+(pointed and sharp dorsal structures) were examined. The findings North American porcupine quill
+
+69
+
+demonstrated good adherence and reduced the force required for penetration enable easy tissue penetration
+
+into tissues, which could be adopted in the design of hospital products and difficult removal” [28]
+
+(e.g., needles).
+
+Multi-material rapid prototyping processes were studied for biomimetic robot
+
+“Design and fabrication of
+
+design. Uses of stiff and flexible materials and the incorporation of sensors multi-material structures for
+
+63
+
+were discussed, in which nature-based configurations demanded less active bioinspired robots” [29]
+
+control compared to traditional procedures.
+
+The authors underlined which aspects of the circular economy can mitigate the
+
+“Integrating backcasting and
+
+impacts of environmental degradation and presented the framework eco-design for the circular
+
+61
+
+Backcasting and Eco-Design for the Circular Economy. Investigations on economy the BECE framework”
+
+nature-based notions and areas were identified (biomimicry, cradle-to-cradle,
+
+[30]
+
+natural capitalism, regenerative design).
+
+“Evolution of reaction center
+
+Artificial reactions based on photosynthesis to produce fuels through mimics to systems capable of
+
+51
+
+photochemical processes were mapped. Research on photoelectric systems generating solar fuel” [31]
+
+capable of converting water into oxygen and hydrogen was evidenced.
+
+The authors highlighted that natural factors stimulate innovations in robot
+
+“Templates and anchors for
+
+design and neuromechanics. An antenna project for task control (guiding the antenna-based wall following in
+
+46
+
+angulation of robots in relation to walls), based on the spatial navigation of the cockroaches and robots” [32]
+
+Periplaneta americana species, was illustrated.
+
+The study focused on the self-cleaning capacity of organisms by classifying
+
+“Biomimetic self-cleaning
+
+them based on the use or the absence of water. It was found that new design surfaces: synthesis, mechanism
+
+43
+
+projects inspired by these characteristics can be applied in: medicine, and applications” [33]
+
+aerospace construction, solar energy production, and water treatment.
+
+Systems-level regenerative and biomimetic design to mitigate the causes and
+
+“Biomimetic design for climate
+
+effects of climate change was examined. The importance of renewable energies, change adaptation and
+
+39
+
+responsive systems, local context adaptation, feedback loops, and autonomy mitigation” [34]
+
+was noted. Uses of biomimetic principles, in short, medium, and long-term projects were mentioned.
+
+The study measured and summarized biomimicry applications in
+
+“A model based on Biomimicry
+
+environmental preservation projects in design and architecture. The following to enhance ecologically
+
+35
+
+tools were explored: BioTRIZ, Typological Analysis, Nature Studies Analysis, sustainable design” [15]
+
+and Biomimetic Spirals (Biomimicry Thinking Design Lens).
+
+Examining the table, it is possible to observe that the article “Biomimetics: lessons from nature—an overview” [26] was significantly more cited (n = 691) than “Biomimicry in textiles: past, present, and potential—an overview” [27], the work with the second highest number of citations (n = 81). It should be noted that the work of Bhushan (2009) highlighted the field of biomimetic research at a microscopic and nanoscopic scale to generate creations inspired by biological surfaces and materials. The author presented sets of inspiring natural elements addressing possible applications in products, considering aspects of: superhydrophobicity, self-cleaning, fluid flow, drag reduction, adhesion, aerodynamics, structural coloration, thermal insulation, and mechanical strength.
+
+To identify the main thematic emphases adopted in Biomimicry research and projects oriented toward design, a heat map of co-citations was prepared. This analysis determines which documents are frequently cited together to identify the highest-density nuclei that
+
+
+
+Biomimetics 2023, 8, x FOR PEER REVIEW
+
+6 of 16
+
+
+
+“Templates and anchors
+
+The authors highlighted that natural factors stimulate innovations in robot for antenna-based wall fol-design and neuromechanics. An antenna project for task control (guiding 46
+
+lowing in cockroaches and
+
+the angulation of robots in relation to walls), based on the spatial naviga-robots” [32]
+
+tion of the Periplaneta americana species, was illustrated.
+
+“Biomimetic self-cleaning
+
+The study focused on the self-cleaning capacity of organisms by classifying surfaces: synthesis, mecha-them based on the use or the absence of water. It was found that new design 43
+
+nism and applications”
+
+projects inspired by these characteristics can be applied in: medicine, aero-
+
+[33]
+
+space construction, solar energy production, and water treatment.
+
+Systems-level regenerative and biomimetic design to mitigate the causes
+
+“Biomimetic design for cli-
+
+and effects of climate change was examined. The importance of renewable Biomimetics
+
+mate
+
+2023
+
+chan , 8
+
+ge , 61
+
+adaptation
+
+39
+
+energies, responsive systems, local context adaptation, feedback lo 6 of 16
+
+ops, and
+
+and mitigation” [34]
+
+autonomy was noted. Uses of biomimetic principles, in short, medium, and long-term projects were mentioned.
+
+“A model based on Bio-
+
+highlight authors and
+
+The st works
+
+udy me with
+
+asured similar
+
+and su lines
+
+mmariof
+
+ze resear
+
+d bi
+
+ch. Thus,
+
+omimicry ap it is
+
+plicatpossible
+
+ions in e to
+
+n
+
+map
+
+viron-
+
+mimicry to enhance eco-
+
+the proximity of studies
+
+mental pr and
+
+eser ascertain their
+
+vation projec
+
+thematic
+
+ts in design and
+
+and a theor
+
+rchit etical
+
+ecture appr
+
+. The oaches
+
+followin[19
+
+g ]. In
+
+tools
+
+35
+
+logically sustainable de-
+
+Figure 1, the larger the typeface
+
+were explored
+
+size
+
+: BioT of the
+
+RIZ, names and
+
+Typologica
+
+the
+
+l Ana r
+
+l edder
+
+ysis , the
+
+Na
+
+areas
+
+ture St wher
+
+ud
+
+e they
+
+ies Analysar
+
+is e
+
+,
+
+sign” [15]
+
+inscribed, the greater
+
+and Bi the concentration
+
+omimetic Spirals of
+
+(Bi each
+
+o
+
+nucleus.
+
+mimicry Thinking Design Lens).
+
+
+
+Figure 1. Co-citation map generated from data obtained in the Web of Science, covering the period Figure 1. Co-citation map generated from data obtained in the Web of Science, covering the period from 1991 to 2021. Source: the authors.
+
+from 1991 to 2021. Source: the authors.
+
+The layout of the co-citation map reveals that the cluster encompassing Benyus (1997) The layout of the co-citation map reveals that the cluster encompassing Benyus (1997) shows the greatest convergence [22]. This was an expected result since this work consti-shows the greatest convergence [22]. This was an expected result since this work constitutes tutes one of the fundamental publications on biomimicry and contributed to consolidating one of the fundamental publications on biomimicry and contributed to consolidating the the subject as a field of research. As is widely known, in her work, Benyus conceptualized subject as a field of research. As is widely known, in her work, Benyus conceptualized nature as the “model, measure and mentor” agent, capable of generating complex systems nature as the “model, measure and mentor” agent, capable of generating complex systems of high efficiency and economy, encouraging the discovery of solutions based on the of high efficiency and economy, encouraging the discovery of solutions based on the transfer transfer of natural knowledge to the human context, especially for the challenges related of natural knowledge to the human context, especially for the challenges related to material to material disposal, circulation of energy, resource-saving and problem management.
+
+disposal, circulation of energy, resource-saving and problem management.
+
+In Figure 1, another significant nucleus revolves around Vincent et al. [9]. In the aforementioned article, the authors emphasized that biomimicry requires specific tools and processes. One possibility highlighted by Vincent et al. is the use of the TRIZ heuristic matrix, which can be adapted for biologically-inspired projects in the BioTRIZ tool. In it, notions obtained from natural systems are used, transferring configurations to conceive innovations in the creation of technological systems and projects, mainly with the inclusion of energetic and structural aspects based on nature.
+
+The publication by Helms, Vattam, and Goel [35] about the naturally inspired approaches that integrate analogy systems to develop solutions in product design lies in this same cluster. This study featured the two main approaches adopted in biomimetic projects: one centered on the design problem (known as design for biology or problem-based approach) and another, which starts directly from the study of a natural aspect (known as biology to design or solution-driven approach). This article also cautioned against common mistakes in biomimetic design practices, that should be avoided throughout the creation
+
+Biomimetics 2023, 8, 61
+
+7 of 16
+
+process, such as: a vague and overly broad definition of design problems; the inappropriate combination of design proposal and selection of the biological element; the use of superfi-cial natural analogies; the inappropriate simplification of complex biological functions; the use of pre-formulated solutions without examining the project context; and preference for the first solution found, without analyzing alternatives, either for biological inspiration or for detailed design proposals.
+
+Next to this group of works is the publication by Pawlyn [36], which showcased the interconnections between biomimicry and architecture, seeking technological projects of sustainable and innovative construction that may also have a restorative character for environments, based on conscious and systemic initiatives. Supported by various examples and cases, the author emphasized the importance of considering: structural efficiency; mindful use of resources; understanding manufacturing processes; analysis and implementation of zero-waste systems; clean energy generation; and water saving.
+
+In the lower central portion of the co-citation map are Chakrabarti et al. [37], whose article presented the GEMS of SAPPhIRE Model of Causality tool, which contributes to the functional comprehension and definition in biomimetic design projects. This model enabled the development of a computational tool and a database that help designers find solutions for their projects based on analogies of natural and artificial systems (IDEA-INSPIRE). The authors concluded that natural systems have been insufficiently adopted as a source of inspiration for design projects, unlike artificial systems. Thus, their proposal is very relevant to the field of biomimetic product design and the systematization of idea generation.
+
+Other publications, shown in Figure 1, are also worth mentioning. Located in the lower left part of the co-citation map, is the Biomimicry Resource Handbook manual by Baumeister et al. [38], which provides the essentials of biomimicry, including guidelines for applying biomimetic methods, approaches, and tools to conduct creative projects (e.g., Biomimicry Thinking Design Lens, Challenge to Biology and Biology to Design approaches, Biomimicry Taxonomy Chart, Life’s Principles Diagram).
+
+Another interesting work found on the map is Cradle to Cradle by Braungart and McDonough [39], which is positioned in the upper left portion of the map. This publication proposes reinventing the life cycle of products and processes. In their work, the authors emphasized the integration of design and science to favor lasting social benefits, stimulating the regeneration of the natural realm and the improvement of human quality of life.
+
+They also advocated the use of safe materials, water, and energy in the context of the circular economy, eliminating the concepts of waste and disposal. Therefore, according to Braungart and McDonough, design can be reconfigured with a view to effectively having a positive impact.
+
+In view of what was previously presented, through the analysis of the co-citation map, it became possible to verify the thematic emphases of publications in the period between 1991 and 2021. As expected, the main nucleus was concentrated around the work of Benyus, which was a crucial work in the dissemination of knowledge about biomimicry. In addition, it was found that, the central area of the map contained nuclei related to the development of biomimetic design works in which the authors present field theories and project cases that exemplify the use of biomimicry principles. It is interesting to mention that, on the map, there was also a highlight on clusters whose publications evidenced specifications of technical aspects, including development stages and processes of biomimetic design.
+
+This was carried out through the presentation of tools, models, approaches or processes, and guidelines for projects. Some of the works of this group are directed toward the research and functional analysis of natural and artificial systems. Finally, smaller nuclei, whose works discuss issues of circularity and sustainability, which are often related to biomimicry-based design, are visible.
+
+It is worth mentioning that a predominance of the problem-based biomimetic approach was found in the works of multiple authors located in the center of the map. Such an approach begins with a design challenge and the functional requirements of a project, and
+
+
+
+Biomimetics 2023, 8, x FOR PEER REVIEW
+
+8 of 16
+
+
+
+of Benyus, which was a crucial work in the dissemination of knowledge about biomimicry. In addition, it was found that, the central area of the map contained nuclei related to the development of biomimetic design works in which the authors present field theories and project cases that exemplify the use of biomimicry principles. It is interesting to mention that, on the map, there was also a highlight on clusters whose publications evidenced specifications of technical aspects, including development stages and processes of biomimetic design. This was carried out through the presentation of tools, models, approaches or processes, and guidelines for projects. Some of the works of this group are directed toward the research and functional analysis of natural and artificial systems. Finally, smaller nuclei, whose works discuss issues of circularity and sustainability, which are often related to biomimicry-based design, are visible.
+
+It is worth mentioning that a predominance of the problem-based biomimetic ap-Biomimetics 2023, 8, 61
+
+8 of 16
+
+proach was found in the works of multiple authors located in the center of the map. Such an approach begins with a design challenge and the functional requirements of a project, and only in the following steps of the creative and research processes are investigated only in the following steps of the creative and research processes are investigated biological biological aspects relevant to each context. As previously stated, some of these authors aspects relevant to each context. As previously stated, some of these authors have also have also proposed and made available processes and tools to stimulate biomimetic de-proposed and made available processes and tools to stimulate biomimetic design projects sign projects that are primarily problem-based.
+
+that are primarily problem-based.
+
+After performing the co-citation analysis, a word cloud was generated (Figure 2) After performing the co-citation analysis, a word cloud was generated (Figure 2)
+
+composed of the fifty most frequent words from the set of works published in the period composed of the fifty most frequent words from the set of works published in the period from 1991 to 2021 ( n = 196).
+
+from 1991 to 2021 (n = 196).
+
+
+
+Figure 2. Word cloud generated from data obtained in the Web of Science, covering the period from Figure 2. Word cloud generated from data obtained in the Web of Science, covering the period from 1991 to 2021. Source: the authors.
+
+1991 to 2021. Source: the authors.
+
+In this illustration, it can be seen that, in addition to the descriptors used in the pre-In this illustration, it can be seen that, in addition to the descriptors used in the present sent re
+
+r
+
+se
+
+esear arch, the most
+
+ch, the most fr frequen
+
+equently tly mentioned ke
+
+mentioned
+
+ywo
+
+keywor r
+
+ds ds were, r
+
+were, r
+
+espectively:
+
+espectively:
+
+“sustain
+
+“sustai
+
+abil-
+
+nability”
+
+ity
+
+( ”
+
+n ( n
+
+= = 58
+
+58), ), “a
+
+“ar rchitecture
+
+chitecture” ” (( n
+
+n = 25
+
+=
+
+), “ec
+
+25),
+
+ology” (
+
+“ecology” n = 2
+
+(n 3
+
+= ), “p
+
+23), roduc
+
+“pr t” ( n = 21
+
+oduct” (n ), “s
+
+=
+
+yst
+
+21), ems” ( n =
+
+“systems”
+
+20
+
+( ),
+
+n and
+
+=
+
+“
+
+20), urban”
+
+and
+
+( n = 20).
+
+“urban” ( Thus,
+
+n =
+
+sustain
+
+20).
+
+a
+
+Thus, bility would seem
+
+sustainability
+
+to be o
+
+would
+
+ne of
+
+seem to the m
+
+be
+
+a
+
+one in rese
+
+of the arch
+
+main
+
+themes
+
+resear in
+
+ch design
+
+themes and
+
+in
+
+biom
+
+design imicry
+
+and
+
+, whether
+
+biomimicry, for the
+
+whether development
+
+for the
+
+of prod
+
+development uct
+
+of
+
+s
+
+pr , build
+
+oducts, ings,
+
+build-
+
+or citie
+
+ings, s.
+
+or In addi
+
+cities.
+
+tion to th
+
+In addition ese
+
+to word
+
+these s, it
+
+wor is
+
+ds, e
+
+itssen
+
+is
+
+tial to
+
+essentialreflec
+
+to r t on th
+
+eflect on e entire im
+
+the entire age, which
+
+image, which
+
+includes term
+
+includes
+
+s such
+
+terms
+
+as
+
+such
+
+“ad
+
+as
+
+aptation”, “
+
+“adaptation”, systems”, “ne
+
+“systems”,
+
+tworks”, “
+
+“networks”, ecology”, “env
+
+“ecology”,
+
+iro
+
+“envirnment”,
+
+onment”,
+
+“climate”, an
+
+“climate”,
+
+d “chan
+
+and
+
+ge”, which are
+
+“change”, which ar ass
+
+e
+
+ociated wi
+
+associated th t
+
+with he adap
+
+the
+
+tive a
+
+adaptive pproach a
+
+approach t a
+
+at sys
+
+a
+
+tem
+
+syst ic
+
+emic
+
+level, th
+
+level, at in
+
+that
+
+turn c
+
+in turn an rev
+
+can r eal im
+
+eveal
+
+portant techni
+
+important
+
+cal sol
+
+technical
+
+utions, e
+
+solutions, specially in
+
+especially
+
+the
+
+in
+
+fa
+
+the ce of the
+
+face of
+
+
+
+the
+
+climate cri
+
+climate sis, contr
+
+crisis,
+
+ibuting to
+
+contributing the g
+
+to the eneration of connec
+
+generation of
+
+ted, adap
+
+connected,
+
+ted, and r
+
+adapted, andesilient
+
+resi
+
+projects.
+
+lient pr
+
+
+
+ojects.
+
+The words
+
+The wor “e
+
+ds ducation”, “
+
+“education”, methodology”, “m
+
+“methodology”,
+
+ethods”, “p
+
+“methods”, er
+
+“p formance”, “p
+
+erformance”, rod
+
+“pr uct”, an
+
+oduct”, d “op
+
+and
+
+-
+
+“op-
+
+timization” are
+
+timization” ar also included, and den
+
+e also included, and
+
+ote co
+
+denote ncerns about the
+
+concerns about
+
+e
+
+the fficiency and functional
+
+efficiency and functional
+
+improvements
+
+impr
+
+in
+
+ovements the
+
+in t cr
+
+he eation
+
+cr
+
+of
+
+eation bi
+
+of omimetic prod
+
+biomimetic pr ucts, incl
+
+oducts,
+
+uding res
+
+including r ources
+
+esour asso
+
+ces
+
+ciated wi
+
+associated th
+
+with
+
+its p
+
+its ractice an
+
+practice d te
+
+and aching.
+
+teaching.
+
+Examining th
+
+Examining e im
+
+the
+
+age a
+
+image gain, i
+
+again, t is
+
+it poss
+
+is
+
+ible to
+
+possible iden
+
+to
+
+tify wo
+
+identify
+
+rds
+
+wor th
+
+ds at, at
+
+that, f
+
+atirst gl
+
+first ance, ap
+
+glance, pear
+
+appear
+
+to b
+
+to e di
+
+be stant f
+
+distantrom
+
+fr the oth
+
+om the
+
+er group
+
+other gr
+
+s o
+
+oups f te
+
+of rms, such
+
+terms,
+
+as
+
+such : “
+
+as: insect”, “w
+
+“insect”,
+
+ater”, “lo
+
+“water”,
+
+comotion”, and
+
+“locomotion”, and
+
+“adhesion”. S
+
+“adhesion”. uch res
+
+Such r ults p
+
+esults robably come
+
+probably
+
+from
+
+come fr
+
+rese
+
+om r arc
+
+esearh that emphasizes
+
+ch that
+
+the mor
+
+emphasizes the
+
+phology
+
+morphology
+
+and movement of organisms, especially in the field of entomology. The water environment is also an interesting result as it can be associated both with new hydrodynamic, hydrophilic, or hydrophobic products, such as surfaces and vehicles, for example; and also, with products for water harvesting, or with the study of aquatic organisms and their characteristics. The term “adhesion” represents another specific focus of research in biomimicry, directed toward the creation of new materials and surfaces with bioinspired properties at the microscopic and nanoscopic levels.
+
+The next step was the co-occurrence analysis, carried out with the words of the group of publications corresponding to the period from 1991 to 2021 (n = 196). The VOSViewer software, used to generate Figure 3, automatically assigned different colors to distinguish each thematic grouping of words. The interconnections between words and groups are established through the interweaving of colored lines. The closer to the center of the diagram and the larger the typeface size, the stronger the connections between groups and terms and the greater the prominence in the researched literature.
+
+
+
+Biomimetics 2023, 8, x FOR PEER REVIEW
+
+9 of 16
+
+
+
+and movement of organisms, especially in the field of entomology. The water environment is also an interesting result as it can be associated both with new hydrodynamic, hydrophilic, or hydrophobic products, such as surfaces and vehicles, for example; and also, with products for water harvesting, or with the study of aquatic organisms and their characteristics. The term “adhesion” represents another specific focus of research in biomimicry, directed toward the creation of new materials and surfaces with bioinspired properties at the microscopic and nanoscopic levels.
+
+The next step was the co-occurrence analysis, carried out with the words of the group of publications corresponding to the period from 1991 to 2021 ( n = 196). The VOSViewer software, used to generate Figure 3, automatically assigned different colors to distinguish each thematic grouping of words. The interconnections between words and groups are established through the interweaving of colored lines. The closer to the center of the dia-Biomimetics 2023, 8, 61
+
+gram and the larger the typeface size, the stronger the connections between gr 9 of 16
+
+oups and
+
+terms and the greater the prominence in the researched literature.
+
+
+
+Figure 3.
+
+Figure Co-o
+
+3.
+
+ccurrence map generated from data from
+
+Co-occurrence map generated from data fr the Web of Scien
+
+om the Web of
+
+ce platform, co
+
+Science platform, vering th
+
+covering e
+
+the
+
+period from 1991 to 2021.
+
+period from 1991 to
+
+Insp
+
+2021.
+
+ecting the colored set
+
+Inspecting the colored s, it
+
+sets, is possible
+
+it is p
+
+to identify
+
+ossible to
+
+a total of
+
+identify a total nine
+
+of
+
+different
+
+nine different
+
+grou
+
+gr ps. Sou
+
+oups. rce: th
+
+Source: e au
+
+the thors.
+
+authors.
+
+It was
+
+It
+
+found
+
+was
+
+tha
+
+found t, si
+
+that, milarly to wha
+
+similarly to
+
+t w
+
+what as exposed by
+
+was exposed the word clo
+
+by the word ud an
+
+cloud alysis, the
+
+analysis,
+
+the
+
+terms “s
+
+terms ustainability”, “su
+
+“sustainability”, stainable des
+
+“sustainable ign”, and
+
+design”, “arc
+
+and hitec
+
+“ar ture” are
+
+chitectur in ev
+
+e” are idence
+
+in
+
+at the cen
+
+evidence at -the
+
+ter of the
+
+center the
+
+of mat
+
+the ic clusters
+
+thematic , in proxim
+
+clusters, in ity
+
+pr to the descr
+
+oximity to iptors o
+
+the
+
+f this r
+
+descriptorsesearch. The r
+
+of this r
+
+ed group
+
+esearch. The -red
+
+ing emph
+
+gr
+
+as
+
+oupingizes sustaina
+
+emphasizes bility; promotio
+
+sustainability; n of we
+
+pr
+
+ll-bein
+
+omotion of g and health
+
+well-being
+
+associated w
+
+and health
+
+ith natur
+
+associated e-
+
+with
+
+inspired in
+
+natur
+
+itiati
+
+e-inspirves
+
+ed and biophilic con
+
+initiatives and
+
+figurat
+
+biophilic ions. It also incl
+
+configurations. ude
+
+It s issues
+
+also
+
+related t
+
+includes
+
+o clim
+
+issues r ate
+
+elated
+
+change
+
+to
+
+and e
+
+climate cosystem se
+
+change andrvices. In the g
+
+ecosystem
+
+reen gro
+
+services.
+
+u
+
+Inp, there ar
+
+the gr
+
+e wor
+
+een gr
+
+ds abo
+
+oup,
+
+u
+
+ther t b
+
+e
+
+u
+
+ar ilding mod
+
+e words
+
+-
+
+about
+
+els and innov
+
+building
+
+ative propos
+
+models and
+
+als based
+
+innovative on n
+
+pr
+
+atur
+
+oposals al aspects an
+
+based on
+
+d eco
+
+natural
+
+logical design, in
+
+aspects and ecol
+
+clud
+
+ogical ing
+
+design,
+
+biodiversity
+
+including concerns. In b
+
+biodiversity
+
+oth blue
+
+concerns. gro
+
+In
+
+ups,
+
+both
+
+the
+
+blue ar
+
+gr eas of
+
+oups, de
+
+the sign an
+
+areas d architec
+
+of design
+
+tur
+
+and e
+
+arare evi-
+
+chitecture
+
+denced,
+
+are
+
+as well as
+
+evidenced, the exp
+
+as well loration of biotec
+
+as the
+
+hnolo
+
+exploration of gies and the stud
+
+biotechnologies
+
+y of ener
+
+and the
+
+gy e
+
+studyfficienc
+
+of
+
+y
+
+ener gy
+
+and m
+
+ef
+
+aterial
+
+ficiency s such
+
+and
+
+as
+
+matefiber
+
+rials s. The p
+
+such
+
+i
+
+as nk set i
+
+fibers. llust
+
+The rates
+
+pinka concern for
+
+set
+
+t
+
+illustrates he fu
+
+a
+
+ture and
+
+concern
+
+the nee
+
+for the
+
+d
+
+future
+
+and the need to integrate adaptive criteria into projects. In orange, words focused on principles and practices of sustainable development, waste management, and circular economy stand out. The brown cluster refers to the morphological study of animals such as geckos and beetles. The group in yellow is directed toward investigations on materials and surfaces (e.g., adhesion properties, locomotion). In the purple group, themes linked to the exploration of design methodologies and processes interconnected with sustainability factors, eco-design, bio-inspired design, and the use of creative analogies can be found.
+
+It is interesting to note that terms related to sustainability were distributed in more than one colored group. It can be inferred that this topic is one of the notable potentials of biomimicry creations and technologies. As such, it permeates many different subjects related to research and production of biomimetic design including a diversity of application scales (city level, construction, object, materials, and surface properties).
+
+Once the citation, co-citation, co-occurrence, and word cloud prospecting stages were completed—all referring to the period from 1991 to 2021—another temporal filter was used to carry out the bibliographic coupling analysis (years from 2018 to 2021), obtaining a total of 78 publications. It is important to recall that TEMAC recommends the performance of
+
+
+
+Biomimetics 2023, 8, x FOR PEER REVIEW
+
+10 of 16
+
+
+
+to integrate adaptive criteria into projects. In orange, words focused on principles and practices of sustainable development, waste management, and circular economy stand out. The brown cluster refers to the morphological study of animals such as geckos and beetles. The group in yellow is directed toward investigations on materials and surfaces (e.g., adhesion properties, locomotion). In the purple group, themes linked to the exploration of design methodologies and processes interconnected with sustainability factors, eco-design, bio-inspired design, and the use of creative analogies can be found.
+
+It is interesting to note that terms related to sustainability were distributed in more than one colored group. It can be inferred that this topic is one of the notable potentials of biomimicry creations and technologies. As such, it permeates many different subjects related to research and production of biomimetic design including a diversity of application scales (city level, construction, object, materials, and surface properties).
+
+Once the citation, co-citation, co-occurrence, and word cloud prospecting stages were Biomimetics 2023, 8, 61
+
+10 of 16
+
+completed—all referring to the period from 1991 to 2021—another temporal filter was used to carry out the bibliographic coupling analysis (years from 2018 to 2021), obtaining a total of 78 publications. It is important to recall that TEMAC recommends the perfor-coupling
+
+mance o analysis
+
+f coup
+
+to
+
+ling investigate
+
+analysis to recent
+
+investig r
+
+aesear
+
+te re ch fr
+
+cent onts
+
+rese [19,
+
+arch 23].
+
+fron Below
+
+ts [19, , Figur
+
+23]. Bele 4 shows
+
+ow, Figu a
+
+re 4
+
+representative
+
+shows a repr heat map
+
+esentative of
+
+he this assessment,
+
+at map of this
+
+in
+
+asse which
+
+ssmen resear
+
+t, in
+
+ch emphases
+
+which research can be observed
+
+emphases can be
+
+during the defined
+
+observed during period.
+
+the defined period.
+
+
+
+Figure 4. Bibliographic coupling map created from data obtained in the Web of Science, covering Figure 4. Bibliographic coupling map created from data obtained in the Web of Science, covering the the period from 2018 to 2021. Source: the authors.
+
+period from 2018 to 2021. Source: the authors.
+
+On th
+
+On
+
+e
+
+the l lef
+
+eft t of
+
+of th
+
+the e coupling
+
+coupling map,
+
+map,
+
+inin
+
+a a high-concentrati
+
+high-concentrationon nucle
+
+nucleus,us
+
+is, is
+
+thethe publicat
+
+publication ion
+
+by
+
+by Perer
+
+Perera
+
+a an
+
+and
+
+d Co
+
+Coppe pp
+
+ns e
+
+[ ns [4
+
+40]. 0]. The au
+
+The
+
+tho
+
+authors
+
+rs investigate
+
+investigated
+
+d new design
+
+new design
+
+possibilities
+
+possibilities thr through
+
+ough the
+
+the lens o
+
+lens of
+
+f bioinspir
+
+bioinspired ed materials
+
+materials and and ch
+
+chem emical
+
+ical
+
+engineering. Some o
+
+engineering. Some of
+
+f
+
+the the
+
+pr presen
+
+esented ted mate-
+
+materials
+
+rials we
+
+were
+
+re based on the
+
+based on the str structur
+
+ucture ofe of moth
+
+mother er-of-pearl
+
+-of-pearl;
+
+; o
+
+on n the s
+
+the str trong
+
+ong, , r
+
+r eusable
+
+eusable adhesives
+
+adhesives that
+
+that
+
+mimic
+
+mimic gecko
+
+gecko toe-pads;
+
+toe-pads; and
+
+and on
+
+on the
+
+the antibacterial su
+
+antibacterial
+
+rfaces
+
+surfaces based
+
+based on
+
+on shark
+
+shark skin.
+
+skin. Perera
+
+Perera and
+
+and
+
+Coppens em
+
+Coppens
+
+phasized
+
+emphasized that
+
+that seeking
+
+seeking inspiration
+
+inspiration in
+
+in natural
+
+natural patte
+
+patte rns a
+
+rns
+
+nd mi
+
+and
+
+crostructures
+
+microstructures
+
+provides
+
+provides an
+
+an opportunity
+
+opportunity for rede
+
+for r
+
+signing mater
+
+edesigning
+
+ials,
+
+materials, processes,
+
+processes, and produc
+
+and pr
+
+ts w
+
+oducts
+
+hich may
+
+which may
+
+resu
+
+r
+
+lt
+
+esult in cre
+
+in cr
+
+ation
+
+eations s that
+
+that, , ev
+
+evenen witho
+
+without ut
+
+dir direc
+
+ectly trly resemb
+
+esemblingling
+
+the the mimi
+
+mimickedcked or
+
+or
+
+ga
+
+ganism,nism
+
+will , will
+
+have
+
+have an inherent link
+
+an inherent link with with
+
+natur nature in the
+
+e in their pr ir proper
+
+operties
+
+ties and functionality
+
+and functionality.
+
+.
+
+The red-co
+
+The red-c
+
+lor
+
+olor ed are
+
+ed ar
+
+a
+
+ea, , in th
+
+in the e center o
+
+center of f th
+
+the e map, gro
+
+map, gr
+
+u
+
+oups ps the wor
+
+the works k
+
+bys by Hossein
+
+Hosseini et i et al.
+
+al. [41],
+
+[41]
+
+Tate , Tate e
+
+et al. [ t al. [
+
+42], 42], X
+
+Xing i
+
+et ng e
+
+al. [t al.
+
+43], [43], an
+
+and
+
+d Amer [
+
+Amer [41]. 41]. Hossein
+
+Hosseini et i e
+
+al. t al. [
+
+[41] 41] ga
+
+gatherthered l
+
+ed
+
+itera
+
+literatur tur
+
+e
+
+e
+
+on
+
+kinetic and adaptive architectural façades that act as permeable complex interfaces between indoor and outdoor environments. The authors analyzed the ability of these elements to function as a protective layer responsive to climatic variations. They proposed a design process to guide the construction of kinetic façades from a morphological and interdisciplinary approach, in which biomimetic characteristics are combined with parametric and energy efficiency technologies.
+
+Tate et al. [42] studied the interaction between biomimicry and the circular economy based on ecosystem analogies. They called attention to the flows of energy and matter in nature, primarily based on recycling and reuse between the different trophic levels.
+
+Tate et al. exemplified their concepts by reviewing relationships of mutualism found in nature. In the authors’ opinion, the insertion of biomimetic knowledge and principles into new economic and business approaches can promote innovation in the organizational sphere. In fact, this work contributed to the recognition of biomimicry as an area from which knowledge can be useful in the strategic, administrative, and organizational plans of companies.
+
+Xing et al. [43] combined the study of plants, more specifically plant cells, with the development of façade design and technologies for building cladding, resulting in a con-
+
+
+
+
+
+Biomimetics 2023, 8, 61
+
+11 of 16
+
+ceptual proposal for a biodome, with improvements in thermal insulation and energy efficiency. The authors prioritized the study of plant-based analogies to generate constructive proposals, due to the sessile character of plants, which requires them to adapt to the surrounding conditions (as they fixed in a single location, a characteristic also associated with buildings). Xing et al. generated a framework for the design process of biomimetic projects.
+
+Amer [44] incorporated biomimetic notions into the syllabus of a university course, covering the following topics: interrelationships between biomimicry and building design; project methodology; natural lighting management; and plant-inspired façades; as well as research activities, design, parametric digital prototyping (with Rhinoceros and Grasshopper software), and the use of the biomimetic design concept generation matrix.
+
+According to the author, the students realized the importance of the responsibility inherent in professional practice regarding the preservation of the health of human communities and those of other species.
+
+Additionally, in Figure 4, two more nuclei can be observed, with the works of Clark [45]
+
+and Zari [46]. The first publication researched marine biomineralization for monitoring and forecasting the impacts of climate change and for the design of new biocomposite materials [45]. In the second publication, Zari [46] endeavored to analyze how the urban environment can insert new proposals into its design that incorporate ecosystem services committed to the regeneration of biodiversity and the resilience of natural environments faced with climate change.
+
+In summary, an examination of the results from the coupling analysis allowed verifica-tion that the themes of recent research in biomimicry and design include, on one hand, the investigation of the physicochemical properties of materials and microstructures, mainly biological structures of reptiles and marine animals. On the other hand, there is a focus on the design of components, coatings, and finishes for application in architecture, including bioclimatic factors (e.g., local context, energy, and resource savings) and environmental responsiveness. This enables envisaging the creation of adaptable buildings that operate similarly to living organisms. In this scope, the authors mainly investigated plant elements as a source of inspiration. Among the highlighted works, there were also many proposals for creative tools, frameworks, and parametric software that aim to assist in the search for biological solutions and the transfer of such natural characteristics to the conceptual development in design. Another research emphasis focused on sustainability, including aspects of ecosystems and interspecific ecological relationships that demonstrate the potential to inspire a multiplicity of projects, such as the design of products and even strategic design. In addition, in the present study, there were research perspectives that addressed, respectively, the importance of supporting ecosystem services in the urban environment and the development of materials such as biocomposites.
+
+Given what is presented above, it is possible to infer that the coupling analysis highlighted initiatives in biomimetic design that demonstrate a remarkable capacity to generate innovations to solve emerging challenges in several fields of human activity. Finally, it should be stressed that, once again, the authors highlighted in the densest cluster produced research and projects guided by the problem-based approach.
+
+4. Discussion
+
+The results of this systematic review allowed establishing connections and making conjectures about the scenarios of publications indexed by the Web of Science. It is be-lieved that the panorama of productions showcased in the present research encompasses contributions that may assist researchers and designers in their endeavors, as the main themes and emphases of projects and research were identified in the investigated literature, representing possible paths for new creations and studies.
+
+The analysis of the data obtained through this survey indicated that the works involving design and biomimicry are associated with the following thematic aspects: (a) the conception of products, buildings, and environments; (b) the exploration of structural and
+
+Biomimetics 2023, 8, 61
+
+12 of 16
+
+systemic conformations of nature for the production of new materials and technologies; (c) the use of biomimetic creative tools to guide idea generation in product design; and (d) biomimetic creations with an emphasis on resource savings and sustainability.
+
+It was also noted that innovations which correlate design and biomimicry have been applied in different domains, namely: health (e.g., new equipment); textiles (e.g., fibers and fabrics); robotics (e.g., programming and navigation); materials science (e.g., adhesives and self-cleaning materials); construction (e.g., kinetic façades and structures); and environmental science and ecology (e.g., ecosystem services, regeneration of biodiversity). In this sense, it is pertinent to mention that the publications, which were listed and organized in this review, reflect development in several areas of cutting-edge technology, which is consistent with the innovative tendency intrinsic to the field of biomimicry.
+
+However, it is relevant to underscore that there is still a scarcity of works oriented toward the development and use of everyday objects and in the field of services, given that these are two areas of great importance in the design domain. In view of this finding, it is reasonable to assume that more efforts and investments are required in design projects that clearly and consistently recognize their foundation in the principles of biomimicry.
+
+Thus, it is crucial to more frequently adopt a biomimicry perspective to research and develop products intended for the daily lives of consumers, in order to guarantee a better quality of life for the users of these objects (e.g., bio-inspired functional and technological improvements of products). This limitation is even more alarming upon verifying that most of the publications retrieved from the Web of Science originate from engineering and architecture schools and departments. As a result, there are not enough projects produced by teams from schools and departments associated exclusively with the field of design. It is possible to assume that the absence of the ‘design’ filter when searching the Web of Science may constitute a restriction for specific dissemination of works.
+
+Another trend observed in the present review, highlighted by the analysis of the heat maps, concerns which type of biomimicry-based approach the authors adopted in their projects and research. The results indicated that many of them started by addressing the problem and the required function (problem-based approach) instead of beginning directly from the investigation of natural aspects (solution-driven approach). It should be clarified that this could be expected since the survey encompassed the field of design, an area where projects and creative processes commonly begin with the definition of a problem or a challenge associated with human activity. However, supporting the development of more projects and research in design based on the solution-driven approach can also be of great interest, as it can contribute to enhancing and refining creative skills. In addition, this approach contributes to establishing connections with specialists from other areas (e.g., biologists) and may also help bring designers closer to field research in nature.
+
+Regarding design processes, efforts were made to provide information about biomimetic tools that assist in the planning and execution of creative proposals (e.g., Biomimicry Thinking Design Lens, Biomimicry Taxonomy Chart, BioTRIZ, GEMS of SAPPhIRE, IDEA-INSPIRE, BECE-Framework) [9,15, 30,35,37,38]. Such instruments, connected to the problem-based approach, mainly focus on the conceptual development phase of the project, supporting the investigation of characteristics of nature in their transposition into the design domain. In addition, various digital resources were explored by the authors to generate complex shapes and patterns for models and products (e.g., parametric software and rapid prototyping). The use of biomimetic tools in creative design processes, reported in the analyzed literature, can still be considered restricted, given that there was not enough detail on the application of such instruments. Consequently, it was not possible to verify, in this review, whether the authors resorted to other resources or documents, or if they deliberately chose not to include this information in the communication of their works.
+
+The TEMAC model contributed to the identification of the main themes, approaches, and trends in the literature. Through it, it was possible to infer which areas are expanding and which deserve to be further investigated. The tool also allowed comparisons to be made between the works and production of different authors, countries, and institutions.
+
+Biomimetics 2023, 8, 61
+
+13 of 16
+
+In addition, the recommendation of TEMAC to adopt software, such as VOSViewer and TagCrowd, enabled the graphical representation of the results (e.g., heat maps and line maps), which facilitated carrying out the analyses, in addition to illustrating them satis-factorily. However, like any procedure for surveying and analyzing the literature, it is crucial to understand that, from the moment specifications are established for the research themes, descriptors, software, databases, and filters that will be used, it is inevitable that certain works will not be captured by the selected criteria, which can limit the scope of the contributions of a review such as the present work.
+
+The chosen database for this research (Web of Science) is one of the main multidisci-plinary repositories, having an excellent temporal coverage of publications, in addition to ensuring a frequent update of indexed works, including complementary materials such as conference proceedings [19]. Nevertheless, the Web of Science mainly covers content published in English and, as discussed earlier, there is no specific filtering function for the field of design. Thus, the investigation of other multilingual repositories, such as Scopus, Google Scholar, EBSCO, ProQuest [19, 47] is recommended. Furthermore, when analyzing other systematic reviews, it is noticeable that other software and platforms, in addition to those employed in the present review, have been used by authors to organize and facilitate data processing. Some examples are: MAXQDA, CiteSpace, Publish or Perish, San-keyMATIc, Bibexcel, Gephi, Pajek, Ucinet, and Science of Science (Sci2) [47–49].
+
+The adoption of the descriptors biomimicry and design was sufficient to achieve the objectives proposed in the scope of this research. However, considering that only two descriptors were used, it is suggested that more terms be incorporated in future surveys, such as: bioinspiration, biomimetics, bionics, biodesign, biomimetic design, bioinspired design, bionic design, nature-based design, nature-inspired design, biologically-inspired design, and bio-informed design. Thus, it will be possible to cover an even greater number of works, which may lead to relevant developments for the scientific and professional communities.
+
+In summary, with this review, it is necessary to emphasize the importance of adopting interdisciplinary knowledge in the field of design to expand the creative perspectives of professionals and to diversify theories, approaches, and resources. In this sense, biomimicry has shown itself to be an area of great potential for projects in design. In this work, the expression “biomimetic design” was generically adopted when analyzing publications from the intersection between the design and biomimicry domains. However, it is necessary to understand that further efforts are needed in favor of more ‘genuinely’ biomimetic designs, developed in the specific field of design, in which, throughout the entire creative process of products and services, the concepts, principles, and creative tools of biomimicry are effectively integrated.
+
+Unlike technologies that require specific procedures, authorizations, investments, and monetization for access, nature is an extensive (and more accessible) repository of resources that can be investigated and interpreted by human beings, which can complement and expand current practices in design. Furthermore, as evidenced by several authors, the field of design is plural and interdisciplinary, as it seeks to enable creations for different areas of human endeavor [1–4, 50–55]. Including the perspective of biomimicry in teaching and professional practice scenarios in design can expand creative horizons, allowing the creation of innovative solutions that are more efficient, economical, and better adapted to consumer needs and environmental diversity [6, 55,56].
+
+Finally, as the study of aspects of biomimicry in design can enhance the development of multiple skills (such as creative and conceptual generation, observation and research, study of materials, graphic expression, and three-dimensional conception and digital modeling), it is important to recognize that understanding nature and knowing how to explore its resources are indispensable requirements for contemporary professional training, since they can encourage creativity as well as the integration of ecological and sustainable factors in production cycles.
+
+Biomimetics 2023, 8, 61
+
+14 of 16
+
+Author Contributions: Conceptualization, A.A.M.d.S.; methodology, A.A.M.d.S. and D.M.V.; software, A.A.M.d.S.; validation, A.A.M.d.S. and D.M.V.; formal analysis, A.A.M.d.S.; investigation A.A.M.d.S.; resources A.A.M.d.S.; data curation, A.A.M.d.S.; writing—original draft, A.A.M.d.S.; writing—review and editing, A.A.M.d.S. and D.M.V.; visualization, A.A.M.d.S.; supervision, D.M.V.
+
+All authors have read and agreed to the published version of the manuscript.
+
+Funding: This research received no external funding.
+
+Institutional Review Board Statement: Not applicable.
+
+Data Availability Statement: Not applicable.
+
+Conflicts of Interest: The authors declare no conflict of interest.
+
+References
+
+1.
+
+Cardoso, R. Design for a Complex World; Cosac Naify: São Paulo, Brazil, 2012; ISBN 9788540500983.
+
+2.
+
+Bonsiepe, G. Design, Culture and Society; Blucher: São Paulo, Brazil, 2011; ISBN 978-8521205326.
+
+3.
+
+Munari, B. Design as Art; Penguin Modern Classics: London, UK, 2008; ISBN 978-0141035819.
+
+4.
+
+Flusser, V. The Codified World: Towards a Philosophy of Design and Communication; Cosac Naify: São Paulo, Brazil, 2007; ISBN 9788575035931.
+
+5.
+
+Sá, A.A.M. Biomimicry Tools in Design: Contributions of Nature to the Creative Practice. Master’s Thesis, University of Brasília, Brasília, Brazil, December 2021.
+
+6.
+
+Arruda, A.J.V. Methods and Processes in Bionics and Biomimicry: The Technological Revolution by Nature; Blucher: São Paulo, Brazil, 2018; ISBN 9788580393491.
+
+7.
+
+MacKinnon, R.B.; Oomen, J.; Zari, M.P. Promises and Presuppositions of Biomimicry. Biomimetics 2020, 5, 33. [CrossRef] [PubMed]
+
+8.
+
+ISO Online Browsing Platform. ISO 18458:2015(en) Biomimetics—Terminology, Concepts and Methodology. Available online:
+
+https://www.iso.org/obp/ui/#iso:std:iso:18458:ed-1:v1:en (accessed on 15 January 2023).
+
+9.
+
+Vincent, J.F.; Bogatyreva, O.A.; Bogatyrev, N.R.; Bowyer, A.; Pahl, A.K. Biomimetics: Its practice and theory. J. R. Soc. Interface 2006, 3, 471–482. [CrossRef]
+
+10.
+
+Wanieck, K.; Beismann, H. Perception and role of standards in the world of biomimetics. Bioinspired. Biomim. Nanobiomater. 2021, 10, 8–15. [CrossRef]
+
+11.
+
+Kamps, T.; Gralow, M.; Schlick, G.; Reinhart, G. Systematic Biomimetic Part Design for Additive Manufacturing. Procedia CIRP
+
+2017, 65, 259–266. [CrossRef]
+
+12.
+
+Iouguina, A.; Dawson, J.; Hallgrímsson, B.; Smart, G. Biologically informed disciplines: A comparative analysis of bionics, biomimetics, biomimicry, and bio-inspiration among others. Int. J. Des. Nat. Ecodyn. 2014, 9, 197–205. [CrossRef]
+
+13.
+
+Speck, O.; Speck, D.; Horn, R.; Gantner, J.; Sedlbauer, K.P. Biomimetic bio-inspired biomorph sustainable? An attempt to classify and clarify biology-derived technical developments. Bioinspir. Biomim. 2017, 12, 011004. [CrossRef] [PubMed]
+
+14.
+
+Cohen, Y.H.; Reich, Y. Biomimetic Design Method for Innovation and Sustainability; Springer: New York, NY, USA, 2016; ISBN 978-3-319-33997-9.
+
+15.
+
+Gamage, A.; Hyde, R. A model based on Biomimicry to enhance ecologically sustainable design. Arch. Sci. Rev. 2012, 55, 224–235.
+
+[CrossRef]
+
+16.
+
+Snyder, H. Literature review as a research methodology: An overview and guidelines. J. Bus. Res. 2019, 104, 333–339. [CrossRef]
+
+17.
+
+Grant, M.J.; Booth, A. A typology of reviews: An analysis of 14 review types and associated methodologies. Health Inf. Libr. J.
+
+2009, 26, 91–108. [CrossRef]
+
+18.
+
+Creswell, J.W. Research Design: Qualitative, Quantitative, and Mixed Methods Approaches; Sage Publication: Los Angeles, CA, USA, 2013; ISBN 978-1452226101.
+
+19.
+
+Mariano, A.M.; Rocha, M.S. Literature review: Presentation of an integrative approach. In Proceedings of the AEDM International Conference—Economy, Business and Uncertainty: Ideas for a European and Mediterranean Industrial Policy, Reggio Calabria, Italy, 4–5 September 2017; pp. 427–443, ISBN 978-84-697-5592-1.
+
+20.
+
+Hsiao, H.C.; Chou, W.C. Using biomimetic design in a product design course. World Trans. Eng. Technol. Educ. 2007, 6, 31–35.
+
+21.
+
+Volstad, N.L.; Boks, C. On the use of Biomimicry as a Useful Tool for the Industrial Designer. Sustain. Dev. 2012, 20, 189–199.
+
+[CrossRef]
+
+22.
+
+Benyus, J.M. Biomimicry: Innovation Inspired by Nature; William Morrow and Company: New York, NY, USA, 1997; ISBN 9780060533229.
+
+Biomimetics 2023, 8, 61
+
+15 of 16
+
+23.
+
+Mariano, A.M. Learn to Use TEMAC. Available online: https://www.pesquisatemac.com/aprenda-a-usar-o-temac (accessed on 15 January 2023).
+
+24.
+
+Boyack, K.W.; Klavans, R. Co-citation analysis, bibliographic coupling, and direct citation: Which citation approach represents the research front most accurately? J. Am. Soc. Inf. Sci. Technol. 2010, 61, 2389–2404. [CrossRef]
+
+25.
+
+Li, S.; Zeng, Q.; Xiao, Y.; Fu, S.Y.; Zhou, B. Biomimicry of bamboo bast fiber with engineering composite materials. Mater. Sci. Eng.
+
+C 1995, 3, 125–130. [CrossRef]
+
+26.
+
+Bhushan, B. Biomimetics: Lessons from nature–an overview. Philos. Trans. R. Soc. A Math. Phys. Eng. Sci. 2009, 367, 1445–1486.
+
+[CrossRef] [PubMed]
+
+27.
+
+Eadie, L.; Ghosh, T.K. Biomimicry in textiles: Past, present and potential. An overview. J. R. Soc. Interface 2011, 8, 761–775.
+
+[CrossRef] [PubMed]
+
+28.
+
+Cho, W.K.; Ankrum, J.A.; Guo, D.; Chester, S.A.; Yang, S.Y.; Kashyap, A.; Campbell, G.A.; Wood, R.J.; Rijal, R.K.; Karnik, R.; et al.
+
+Microstructured barbs on the North American porcupine quill enable easy tissue penetration and difficult removal. Proc. Natl.
+
+Acad. Sci. USA 2012, 109, 21289–21294. [CrossRef]
+
+29.
+
+Cutkosky, M.R.; Kim, S. Design and fabrication of multi-material structures for bioinspired robots. Philos. Trans. R. Soc. A Math.
+
+Phys. Eng. Sci. 2009, 367, 1799–1813. [CrossRef]
+
+30.
+
+Mendoza, J.M.F.; Sharmina, M.; Gallego-Schmid, A.; Heyes, G.; Azapagic, A. Integrating Backcasting and Eco-Design for the Circular Economy: The BECE Framework. J. Ind. Ecol. 2017, 21, 526–544. [CrossRef]
+
+31.
+
+Sherman, B.D.; Vaughn, M.D.; Bergkamp, J.; Gust, D.; Moore, A.L.; Moore, T.A. Evolution of reaction center mimics to systems capable of generating solar fuel. Photosynth. Res. 2013, 120, 59–70. [CrossRef]
+
+32.
+
+Lee, J.; Sponberg, S.N.; Loh, O.Y.; Lamperski, A.G.; Full, R.J.; Cowan, N.J. Templates and Anchors for Antenna-Based Wall Following in Cockroaches and Robots. IEEE Trans. Robot. 2008, 24, 130–143. [CrossRef]
+
+33.
+
+Xu, Q.; Zhang, W.; Dong, C.; Sreeprasad, T.S.; Xia, Z. Biomimetic self-cleaning surfaces: Synthesis, mechanism and applications.
+
+J. R. Soc. Interface 2016, 13, 20160300. [CrossRef] [PubMed]
+
+34.
+
+Zari, M.P. Biomimetic design for climate change adaptation and mitigation. Arch. Sci. Rev. 2010, 53, 172–183. [CrossRef]
+
+35.
+
+Helms, M.; Vattam, S.S.; Goel, A.K. Biologically inspired design: Process and products. Des. Stud. 2009, 30, 606–622. [CrossRef]
+
+36.
+
+Pawlyn, M. Biomimicry in Architecture; Riba Publishing: London, UK, 2011; ISBN 978-1859466285.
+
+37.
+
+Chakrabarti, A.; Sarkar, P.; Leelavathamma, B.; Nataraju, B. A functional representation for aiding biomimetic and artificial inspiration of new ideas. Artif. Intell. Eng. Des. Anal. Manuf. 2005, 19, 113–132. [CrossRef]
+
+38.
+
+Baumeister, D.; Tocke, R.; Dwyer, J.; Ritter, S.; Benyus, J. Biomimicry Resource Handbook: A Seed Bank of Best Practices; Biomimicry 3.8: Montana, MT, USA, 2014; ISBN 978-1505634648.
+
+39.
+
+Braungart, M.; McDonough, W. Cradle to Cradle: Remaking the Way We Make Things; North Point Press: New York, NY, USA, 2002; ISBN 9780865475878.
+
+40.
+
+Perera, A.; Coppens, M.O. Re-designing materials for biomedical applications: From biomimicry to nature-inspired chemical engineering. Philos. Trans. R. Soc. A Math. Phys. Eng. Sci. 2018, 377, 20180268. [CrossRef]
+
+41.
+
+Hosseini, S.M.; Mohammadi, M.; Rosemann, A.; Schröder, T.; Lichtenberg, J. A morphological approach for kinetic façade design process to improve visual and thermal comfort: Review. Build. Environ. 2019, 153, 186–204. [CrossRef]
+
+42.
+
+Tate, W.L.; Bals, L.; Bals, C.; Foerstl, K. Seeing the forest and not the trees: Learning from nature’s circular economy. Resour.
+
+Conserv. Recycl. 2019, 149, 115–129. [CrossRef]
+
+43.
+
+Xing, Y.; Jones, P.; Bosch, M.; Donnison, I.; Spear, M.; Ormondroyd, G. Exploring design principles of biological and living building envelopes: What can we learn from plant cell walls? Intell. Build. Int. 2017, 10, 78–102. [CrossRef]
+
+44.
+
+Amer, N. Biomimetic Approach in Architectural Education: Case study of ‘Biomimicry in Architecture’ Course. Ain Shams Eng. J.
+
+2019, 10, 499–506. [CrossRef]
+
+45.
+
+Clark, M.S. Molecular mechanisms of biomineralization in marine invertebrates. J. Exp. Biol. 2020, 223, 78–102. [CrossRef]
+
+46.
+
+Zari, M.P. Devising Urban Biodiversity Habitat Provision Goals: Ecosystem Services Analysis. Forests 2019, 10, 391. [CrossRef]
+
+47.
+
+Varshabi, N.; Selçuk, S.A.; Avinç, G.M. Biomimicry for Energy-Efficient Building Design: A Bibliometric Analysis. Biomimetics 2022, 7, 21. [CrossRef]
+
+48.
+
+Kuckartz, U.; Rädiker, S. Analyzing Qualitative Data with MAXQDA. Analyzing Qualitative Data with MAXQDA, Text, Audio, and Video; Springer: New York, NY, USA, 2019; ISBN 978-3-030-15671-8.
+
+49.
+
+Pearce, J.M. How to Perform a Literature Review with Free and Open Source Software. Pract. Assess. Res. Eval. 2018, 23, 1–10.
+
+50.
+
+Papanek, V. Design for the Real World: Human Ecology and Social Change; Thames & Hudson: London, UK, 1985; ISBN 978-0500273586.
+
+51.
+
+Papanek, V. The Green Imperative: Ecology and Ethics in Design and Architecture; Thames & Hudson: London, UK, 1995; ISBN 978-0500278468.
+
+52.
+
+Escobar, A. Designs for the Pluriverse: Radical Interdependence, Autonomy, and the Making of Worlds; Duke University Press: Durham, NC, USA, 2018; ISBN 978-0822371052.
+
+53.
+
+Norman, D. The Design of Everyday Things; Basic Books (AZ): New York, NY, USA, 2013; ISBN 978-0465050659.
+
+Biomimetics 2023, 8, 61
+
+16 of 16
+
+54.
+
+Norman, D. The Design of Future Things; Basic Books (AZ): New York, NY, USA, 2009; ISBN 978-0465002283.
+
+55.
+
+Rossin, K.J. Biomimicry: Nature’s design process versus the designer’s process. WIT Trans. Ecol. Environ. 2010, 138, 559–570.
+
+[CrossRef]
+
+56.
+
+Ilieva, L.; Ursano, I.; Traista, L.; Hoffmann, B.; Dahy, H. Biomimicry as a Sustainable Design Methodology—Introducing the
+
+‘Biomimicry for Sustainability’ Framework. Biomimetics 2022, 7, 37. [CrossRef]
+
+Disclaimer/Publisher’s Note: The statements, opinions and data contained in all publications are solely those of the individual author(s) and contributor(s) and not of MDPI and/or the editor(s). MDPI and/or the editor(s) disclaim responsibility for any injury to people or property resulting from any ideas, methods, instructions or products referred to in the content.
+
+
+
+
+
+Document Outline
+
+
+Introduction
+
+Materials and Methods
+
+Results
+
+Discussion
+
+References
+
+
+
+
+
