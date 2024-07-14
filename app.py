@@ -626,6 +626,9 @@ def list_folder_contents(folder_path):
             contents.append(item)
     return contents
 
+settings = load_settings()
+default_model = settings['llm']['model']
+
 with gr.Blocks(css=custom_css, theme=gr.themes.Base()) as demo:
     gr.Markdown("# GraphRAG UI", elem_id="title")
     
@@ -690,7 +693,7 @@ with gr.Blocks(css=custom_css, theme=gr.themes.Base()) as demo:
                     system_message = gr.Textbox(label="System Message", value="You are a helpful assistant.", lines=2)
                     temperature = gr.Slider(label="Temperature", minimum=0, maximum=1, value=0.7, step=0.1)
                     max_tokens = gr.Slider(label="Max Tokens", minimum=1, maximum=4096, value=150, step=1)
-                    model = gr.Dropdown(label="Model", choices=fetch_ollama_models())
+                    model = gr.Dropdown(label="Model", choices=[default_model] + fetch_ollama_models(), value=default_model)
                     refresh_models_btn = gr.Button("Refresh Models", variant="secondary")
                 
 
