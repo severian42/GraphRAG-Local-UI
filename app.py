@@ -16,8 +16,9 @@ import time
 import glob
 from datetime import datetime
 import json
-import openai
 import requests
+from ollama import chat
+
 
 # Set up logging
 log_queue = queue.Queue()
@@ -281,6 +282,8 @@ def update_logs():
         logs.append(log_queue.get())
     return "\n".join(logs)
 
+
+
 def chat_with_llm(message, history, system_message, temperature, max_tokens, model):
     messages = [{"role": "system", "content": system_message}]
     for human, ai in history:
@@ -289,13 +292,15 @@ def chat_with_llm(message, history, system_message, temperature, max_tokens, mod
     messages.append({"role": "user", "content": message})
 
     try:
-        response = openai.ChatCompletion.create(
+        response = chat(
             model=model,
             messages=messages,
-            temperature=temperature,
-            max_tokens=max_tokens
+            options={
+                "temperature": temperature,
+                "num_predict": max_tokens
+            }
         )
-        return response.choices[0].message['content']
+        return response['message']['content']
     except Exception as e:
         return f"Error: {str(e)}"
 
