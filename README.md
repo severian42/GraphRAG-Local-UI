@@ -1,6 +1,6 @@
 # 🚀 GraphRAG Local with Ollama and Interactive UI
 
-Welcome to **GraphRAG Local with Ollama and Interactive UI**! This repository is an exciting adaptation of Microsoft's [GraphRAG](https://github.com/microsoft/graphrag), tailored to support local models using Ollama and featuring a new interactive user interface. Say goodbye to costly OpenAI models and hello to efficient, cost-effective local inference using Ollama!
+Welcome to **GraphRAG Local with Ollama and Interactive UI**! This is an adaptation of Microsoft's [GraphRAG](https://github.com/microsoft/graphrag), tailored to support local models using Ollama and featuring a new interactive user interface.
 
 ## 📄 Research Paper
 
