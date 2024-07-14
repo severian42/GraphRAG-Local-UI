@@ -89,7 +89,7 @@ def index_graph(root_dir):
     logging.info(f"Running indexing command: {command}")
     result = run_command(command)
     logging.info("Indexing completed")
-    return result
+    return result, update_logs()
 
 def run_query(root_dir, method, query, history):
     command = f"python -m graphrag.query --root {root_dir} --method {method} \"{query}\""
@@ -101,14 +101,24 @@ def upload_file(file):
         input_dir = os.path.join("ragtest", "input")
         os.makedirs(input_dir, exist_ok=True)
         
-        file_path = file.name
-        destination_path = os.path.join(input_dir, os.path.basename(file_path))
+        # Get the original filename from the uploaded file
+        original_filename = file.name
         
-        shutil.copy2(file_path, destination_path)
+        # Create the destination path
+        destination_path = os.path.join(input_dir, os.path.basename(original_filename))
         
-        logging.info(f"File uploaded and copied to: {destination_path}")
-        return f"File uploaded: {os.path.basename(file_path)}"
-    return "No file uploaded"
+        # Move the uploaded file to the destination path
+        shutil.move(file.name, destination_path)
+        
+        logging.info(f"File uploaded and moved to: {destination_path}")
+        status = f"File uploaded: {os.path.basename(original_filename)}"
+    else:
+        status = "No file uploaded"
+
+    # Get the updated file list
+    updated_file_list = [f["path"] for f in list_input_files()]
+    
+    return status, gr.Dropdown.update(choices=updated_file_list), update_logs()
 
 def list_input_files():
     input_dir = os.path.join("ragtest", "input")
@@ -119,10 +129,15 @@ def delete_file(file_path):
     try:
         os.remove(file_path)
         logging.info(f"File deleted: {file_path}")
-        return f"File deleted: {os.path.basename(file_path)}"
+        status = f"File deleted: {os.path.basename(file_path)}"
     except Exception as e:
         logging.error(f"Error deleting file: {str(e)}")
-        return f"Error deleting file: {str(e)}"
+        status = f"Error deleting file: {str(e)}"
+
+    # Get the updated file list
+    updated_file_list = [f["path"] for f in list_input_files()]
+    
+    return status, gr.Dropdown.update(choices=updated_file_list), update_logs()
 
 def read_file_content(file_path):
     try:
@@ -138,10 +153,11 @@ def save_file_content(file_path, content):
         with open(file_path, 'w') as file:
             file.write(content)
         logging.info(f"File saved: {file_path}")
-        return f"File saved: {os.path.basename(file_path)}"
+        status = f"File saved: {os.path.basename(file_path)}"
     except Exception as e:
         logging.error(f"Error saving file: {str(e)}")
-        return f"Error saving file: {str(e)}"
+        status = f"Error saving file: {str(e)}"
+    return status, update_logs()
 
 def manage_data():
     db = lancedb.connect("./ragtest/lancedb")
@@ -293,7 +309,7 @@ def send_message(root_dir, query_type, query, history, system_message, temperatu
     else:  # Direct chat
         result = chat_with_llm(query, history, system_message, temperature, max_tokens, model)
         history.append((query, result))
-    return history, gr.Textbox.update(value="")
+    return history, gr.Textbox.update(value=""), update_logs()
 
 def fetch_ollama_models():
     try:
@@ -553,7 +569,13 @@ def update_file_list():
 def update_file_content(file_path):
     if not file_path:
         return ""
-    return read_file_content(file_path)
+    try:
+        with open(file_path, 'r', encoding='utf-8') as file:
+            content = file.read()
+        return content
+    except Exception as e:
+        logging.error(f"Error reading file: {str(e)}")
+        return f"Error reading file: {str(e)}"
 
 def update_output_folder_list():
     folders = list_output_folders(root_dir.value)
@@ -607,7 +629,7 @@ with gr.Blocks(css=custom_css, theme=gr.themes.Base()) as demo:
             with gr.Tabs():
                 with gr.TabItem("Data Management"):
                     with gr.Accordion("File Operations", open=False):
-                        file_upload = gr.File(label="Upload .txt File")
+                        file_upload = gr.File(label="Upload .txt File", file_types=[".txt"])
                         upload_btn = gr.Button("Upload File", variant="primary")
                         upload_output = gr.Textbox(label="Upload Status", visible=False)
                     
@@ -645,7 +667,6 @@ with gr.Blocks(css=custom_css, theme=gr.themes.Base()) as demo:
 
             with gr.Box(elem_id="log-container"):
                 log_output = gr.TextArea(label="Logs", elem_id="log-output")
-                refresh_logs_btn = gr.Button("Refresh Logs", variant="secondary")
 
         with gr.Column(scale=2, elem_id="right-column"):
             with gr.Box(elem_id="chat-container"):
@@ -675,31 +696,54 @@ with gr.Blocks(css=custom_css, theme=gr.themes.Base()) as demo:
                         vis_status = gr.Textbox(label="Visualization Status", elem_id="vis-status", show_label=False)
 
     # Event handlers
-    upload_btn.click(fn=upload_file, inputs=[file_upload], outputs=[upload_output, file_list])
-    refresh_btn.click(fn=update_file_list, outputs=[file_list])
-    file_list.change(fn=update_file_content, inputs=[file_list], outputs=[file_content])
-    delete_btn.click(fn=delete_file, inputs=[file_list], outputs=[operation_status, file_list])
-    save_btn.click(fn=save_file_content, inputs=[file_list, file_content], outputs=[operation_status])
-    index_btn.click(fn=index_graph, inputs=[root_dir], outputs=[index_output])
-    refresh_folder_btn.click(fn=update_output_folder_list, outputs=[output_folder_list])
-    output_folder_list.change(fn=update_folder_content_list, inputs=[root_dir, output_folder_list], outputs=[folder_content_list])
-    folder_content_list.change(fn=handle_content_selection, inputs=[root_dir, output_folder_list, folder_content_list], outputs=[folder_content_list, output_content])
-    initialize_folder_btn.click(fn=initialize_selected_folder, inputs=[root_dir, output_folder_list], outputs=[initialization_status, folder_content_list])
-    refresh_logs_btn.click(fn=update_logs, outputs=[log_output])
-    vis_btn.click(fn=update_visualization, inputs=[root_dir, output_folder_list, folder_content_list], outputs=[vis_output, vis_status])
+    upload_btn.click(fn=upload_file, inputs=[file_upload], outputs=[upload_output, file_list, log_output])
+    refresh_btn.click(fn=update_file_list, outputs=[file_list]).then(
+        fn=update_logs,
+        outputs=[log_output]
+    )
+    file_list.change(fn=update_file_content, inputs=[file_list], outputs=[file_content]).then(
+        fn=update_logs,
+        outputs=[log_output]
+    )
+    delete_btn.click(fn=delete_file, inputs=[file_list], outputs=[operation_status, file_list, log_output])
+    save_btn.click(fn=save_file_content, inputs=[file_list, file_content], outputs=[operation_status, log_output])
+    index_btn.click(fn=index_graph, inputs=[root_dir], outputs=[index_output, log_output])
+    refresh_folder_btn.click(fn=update_output_folder_list, outputs=[output_folder_list]).then(
+        fn=update_logs,
+        outputs=[log_output]
+    )
+    output_folder_list.change(fn=update_folder_content_list, inputs=[root_dir, output_folder_list], outputs=[folder_content_list]).then(
+        fn=update_logs,
+        outputs=[log_output]
+    )
+    folder_content_list.change(fn=handle_content_selection, inputs=[root_dir, output_folder_list, folder_content_list], outputs=[folder_content_list, output_content]).then(
+        fn=update_logs,
+        outputs=[log_output]
+    )
+    initialize_folder_btn.click(fn=initialize_selected_folder, inputs=[root_dir, output_folder_list], outputs=[initialization_status, folder_content_list]).then(
+        fn=update_logs,
+        outputs=[log_output]
+    )
+    vis_btn.click(fn=update_visualization, inputs=[root_dir, output_folder_list, folder_content_list], outputs=[vis_output, vis_status]).then(
+        fn=update_logs,
+        outputs=[log_output]
+    )
     query_btn.click(
         fn=send_message,
         inputs=[root_dir, query_type, query_input, chatbot, system_message, temperature, max_tokens, model],
-        outputs=[chatbot, query_input]
+        outputs=[chatbot, query_input, log_output]
     )
     query_input.submit(
         fn=send_message,
         inputs=[root_dir, query_type, query_input, chatbot, system_message, temperature, max_tokens, model],
-        outputs=[chatbot, query_input]
+        outputs=[chatbot, query_input, log_output]
     )
     refresh_models_btn.click(
         fn=update_model_choices,
         outputs=[model]
+    ).then(
+        fn=update_logs,
+        outputs=[log_output]
     )
 
     # Add this JavaScript to enable Shift+Enter functionality
