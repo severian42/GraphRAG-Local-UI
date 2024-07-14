@@ -17,6 +17,8 @@ For more details on the original GraphRAG implementation, please refer to the [G
 - **Output Exploration:** Browse and view indexing outputs and artifacts.
 - **Logging:** Real-time logging for better debugging and monitoring.
 
+![GraphRAG UI](ui.png)
+
 ## 📦 Installation and Setup
 
 Follow these steps to set up and run GraphRAG Local with Ollama and Interactive UI:
