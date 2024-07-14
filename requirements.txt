@@ -37,3 +37,4 @@ networkx
 matplotlib
 plotly
 kaleido
+graphrag
