@@ -208,6 +208,7 @@ def find_latest_graph_file(root_dir):
 def update_visualization(root_dir, folder_name, file_name):
     if not folder_name or not file_name:
         return None, "Please select a folder and a GraphML file."
+    file_name = file_name.split("] ")[1]  # Remove file type prefix
     graph_path = os.path.join(root_dir, "output", folder_name, "artifacts", file_name)
     if not graph_path.endswith('.graphml'):
         return None, "Please select a GraphML file for visualization."
