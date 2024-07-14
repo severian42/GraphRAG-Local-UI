@@ -43,8 +43,13 @@ Follow these steps to set up and run GraphRAG Local with Ollama and Interactive 
     ```bash
     gradio app.py
     ```
+    or
 
-5. **Using the UI:**
+    ```bash
+    python app.py
+    ```
+
+6. **Using the UI:**
     - Once the UI is launched, you can perform all necessary operations through the interface.
     - This includes initializing the project, managing settings, uploading files, running indexing, and executing queries.
     - The UI provides a user-friendly way to interact with GraphRAG without needing to run command-line operations.
