@@ -1,4 +1,4 @@
-# 🚀 GraphRAG Local with Ollama and Interactive UI
+#  🕸️ GraphRAG Local with Ollama and Gradio UI
 
 Welcome to **GraphRAG Local with Ollama and Interactive UI**! This is an adaptation of Microsoft's [GraphRAG](https://github.com/microsoft/graphrag), tailored to support local models using Ollama and featuring a new interactive user interface.
 
