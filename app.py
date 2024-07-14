@@ -18,6 +18,8 @@ from datetime import datetime
 import json
 import requests
 from ollama import chat
+import pyarrow.parquet as pq
+import pandas as pd
 
 
 # Set up logging
@@ -142,8 +144,26 @@ def delete_file(file_path):
 
 def read_file_content(file_path):
     try:
-        with open(file_path, 'r') as file:
-            content = file.read()
+        if file_path.endswith('.parquet'):
+            df = pd.read_parquet(file_path)
+            
+            # Get basic information about the DataFrame
+            info = f"Parquet File: {os.path.basename(file_path)}\n"
+            info += f"Rows: {len(df)}, Columns: {len(df.columns)}\n\n"
+            info += "Column Names:\n" + "\n".join(df.columns) + "\n\n"
+            
+            # Display first few rows
+            info += "First 5 rows:\n"
+            info += df.head().to_string() + "\n\n"
+            
+            # Display basic statistics
+            info += "Basic Statistics:\n"
+            info += df.describe().to_string()
+            
+            return info
+        else:
+            with open(file_path, 'r', encoding='utf-8', errors='replace') as file:
+                content = file.read()
         return content
     except Exception as e:
         logging.error(f"Error reading file: {str(e)}")
@@ -596,11 +616,15 @@ def handle_content_selection(root_dir, folder_name, selected_item):
     if selected_item.startswith("[DIR]"):
         dir_name = selected_item[6:]  # Remove "[DIR] " prefix
         sub_contents = list_folder_contents(os.path.join(root_dir, "output", folder_name, dir_name))
-        return gr.Dropdown.update(choices=sub_contents), ""
+        return gr.Dropdown.update(choices=sub_contents), "", ""
     else:
-        file_path = os.path.join(root_dir, "output", folder_name, "artifacts", selected_item)
+        file_name = selected_item.split("] ")[1]  # Remove file type prefix
+        file_path = os.path.join(root_dir, "output", folder_name, "artifacts", file_name)
+        file_size = os.path.getsize(file_path)
+        file_type = os.path.splitext(file_name)[1]
+        file_info = f"File: {file_name}\nSize: {file_size} bytes\nType: {file_type}"
         content = read_file_content(file_path)
-        return gr.Dropdown.update(), content
+        return gr.Dropdown.update(), file_info, content
 
 def initialize_selected_folder(root_dir, folder_name):
     if not folder_name:
@@ -623,7 +647,8 @@ def list_folder_contents(folder_path):
         if os.path.isdir(item_path):
             contents.append(f"[DIR] {item}")
         else:
-            contents.append(item)
+            _, ext = os.path.splitext(item)
+            contents.append(f"[{ext[1:].upper()}] {item}")
     return contents
 
 settings = load_settings()
@@ -664,6 +689,7 @@ with gr.Blocks(css=custom_css, theme=gr.themes.Base()) as demo:
                     refresh_folder_btn = gr.Button("Refresh Folder List", variant="secondary")
                     initialize_folder_btn = gr.Button("Initialize Selected Folder", variant="primary")
                     folder_content_list = gr.Dropdown(label="Select File or Directory", choices=[], interactive=True)
+                    file_info = gr.Textbox(label="File Information", interactive=False)
                     output_content = gr.TextArea(label="File Content", lines=20, interactive=False)
                     initialization_status = gr.Textbox(label="Initialization Status")
                 
@@ -724,7 +750,7 @@ with gr.Blocks(css=custom_css, theme=gr.themes.Base()) as demo:
         fn=update_logs,
         outputs=[log_output]
     )
-    folder_content_list.change(fn=handle_content_selection, inputs=[root_dir, output_folder_list, folder_content_list], outputs=[folder_content_list, output_content]).then(
+    folder_content_list.change(fn=handle_content_selection, inputs=[root_dir, output_folder_list, folder_content_list], outputs=[folder_content_list, file_info, output_content]).then(
         fn=update_logs,
         outputs=[log_output]
     )
