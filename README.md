@@ -2,7 +2,15 @@
 
 Welcome to **GraphRAG Local with Ollama and Interactive UI**! This is an adaptation of Microsoft's [GraphRAG](https://github.com/microsoft/graphrag), tailored to support local models using Ollama and featuring a new interactive user interface.
 
-*NOTE: The app gained traction much quicker than I anticipated so I am frantically trying to get the bugs fixed and suggested improvements integrated. Right now it is functional but you may still run into some issues. This may mean you will need to update your version by the end of today if you encounter an error by chance. I am trying to be fluid with the adjustments. I will also be making some changes so the model provider is more agnostic and not reliant on just Ollama. Feel free to open an Issue if you run into an error and I will try to address it ASAP so you don't run into any downtime*
+*NOTE: The app gained traction much quicker than I anticipated so I am frantically trying to get the bugs fixed and suggested improvements integrated. Right now it is functional but you may still run into some issues. This may mean you will need to update your version by the end of today if you encounter an error by chance. I am trying to be fluid with the adjustments. 
+
+Changes being made right now:
+- LLM agnostic: Use Ollama or set your own base URL and local model for LLM and Embedder
+- Bug fixes on indexing and output file generation (missing _final/entities on some calls)
+- Launch your own GraphRAG API server so you can use the functions in your own external app
+- Dockerfile for easier deployment
+
+Feel free to open an Issue if you run into an error and I will try to address it ASAP so you don't run into any downtime*
 
 ## 📄 Research Paper
 
