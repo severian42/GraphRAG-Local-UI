@@ -2,7 +2,7 @@
 
 Welcome to **GraphRAG Local with Ollama and Interactive UI**! This is an adaptation of Microsoft's [GraphRAG](https://github.com/microsoft/graphrag), tailored to support local models using Ollama and featuring a new interactive user interface.
 
-*NOTE: I am currently in the process of debugging certain aspects so everything will run more smoothly. This may mean you will need to update your version by the end of today if you encounter an error by chance. I am trying to be fluid with the adjustments. I will also be making some changes so the model provider is more agnostic and not reliant on just Ollama. Feel free to open an Issue if you run into an error and I will try to address it immediately so you don't run into any downtime*
+*NOTE: The app is fully functional but I am currently in the process of debugging certain aspects so everything will run more smoothly. This may mean you will need to update your version by the end of today if you encounter an error by chance. I am trying to be fluid with the adjustments. I will also be making some changes so the model provider is more agnostic and not reliant on just Ollama. Feel free to open an Issue if you run into an error and I will try to address it immediately so you don't run into any downtime*
 
 ## 📄 Research Paper
 
