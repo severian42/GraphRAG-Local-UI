@@ -49,7 +49,6 @@ Follow these steps to set up and run GraphRAG Local with Ollama and Interactive 
 
 4. **Launch the interactive UI:**
     ```bash
-    conda activate graphrag
     gradio app.py
     ```
     or
