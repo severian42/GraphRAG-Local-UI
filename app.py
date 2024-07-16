@@ -867,4 +867,5 @@ with gr.Blocks(css=custom_css, theme=gr.themes.Base()) as demo:
     """)
 
 if __name__ == "__main__":
+    demo.queue()  
     demo.launch()
