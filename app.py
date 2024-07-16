@@ -20,7 +20,14 @@ import requests
 from ollama import chat
 import pyarrow.parquet as pq
 import pandas as pd
+import sys
 
+# Add the project root to the Python path
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, project_root)
+
+import gradio as gr
+from graphrag.query import cli 
 
 # Set up logging
 log_queue = queue.Queue()
@@ -80,14 +87,8 @@ def create_setting_component(key, value):
             outputs=[status]
         )
 
-def run_command(command):
-    try:
-        result = subprocess.run(command, shell=True, check=True, capture_output=True, text=True)
-        return result.stdout
-    except subprocess.CalledProcessError as e:
-        return f"Error: {e.stderr}"
-
-def index_graph(root_dir, progress=gr.Progress()):
+def index_graph(progress=gr.Progress()):
+    root_dir = "./ragtest"
     command = f"python -m graphrag.index --root {root_dir}"
     logging.info(f"Running indexing command: {command}")
     
@@ -129,10 +130,28 @@ def index_graph(root_dir, progress=gr.Progress()):
     logging.info("Indexing completed")
     return "\n".join(full_output), update_logs()
 
-def run_query(root_dir, method, query, history):
-    command = f"python -m graphrag.query --root {root_dir} --method {method} \"{query}\""
-    result = run_command(command)
-    return result
+def run_query(root_dir, method, query, history, model, temperature, max_tokens):
+    system_message = f"You are a helpful assistant performing a {method} search on the knowledge graph. Provide a concise and relevant answer based on the query."
+    messages = [{"role": "system", "content": system_message}]
+    for item in history:
+        if isinstance(item, tuple) and len(item) == 2:
+            human, ai = item
+            messages.append({"role": "user", "content": human})
+            messages.append({"role": "assistant", "content": ai})
+    messages.append({"role": "user", "content": query})
+
+    try:
+        response = chat(
+            model=model,
+            messages=messages,
+            options={
+                "temperature": temperature,
+                "num_predict": max_tokens
+            }
+        )
+        return response['message']['content']
+    except Exception as e:
+        return f"Error: {str(e)}"
 
 def upload_file(file):
     if file is not None:
@@ -230,9 +249,19 @@ def manage_data():
         "input_files": input_files
     }
 
+
 def find_latest_graph_file(root_dir):
     pattern = os.path.join(root_dir, "output", "*", "artifacts", "*.graphml")
     graph_files = glob.glob(pattern)
+    if not graph_files:
+        # If no files found, try excluding .DS_Store
+        output_dir = os.path.join(root_dir, "output")
+        run_dirs = [d for d in os.listdir(output_dir) if os.path.isdir(os.path.join(output_dir, d)) and d != ".DS_Store"]
+        if run_dirs:
+            latest_run = max(run_dirs)
+            pattern = os.path.join(root_dir, "output", latest_run, "artifacts", "*.graphml")
+            graph_files = glob.glob(pattern)
+    
     if not graph_files:
         return None
     
@@ -240,7 +269,8 @@ def find_latest_graph_file(root_dir):
     latest_file = max(graph_files, key=os.path.getmtime)
     return latest_file
 
-def update_visualization(root_dir, folder_name, file_name):
+def update_visualization(folder_name, file_name):
+    root_dir = "./ragtest"
     if not folder_name or not file_name:
         return None, "Please select a folder and a GraphML file."
     file_name = file_name.split("] ")[1] if "]" in file_name else file_name  # Remove file type prefix
@@ -345,9 +375,13 @@ def update_logs():
 
 def chat_with_llm(message, history, system_message, temperature, max_tokens, model):
     messages = [{"role": "system", "content": system_message}]
-    for human, ai in history:
-        messages.append({"role": "user", "content": human})
-        messages.append({"role": "assistant", "content": ai})
+    for item in history:
+        if isinstance(item, tuple) and len(item) == 2:
+            human, ai = item
+            messages.append({"role": "user", "content": human})
+            messages.append({"role": "assistant", "content": ai})
+        elif isinstance(item, str):
+            messages.append({"role": "user", "content": item})
     messages.append({"role": "user", "content": message})
 
     try:
@@ -363,16 +397,17 @@ def chat_with_llm(message, history, system_message, temperature, max_tokens, mod
     except Exception as e:
         return f"Error: {str(e)}"
 
-def send_message(root_dir, query_type, query, history, system_message, temperature, max_tokens, model):
-    if query_type == "global":
-        result = run_query(root_dir, "global", query, history)
+def send_message(query_type, query, history, system_message, temperature, max_tokens, model):
+    root_dir = "./ragtest"
+    try:
+        if query_type in ["global", "local"]:
+            result = run_query(root_dir, query_type, query, history, model, temperature, max_tokens)
+        else:  # Direct chat
+            result = chat_with_llm(query, history, system_message, temperature, max_tokens, model)
         history.append((query, result))
-    elif query_type == "local":
-        result = run_query(root_dir, "local", query, history)
-        history.append((query, result))
-    else:  # Direct chat
-        result = chat_with_llm(query, history, system_message, temperature, max_tokens, model)
-        history.append((query, result))
+    except Exception as e:
+        error_message = f"An error occurred: {str(e)}"
+        history.append((query, error_message))
     return history, gr.update(value=""), update_logs()
 
 def fetch_ollama_models():
@@ -659,16 +694,19 @@ def update_file_content(file_path):
         return f"Error reading file: {str(e)}"
 
 def update_output_folder_list():
-    folders = list_output_folders(root_dir.value)
+    root_dir = "./ragtest"
+    folders = list_output_folders(root_dir)
     return gr.update(choices=folders, value=folders[0] if folders else None)
 
-def update_folder_content_list(root_dir, folder_name):
+def update_folder_content_list(folder_name):
+    root_dir = "./ragtest"
     if not folder_name:
         return gr.update(choices=[])
     contents = list_folder_contents(os.path.join(root_dir, "output", folder_name))
     return gr.update(choices=contents)
 
-def handle_content_selection(root_dir, folder_name, selected_item):
+def handle_content_selection(folder_name, selected_item):
+    root_dir = "./ragtest"
     if isinstance(selected_item, list) and selected_item:
         selected_item = selected_item[0]  # Take the first item if it's a list
     
@@ -687,7 +725,8 @@ def handle_content_selection(root_dir, folder_name, selected_item):
     else:
         return gr.update(), "", ""
 
-def initialize_selected_folder(root_dir, folder_name):
+def initialize_selected_folder(folder_name):
+    root_dir = "./ragtest"
     if not folder_name:
         return "Please select a folder first.", gr.update(choices=[])
     folder_path = os.path.join(root_dir, "output", folder_name, "artifacts")
@@ -740,11 +779,10 @@ with gr.Blocks(css=custom_css, theme=gr.themes.Base()) as demo:
                         operation_status = gr.Textbox(label="Operation Status", visible=False)
                     
                     
-                    with gr.Accordion("Indexing", open=True):
-                        root_dir = gr.Textbox(label="Root Directory", value=os.path.abspath("./ragtest"))
-                        index_btn = gr.Button("Run Indexing", variant="primary")
-                        index_output = gr.Textbox(label="Indexing Output", lines=10, visible=True)
-                        index_progress = gr.Textbox(label="Indexing Progress", visible=True)
+                with gr.Accordion("Indexing", open=False):
+                    index_btn = gr.Button("Run Indexing", variant="primary")
+                    index_output = gr.Textbox(label="Indexing Output", lines=10, visible=True)
+                    index_progress = gr.Textbox(label="Indexing Progress", visible=True)
                 
                 with gr.TabItem("Indexing Outputs"):
                     output_folder_list = gr.Dropdown(label="Select Output Folder", choices=[], interactive=True)
@@ -805,7 +843,6 @@ with gr.Blocks(css=custom_css, theme=gr.themes.Base()) as demo:
     save_btn.click(fn=save_file_content, inputs=[file_list, file_content], outputs=[operation_status, log_output])
     index_btn.click(
         fn=index_graph,
-        inputs=[root_dir],
         outputs=[index_output, log_output],
         show_progress=True
     )
@@ -813,30 +850,46 @@ with gr.Blocks(css=custom_css, theme=gr.themes.Base()) as demo:
         fn=update_logs,
         outputs=[log_output]
     )
-    output_folder_list.change(fn=update_folder_content_list, inputs=[root_dir, output_folder_list], outputs=[folder_content_list]).then(
+    output_folder_list.change(
+        fn=update_folder_content_list,
+        inputs=[output_folder_list],
+        outputs=[folder_content_list]
+    ).then(
         fn=update_logs,
         outputs=[log_output]
     )
-    folder_content_list.change(fn=handle_content_selection, inputs=[root_dir, output_folder_list, folder_content_list], outputs=[folder_content_list, file_info, output_content]).then(
+    folder_content_list.change(
+        fn=handle_content_selection,
+        inputs=[output_folder_list, folder_content_list],
+        outputs=[folder_content_list, file_info, output_content]
+    ).then(
         fn=update_logs,
         outputs=[log_output]
     )
-    initialize_folder_btn.click(fn=initialize_selected_folder, inputs=[root_dir, output_folder_list], outputs=[initialization_status, folder_content_list]).then(
+    initialize_folder_btn.click(
+        fn=initialize_selected_folder,
+        inputs=[output_folder_list],
+        outputs=[initialization_status, folder_content_list]
+    ).then(
         fn=update_logs,
         outputs=[log_output]
     )
-    vis_btn.click(fn=update_visualization, inputs=[root_dir, output_folder_list, folder_content_list], outputs=[vis_output, vis_status]).then(
+    vis_btn.click(
+        fn=update_visualization,
+        inputs=[output_folder_list, folder_content_list],
+        outputs=[vis_output, vis_status]
+    ).then(
         fn=update_logs,
         outputs=[log_output]
     )
     query_btn.click(
         fn=send_message,
-        inputs=[root_dir, query_type, query_input, chatbot, system_message, temperature, max_tokens, model],
+        inputs=[query_type, query_input, chatbot, system_message, temperature, max_tokens, model],
         outputs=[chatbot, query_input, log_output]
     )
     query_input.submit(
         fn=send_message,
-        inputs=[root_dir, query_type, query_input, chatbot, system_message, temperature, max_tokens, model],
+        inputs=[query_type, query_input, chatbot, system_message, temperature, max_tokens, model],
         outputs=[chatbot, query_input, log_output]
     )
     refresh_models_btn.click(
@@ -866,6 +919,9 @@ with gr.Blocks(css=custom_css, theme=gr.themes.Base()) as demo:
     document.addEventListener('DOMContentLoaded', addShiftEnterListener);
     """)
 
+
+demo = demo.queue()  
+
+
 if __name__ == "__main__":
-    demo.queue()  
-    demo.launch()
+    demo.launch(share=True, reload=False)

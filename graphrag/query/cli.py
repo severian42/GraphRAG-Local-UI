@@ -4,6 +4,13 @@
 """Command line interface for the query module."""
 
 import os
+import glob
+import pandas as pd
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 from pathlib import Path
 from typing import cast
 
@@ -59,19 +66,47 @@ def run_global_search(
     community_level: int,
     response_type: str,
     query: str,
+    config: GraphRagConfig,
 ):
     """Run a global search with the given query."""
-    data_dir, root_dir, config = _configure_paths_and_settings(data_dir, root_dir)
-    data_path = Path(data_dir)
+    logger.info(f"Starting global search with query: {query}")
+    
+    root_dir = config.root_dir
+    if not root_dir:
+        raise ValueError("Root directory is not defined in the configuration")
+    
+    output_dir = os.path.join(root_dir, "output")
+    logger.info(f"Output directory: {output_dir}")
+    
+    if not os.path.exists(output_dir):
+        raise FileNotFoundError(f"Output directory does not exist: {output_dir}")
+    
+    # Find the latest run directory
+    run_dirs = [d for d in os.listdir(output_dir) if os.path.isdir(os.path.join(output_dir, d))]
+    if not run_dirs:
+        raise FileNotFoundError(f"No run directories found in {output_dir}")
+    
+    latest_run = max(run_dirs)  # Assumes directory names are sortable (e.g., timestamps)
+    logger.info(f"Latest run directory: {latest_run}")
+    
+    parquet_path = os.path.join(output_dir, latest_run, "artifacts", "create_final_nodes.parquet")
+    logger.info(f"Looking for parquet file: {parquet_path}")
+    
+    if not os.path.exists(parquet_path):
+        raise FileNotFoundError(f"Parquet file not found: {parquet_path}")
+    
+    try:
+        final_nodes: pd.DataFrame = pd.read_parquet(parquet_path)
+        logger.info(f"Successfully read parquet file with {len(final_nodes)} rows")
+    except Exception as e:
+        logger.error(f"Error reading parquet file {parquet_path}: {str(e)}")
+        raise IOError(f"Error reading parquet file {parquet_path}: {str(e)}")
 
-    final_nodes: pd.DataFrame = pd.read_parquet(
-        data_path / "create_final_nodes.parquet"
-    )
     final_entities: pd.DataFrame = pd.read_parquet(
-        data_path / "create_final_entities.parquet"
+        data_dir / "create_final_entities.parquet"
     )
     final_community_reports: pd.DataFrame = pd.read_parquet(
-        data_path / "create_final_community_reports.parquet"
+        data_dir / "create_final_community_reports.parquet"
     )
 
     reports = read_indexer_reports(
