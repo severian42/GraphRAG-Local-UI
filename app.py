@@ -87,12 +87,47 @@ def run_command(command):
     except subprocess.CalledProcessError as e:
         return f"Error: {e.stderr}"
 
-def index_graph(root_dir):
+def index_graph(root_dir, progress=gr.Progress()):
     command = f"python -m graphrag.index --root {root_dir}"
     logging.info(f"Running indexing command: {command}")
-    result = run_command(command)
+    
+    # Create a queue to store the output
+    output_queue = queue.Queue()
+    
+    def run_command_with_output():
+        process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+        for line in iter(process.stdout.readline, ''):
+            output_queue.put(line)
+        process.stdout.close()
+        process.wait()
+    
+    # Start the command in a separate thread
+    thread = threading.Thread(target=run_command_with_output)
+    thread.start()
+    
+    # Initialize progress
+    progress(0, desc="Starting indexing...")
+    
+    # Process the output and update progress
+    full_output = []
+    while thread.is_alive() or not output_queue.empty():
+        try:
+            line = output_queue.get_nowait()
+            full_output.append(line)
+            
+            # Update progress based on the output
+            if "Processing file" in line:
+                progress((0.5, None), desc="Processing files...")
+            elif "Indexing completed" in line:
+                progress(1, desc="Indexing completed")
+            
+            yield "\n".join(full_output), update_logs()
+        except queue.Empty:
+            time.sleep(0.1)
+    
+    thread.join()
     logging.info("Indexing completed")
-    return result, update_logs()
+    return "\n".join(full_output), update_logs()
 
 def run_query(root_dir, method, query, history):
     command = f"python -m graphrag.query --root {root_dir} --method {method} \"{query}\""
@@ -708,7 +743,8 @@ with gr.Blocks(css=custom_css, theme=gr.themes.Base()) as demo:
                     with gr.Accordion("Indexing", open=True):
                         root_dir = gr.Textbox(label="Root Directory", value=os.path.abspath("./ragtest"))
                         index_btn = gr.Button("Run Indexing", variant="primary")
-                        index_output = gr.Textbox(label="Indexing Output", lines=5, visible=False)
+                        index_output = gr.Textbox(label="Indexing Output", lines=10, visible=True)
+                        index_progress = gr.Textbox(label="Indexing Progress", visible=True)
                 
                 with gr.TabItem("Indexing Outputs"):
                     output_folder_list = gr.Dropdown(label="Select Output Folder", choices=[], interactive=True)
@@ -767,7 +803,12 @@ with gr.Blocks(css=custom_css, theme=gr.themes.Base()) as demo:
     )
     delete_btn.click(fn=delete_file, inputs=[file_list], outputs=[operation_status, file_list, log_output])
     save_btn.click(fn=save_file_content, inputs=[file_list, file_content], outputs=[operation_status, log_output])
-    index_btn.click(fn=index_graph, inputs=[root_dir], outputs=[index_output, log_output])
+    index_btn.click(
+        fn=index_graph,
+        inputs=[root_dir],
+        outputs=[index_output, log_output],
+        show_progress=True
+    )
     refresh_folder_btn.click(fn=update_output_folder_list, outputs=[output_folder_list]).then(
         fn=update_logs,
         outputs=[log_output]
