@@ -681,13 +681,13 @@ settings = load_settings()
 default_model = settings['llm']['model']
 
 with gr.Blocks(css=custom_css, theme=gr.themes.Base()) as demo:
-    gr.Markdown("# GraphRAG UI", elem_id="title")
+    gr.Markdown("# GraphRAG Local UI", elem_id="title")
     
     with gr.Row(elem_id="main-container"):
         with gr.Column(scale=1, elem_id="left-column"):
             with gr.Tabs():
                 with gr.TabItem("Data Management"):
-                    with gr.Accordion("File Operations", open=False):
+                    with gr.Accordion("File Upload (.txt)", open=True):
                         file_upload = gr.File(label="Upload .txt File", file_types=[".txt"])
                         upload_btn = gr.Button("Upload File", variant="primary")
                         upload_output = gr.Textbox(label="Upload Status", visible=False)
@@ -705,7 +705,7 @@ with gr.Blocks(css=custom_css, theme=gr.themes.Base()) as demo:
                         operation_status = gr.Textbox(label="Operation Status", visible=False)
                     
                     
-                    with gr.Accordion("Indexing", open=False):
+                    with gr.Accordion("Indexing", open=True):
                         root_dir = gr.Textbox(label="Root Directory", value=os.path.abspath("./ragtest"))
                         index_btn = gr.Button("Run Indexing", variant="primary")
                         index_output = gr.Textbox(label="Indexing Output", lines=5, visible=False)
