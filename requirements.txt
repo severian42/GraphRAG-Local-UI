@@ -17,7 +17,7 @@ pydantic
 rich
 typing-extensions
 ollama
-gradio>=latest
+gradio
 PyYAML
 matplotlib
 plotly
