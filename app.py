@@ -121,7 +121,7 @@ def upload_file(file):
     # Get the updated file list
     updated_file_list = [f["path"] for f in list_input_files()]
     
-    return status, gr.Dropdown.update(choices=updated_file_list), update_logs()
+    return status, gr.update(choices=updated_file_list), update_logs()
 
 def list_input_files():
     input_dir = os.path.join("ragtest", "input")
@@ -140,7 +140,7 @@ def delete_file(file_path):
     # Get the updated file list
     updated_file_list = [f["path"] for f in list_input_files()]
     
-    return status, gr.Dropdown.update(choices=updated_file_list), update_logs()
+    return status, gr.update(choices=updated_file_list), update_logs()
 
 def read_file_content(file_path):
     try:
@@ -208,7 +208,7 @@ def find_latest_graph_file(root_dir):
 def update_visualization(root_dir, folder_name, file_name):
     if not folder_name or not file_name:
         return None, "Please select a folder and a GraphML file."
-    file_name = file_name.split("] ")[1]  # Remove file type prefix
+    file_name = file_name.split("] ")[1] if "]" in file_name else file_name  # Remove file type prefix
     graph_path = os.path.join(root_dir, "output", folder_name, "artifacts", file_name)
     if not graph_path.endswith('.graphml'):
         return None, "Please select a GraphML file for visualization."
@@ -275,9 +275,9 @@ def update_visualization(root_dir, folder_name, file_name):
             title=f'3D Graph Visualization: {os.path.basename(graph_path)}',
             showlegend=False,
             scene=dict(
-                xaxis=dict(showbackground=False),
-                yaxis=dict(showbackground=False),
-                zaxis=dict(showbackground=False)
+                xaxis=dict(showbackground=False, showticklabels=False, title=''),
+                yaxis=dict(showbackground=False, showticklabels=False, title=''),
+                zaxis=dict(showbackground=False, showticklabels=False, title='')
             ),
             margin=dict(l=0, r=0, b=0, t=40),
             annotations=[
@@ -289,11 +289,14 @@ def update_visualization(root_dir, folder_name, file_name):
                     x=0,
                     y=0
                 )
-            ]
+            ],
+            autosize=True
         )
 
-        # Return the Plotly figure instead of converting to image
-        return fig, f"Graph visualization generated successfully. Using file: {graph_path}"
+        fig.update_layout(autosize=True)
+        fig.update_layout(height=600)  # Set a fixed height
+        config = {'responsive': True}
+        return fig, f"Graph visualization generated successfully. Using file: {graph_path}", config
     except Exception as e:
         return None, f"Error visualizing graph: {str(e)}"
 
@@ -335,7 +338,7 @@ def send_message(root_dir, query_type, query, history, system_message, temperatu
     else:  # Direct chat
         result = chat_with_llm(query, history, system_message, temperature, max_tokens, model)
         history.append((query, result))
-    return history, gr.Textbox.update(value=""), update_logs()
+    return history, gr.update(value=""), update_logs()
 
 def fetch_ollama_models():
     try:
@@ -350,7 +353,7 @@ def fetch_ollama_models():
 
 def update_model_choices():
     models = fetch_ollama_models()
-    return gr.Dropdown.update(choices=models, value=models[0] if models else None)
+    return gr.update(choices=models, value=models[0] if models else None)
 
 custom_css = """
 html, body {
@@ -415,34 +418,26 @@ html, body {
     margin-top: 10px;
 }
 
-#visualization-container {
-    height: 30%;
-    min-height: 200px;
-    display: flex;
-    flex-direction: column;
-    border: 2px solid var(--color-accent);
-    border-radius: 8px;
-    margin-top: 20px;
-    overflow: hidden;
-}
-
 #visualization-plot {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    max-height: 600px;  /* Adjust this value as needed */
+}
+
+#vis-controls-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+#vis-controls-row > * {
     flex: 1;
-    min-height: 0;
-}
-
-#vis-controls {
-    padding: 10px;
-    background-color: var(--color-foreground);
-    border-top: 1px solid var(--color-accent);
-}
-
-#vis-controls .gr-button {
-    margin-bottom: 10px;
+    margin: 0 5px;
 }
 
 #vis-status {
-    margin-top: 5px;
+    margin-top: 10px;
 }
 
 /* Chat input styling */
@@ -540,10 +535,35 @@ body, .gradio-container {
 }
 
 #visualization-container {
+    display: flex;
+    flex-direction: column;
     border: 2px solid var(--color-accent);
     border-radius: 8px;
-    padding: 10px;
     margin-top: 20px;
+    padding: 10px;
+    background-color: var(--color-foreground);
+    height: calc(100vh - 300px);  /* Adjust this value as needed */
+}
+
+#visualization-plot {
+    width: 100%;
+    height: 100%;
+}
+
+#vis-controls-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+#vis-controls-row > * {
+    flex: 1;
+    margin: 0 5px;
+}
+
+#vis-status {
+    margin-top: 10px;
 }
 
 #log-container {
@@ -590,7 +610,7 @@ def list_output_files(root_dir):
 
 def update_file_list():
     files = list_input_files()
-    return gr.Dropdown.update(choices=[f["path"] for f in files])
+    return gr.update(choices=[f["path"] for f in files])
 
 def update_file_content(file_path):
     if not file_path:
@@ -605,36 +625,41 @@ def update_file_content(file_path):
 
 def update_output_folder_list():
     folders = list_output_folders(root_dir.value)
-    return gr.Dropdown.update(choices=folders, value=folders[0] if folders else None)
+    return gr.update(choices=folders, value=folders[0] if folders else None)
 
 def update_folder_content_list(root_dir, folder_name):
     if not folder_name:
-        return gr.Dropdown.update(choices=[])
+        return gr.update(choices=[])
     contents = list_folder_contents(os.path.join(root_dir, "output", folder_name))
-    return gr.Dropdown.update(choices=contents)
+    return gr.update(choices=contents)
 
 def handle_content_selection(root_dir, folder_name, selected_item):
-    if selected_item.startswith("[DIR]"):
+    if isinstance(selected_item, list) and selected_item:
+        selected_item = selected_item[0]  # Take the first item if it's a list
+    
+    if isinstance(selected_item, str) and selected_item.startswith("[DIR]"):
         dir_name = selected_item[6:]  # Remove "[DIR] " prefix
         sub_contents = list_folder_contents(os.path.join(root_dir, "output", folder_name, dir_name))
-        return gr.Dropdown.update(choices=sub_contents), "", ""
-    else:
-        file_name = selected_item.split("] ")[1]  # Remove file type prefix
+        return gr.update(choices=sub_contents), "", ""
+    elif isinstance(selected_item, str):
+        file_name = selected_item.split("] ")[1] if "]" in selected_item else selected_item  # Remove file type prefix if present
         file_path = os.path.join(root_dir, "output", folder_name, "artifacts", file_name)
         file_size = os.path.getsize(file_path)
         file_type = os.path.splitext(file_name)[1]
         file_info = f"File: {file_name}\nSize: {file_size} bytes\nType: {file_type}"
         content = read_file_content(file_path)
-        return gr.Dropdown.update(), file_info, content
+        return gr.update(), file_info, content
+    else:
+        return gr.update(), "", ""
 
 def initialize_selected_folder(root_dir, folder_name):
     if not folder_name:
-        return "Please select a folder first.", gr.Dropdown.update(choices=[])
+        return "Please select a folder first.", gr.update(choices=[])
     folder_path = os.path.join(root_dir, "output", folder_name, "artifacts")
     if not os.path.exists(folder_path):
-        return f"Artifacts folder not found in '{folder_name}'.", gr.Dropdown.update(choices=[])
+        return f"Artifacts folder not found in '{folder_name}'.", gr.update(choices=[])
     contents = list_folder_contents(folder_path)
-    return f"Folder '{folder_name}/artifacts' initialized with {len(contents)} items.", gr.Dropdown.update(choices=contents)
+    return f"Folder '{folder_name}/artifacts' initialized with {len(contents)} items.", gr.update(choices=contents)
 
 def list_output_folders(root_dir):
     output_dir = os.path.join(root_dir, "output")
@@ -681,7 +706,7 @@ with gr.Blocks(css=custom_css, theme=gr.themes.Base()) as demo:
                     
                     
                     with gr.Accordion("Indexing", open=False):
-                        root_dir = gr.Textbox(label="Root Directory", value="./ragtest")
+                        root_dir = gr.Textbox(label="Root Directory", value=os.path.abspath("./ragtest"))
                         index_btn = gr.Button("Run Indexing", variant="primary")
                         index_output = gr.Textbox(label="Indexing Output", lines=5, visible=False)
                 
@@ -696,15 +721,15 @@ with gr.Blocks(css=custom_css, theme=gr.themes.Base()) as demo:
                 
                 with gr.TabItem("Settings"):
                     settings = load_settings()
-                    with gr.Box():
+                    with gr.Group():
                         for key, value in settings.items():
                             create_setting_component(key, value)
 
-            with gr.Box(elem_id="log-container"):
+            with gr.Group(elem_id="log-container"):
                 log_output = gr.TextArea(label="Logs", elem_id="log-output")
 
         with gr.Column(scale=2, elem_id="right-column"):
-            with gr.Box(elem_id="chat-container"):
+            with gr.Group(elem_id="chat-container"):
                 chatbot = gr.Chatbot(label="Chat History", elem_id="chatbot")
                 with gr.Row(elem_id="chat-input-row"):
                     query_type = gr.Radio(["global", "local", "direct"], label="Query Type", value="global")
@@ -724,11 +749,11 @@ with gr.Blocks(css=custom_css, theme=gr.themes.Base()) as demo:
                     refresh_models_btn = gr.Button("Refresh Models", variant="secondary")
                 
 
-                with gr.Row(elem_id="visualization-container"):
+                with gr.Group(elem_id="visualization-container"):
                     vis_output = gr.Plot(label="Graph Visualization", elem_id="visualization-plot")
-                    with gr.Column(elem_id="vis-controls", scale=1):
+                    with gr.Row(elem_id="vis-controls-row"):
                         vis_btn = gr.Button("Visualize Graph", variant="secondary")
-                        vis_status = gr.Textbox(label="Visualization Status", elem_id="vis-status", show_label=False)
+                    vis_status = gr.Textbox(label="Visualization Status", elem_id="vis-status", show_label=False)
 
     # Event handlers
     upload_btn.click(fn=upload_file, inputs=[file_upload], outputs=[upload_output, file_list, log_output])
@@ -801,4 +826,4 @@ with gr.Blocks(css=custom_css, theme=gr.themes.Base()) as demo:
     """)
 
 if __name__ == "__main__":
-    demo.launch(enable_queue=False)
+    demo.launch()
