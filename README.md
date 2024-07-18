@@ -2,15 +2,20 @@
 
 Welcome to **GraphRAG Local with Ollama and Interactive UI**! This is an adaptation of Microsoft's [GraphRAG](https://github.com/microsoft/graphrag), tailored to support local models using Ollama and featuring a new interactive user interface.
 
-*NOTE: The app gained traction much quicker than I anticipated so I am working to get any found bugs fixed and suggested improvements integrated. Right now it is fully functional, tested only on my Mac Studio M2 though. I am trying to be fluid with the adjustments and so will try to update at least every few hours when possible. 
+*NOTE: The app gained traction much quicker than I anticipated so I am working to get any found bugs fixed and suggested improvements integrated. Right now it is fully functional, tested only on my Mac Studio M2 though. 
 
-Changes being made right now:
+The next update is a major refactor and overall improvement in all the areas so it has unfortunately taken a bit longer than expected. I am trying to be fluid with the adjustments and so will try to update as often as possible. 
+
+Changes being made right now and tested:
 
 - LLM agnostic: Use Ollama or set your own base URL and local model for LLM and Embedder
 - Launch your own GraphRAG API server so you can use the functions in your own external app
 - Dockerfile for easier deployment
 - Experimental: Mixture of Agents for Indexing/Query of knowledge graph
-- More graph visual options
+- Custom configurable graph visuals
+- Preset Query/Indexing library options to quickly and easily harness all the GraphRAG options
+- More file formats (CSV, PDF, etc)
+- Web search/Scraping
 
 Feel free to open an Issue if you run into an error and I will try to address it ASAP so you don't run into any downtime*
 
@@ -20,7 +25,7 @@ For more details on the original GraphRAG implementation, please refer to the [G
 
 ## 🌟 Features
 
-- **Local Model Support:** Leverage local models with Ollama for LLM and embeddings.
+- **Local Model Support:** Leverage local models with Ollama for LLM and embeddings.(I highly recommend using the 'sciphi/triplex' Ollama model for Indexing your data) ('ollama pull sciphi/triplex')
 - **Cost-Effective:** Eliminate dependency on costly OpenAI models.
 - **Interactive UI:** User-friendly interface for managing data, running queries, and visualizing results.
 - **Real-time Graph Visualization:** Visualize your knowledge graph in 3D using Plotly.
