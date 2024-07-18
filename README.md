@@ -13,7 +13,7 @@ Changes being made right now and tested:
 - Dockerfile for easier deployment
 - Experimental: Mixture of Agents for Indexing/Query of knowledge graph
 - Custom configurable graph visuals
-- Preset Query/Indexing library options to quickly and easily harness all the GraphRAG options
+- Preset Query/Indexing library options to quickly and easily harness all the GraphRAG args
 - More file formats (CSV, PDF, etc)
 - Web search/Scraping
 
