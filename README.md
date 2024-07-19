@@ -176,6 +176,11 @@ The UI includes a 2D/3D graph visualization feature:
 
 - On Windows, if you run into and encoding/UTF error, you can change it to the correct format in the YAML Settings menu
 
-- Indexing Errors: These are still tough to debug a track down as it is dependant on your specific pipeline of llms and embedders. Right now it seems to call /v1/embeddings no matter what in the Index workflow, but I think I found a workaround that allows Ollama and other local options. I'll keep trying to reenforce the Indexing process to make it more stable and robust.
+- Indexing Errors: These are still tough to debug and track down as it is dependent on your specific pipeline of LLMs and embedders. If you encounter an error in the process follow these steps to see exactly what went wrong:
+    - Locate the folder of your latest Indexing run, i.e., `ragtest/output/20240719-103051`.
+    - Inside the Reports folder you will see a file named `indexing-engine.log` that will have a line by line debug of the workflow and traceback errors.
+    - Full file path: `ragtest/output/20240719-103051/reports/indexing-engine.log`
+
+-  Right now it seems to be the creation of Empty Nodes/Data Frames when unpacking. I'll be investigating and keep trying to reinforce the Indexing process to make it more stable and robust.
 
 For any issues or feature requests, please open an issue on the GitHub repository. Happy knowledge graphing!
