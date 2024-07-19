@@ -63,12 +63,12 @@ warnings.filterwarnings("ignore", category=UserWarning, module="gradio_client.do
 load_dotenv('ragtest/.env')
 
 # Set default values for API-related environment variables
-os.environ.setdefault("LLM_API_BASE", os.getenv("LLM_API_BASE", "http://localhost:1234/v1"))
-os.environ.setdefault("LLM_API_KEY", os.getenv("LLM_API_KEY", "dummy-key"))
-os.environ.setdefault("LLM_MODEL", os.getenv("LLM_MODEL", "arcee-ai/Arcee-Spark-GGUF/Arcee-Spark-Q4_K_M.gguf"))
-os.environ.setdefault("EMBEDDINGS_API_BASE", os.getenv("EMBEDDINGS_API_BASE", "http://localhost:11434"))
-os.environ.setdefault("EMBEDDINGS_API_KEY", os.getenv("EMBEDDINGS_API_KEY", "dummy-key"))
-os.environ.setdefault("EMBEDDINGS_MODEL", os.getenv("EMBEDDINGS_MODEL", "nomic-embed-text:latest"))
+os.environ.setdefault("LLM_API_BASE", os.getenv("LLM_API_BASE"))
+os.environ.setdefault("LLM_API_KEY", os.getenv("LLM_API_KEY"))
+os.environ.setdefault("LLM_MODEL", os.getenv("LLM_MODEL"))
+os.environ.setdefault("EMBEDDINGS_API_BASE", os.getenv("EMBEDDINGS_API_BASE"))
+os.environ.setdefault("EMBEDDINGS_API_KEY", os.getenv("EMBEDDINGS_API_KEY"))
+os.environ.setdefault("EMBEDDINGS_MODEL", os.getenv("EMBEDDINGS_MODEL"))
 
 # Add the project root to the Python path
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
@@ -1270,22 +1270,34 @@ stop_indexing = threading.Event()
 indexing_thread = None
 
 def start_indexing(*args):
-    global indexing_thread
-    stop_indexing.clear()
+    global indexing_thread, stop_indexing
+    stop_indexing = threading.Event()  # Reset the stop_indexing event
     indexing_thread = threading.Thread(target=run_indexing, args=args)
     indexing_thread.start()
-    return gr.update(interactive=False), gr.update(interactive=True)
+    return gr.update(interactive=False), gr.update(interactive=True), gr.update(interactive=False)
 
 def stop_indexing_process():
+    global indexing_thread
     logging.info("Stop indexing requested")
     stop_indexing.set()
     if indexing_thread and indexing_thread.is_alive():
         logging.info("Waiting for indexing thread to finish")
         indexing_thread.join(timeout=10)
         logging.info("Indexing thread finished" if not indexing_thread.is_alive() else "Indexing thread did not finish within timeout")
-    return gr.update(interactive=True), gr.update(interactive=False)
+    indexing_thread = None  # Reset the thread
+    return gr.update(interactive=True), gr.update(interactive=False), gr.update(interactive=True)
 
-def run_indexing(root_dir, config_file, verbose, nocache, resume, reporter, emit_formats):
+def refresh_indexing():
+    global indexing_thread, stop_indexing
+    if indexing_thread and indexing_thread.is_alive():
+        logging.info("Cannot refresh: Indexing is still running")
+        return gr.update(interactive=False), gr.update(interactive=True), gr.update(interactive=False), "Cannot refresh: Indexing is still running"
+    else:
+        stop_indexing = threading.Event()  # Reset the stop_indexing event
+        indexing_thread = None  # Reset the thread
+        return gr.update(interactive=True), gr.update(interactive=False), gr.update(interactive=True), "Indexing process refreshed. You can start indexing again."
+
+def run_indexing(root_dir, config_file, verbose, nocache, resume, reporter, emit_formats, progress=gr.Progress()):
     cmd = ["python", "-m", "graphrag.index", "--root", root_dir]
     if config_file:
         cmd.extend(["--config", config_file.name])
@@ -1301,7 +1313,7 @@ def run_indexing(root_dir, config_file, verbose, nocache, resume, reporter, emit
     process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, bufsize=1, universal_newlines=True)
     
     output = []
-    progress = "Initializing indexing..."
+    progress_msg = "Initializing indexing..."
     progress_value = 0
     iterations = 0
     start_time = time.time()
@@ -1319,7 +1331,8 @@ def run_indexing(root_dir, config_file, verbose, nocache, resume, reporter, emit
                     100, 
                     str(iterations), 
                     gr.update(interactive=True), 
-                    gr.update(interactive=False))
+                    gr.update(interactive=False),
+                    gr.update(interactive=True))
 
         try:
             line = process.stdout.readline()
@@ -1332,12 +1345,12 @@ def run_indexing(root_dir, config_file, verbose, nocache, resume, reporter, emit
                 
                 if "Processing file" in line:
                     processed_files += 1
-                    progress = f"Processing files... ({processed_files}/{total_files})"
+                    progress_msg = f"Processing files... ({processed_files}/{total_files})"
                     progress_value = min(100, int((processed_files / total_files) * 100)) if total_files > 0 else 0
                 elif "Total files to process:" in line:
                     total_files = int(line.split(":")[1].strip())
                 elif "Indexing completed" in line:
-                    progress = "Indexing completed"
+                    progress_msg = "Indexing completed"
                     progress_value = 100
                 
                 iterations += 1
@@ -1345,14 +1358,16 @@ def run_indexing(root_dir, config_file, verbose, nocache, resume, reporter, emit
                 if elapsed_time > 0:
                     rate = iterations / elapsed_time
                     eta = (total_files - processed_files) / rate if rate > 0 else 0
-                    progress += f" | Rate: {rate:.2f} it/s | ETA: {eta:.2f}s"
+                    progress_msg += f" | Rate: {rate:.2f} it/s | ETA: {eta:.2f}s"
                 
+                progress(progress_value, desc=progress_msg)
                 yield ("\n".join(output), 
-                       progress, 
+                       progress_msg, 
                        progress_value, 
                        str(iterations), 
                        gr.update(interactive=False), 
-                       gr.update(interactive=True))
+                       gr.update(interactive=True),
+                       gr.update(interactive=False))
         except Exception as e:
             logging.error(f"Error during indexing: {str(e)}")
             return ("\n".join(output + [f"Error: {str(e)}"]), 
@@ -1360,7 +1375,8 @@ def run_indexing(root_dir, config_file, verbose, nocache, resume, reporter, emit
                     100, 
                     str(iterations), 
                     gr.update(interactive=True), 
-                    gr.update(interactive=False))
+                    gr.update(interactive=False),
+                    gr.update(interactive=True))
     
     if process.returncode != 0 and not stop_indexing.is_set():
         final_output = "\n".join(output + [f"Error: Process exited with return code {process.returncode}"])
@@ -1374,7 +1390,8 @@ def run_indexing(root_dir, config_file, verbose, nocache, resume, reporter, emit
             100, 
             str(iterations), 
             gr.update(interactive=True), 
-            gr.update(interactive=False))
+            gr.update(interactive=False),
+            gr.update(interactive=True))
 
 global_vector_store_wrapper = None
 
@@ -1425,21 +1442,32 @@ def create_gradio_interface():
                         with gr.Row():
                             run_index_button = gr.Button("Run Indexing")
                             stop_index_button = gr.Button("Stop Indexing", variant="stop")
+                            refresh_index_button = gr.Button("Refresh Indexing", variant="secondary")
                         
                         index_output = gr.Textbox(label="Indexing Output", lines=20, max_lines=30)
                         index_progress = gr.Textbox(label="Indexing Progress", lines=3)
                         progress_bar = gr.Slider(label="Progress", minimum=0, maximum=100, value=0, interactive=False)
                         iterations_completed = gr.Textbox(label="Iterations Completed", value="0")
+                        refresh_status = gr.Textbox(label="Refresh Status", visible=True)
 
                         run_index_button.click(
+                            fn=start_indexing,
+                            inputs=[root_dir, config_file, verbose, nocache, resume, reporter, emit_formats],
+                            outputs=[run_index_button, stop_index_button, refresh_index_button]
+                        ).then(
                             fn=run_indexing,
                             inputs=[root_dir, config_file, verbose, nocache, resume, reporter, emit_formats],
-                            outputs=[index_output, index_progress, progress_bar, iterations_completed, run_index_button, stop_index_button]
+                            outputs=[index_output, index_progress, progress_bar, iterations_completed, run_index_button, stop_index_button, refresh_index_button]
                         )
 
                         stop_index_button.click(
                             fn=stop_indexing_process,
-                            outputs=[run_index_button, stop_index_button]
+                            outputs=[run_index_button, stop_index_button, refresh_index_button]
+                        )
+
+                        refresh_index_button.click(
+                            fn=refresh_indexing,
+                            outputs=[run_index_button, stop_index_button, refresh_index_button, refresh_status]
                         )
 
                     with gr.TabItem("KG Chat/Outputs"):
