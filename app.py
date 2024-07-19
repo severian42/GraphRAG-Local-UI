@@ -1,4 +1,6 @@
 import gradio as gr
+from gradio.helpers import Progress
+import asyncio
 import subprocess
 import yaml
 import os
@@ -7,31 +9,79 @@ import plotly.graph_objects as go
 import numpy as np
 import plotly.io as pio
 import lancedb
+import random
 import io
 import shutil
 import logging
 import queue
 import threading
 import time
+import re
 import glob
 from datetime import datetime
 import json
 import requests
-from ollama import chat
+import aiohttp
+from openai import OpenAI
+from openai import AsyncOpenAI
 import pyarrow.parquet as pq
 import pandas as pd
 import sys
+import colorsys
+from dotenv import load_dotenv, set_key
+import argparse
+import socket
+import tiktoken
+from graphrag.query.context_builder.entity_extraction import EntityVectorStoreKey
+from graphrag.query.indexer_adapters import (
+    read_indexer_covariates,
+    read_indexer_entities,
+    read_indexer_relationships,
+    read_indexer_reports,
+    read_indexer_text_units,
+)
+from graphrag.llm.openai import create_openai_chat_llm
+from graphrag.llm.openai.factories import create_openai_embedding_llm
+from graphrag.query.input.loaders.dfs import store_entity_semantic_embeddings
+from graphrag.query.llm.oai.chat_openai import ChatOpenAI
+from graphrag.llm.openai.openai_configuration import OpenAIConfiguration
+from graphrag.llm.openai.openai_embeddings_llm import OpenAIEmbeddingsLLM
+from graphrag.query.llm.oai.typing import OpenaiApiType
+from graphrag.query.structured_search.local_search.mixed_context import LocalSearchMixedContext
+from graphrag.query.structured_search.local_search.search import LocalSearch
+from graphrag.query.structured_search.global_search.community_context import GlobalCommunityContext
+from graphrag.query.structured_search.global_search.search import GlobalSearch
+from graphrag.vector_stores.lancedb import LanceDBVectorStore
+
+
+
+# Suppress warnings
+import warnings
+warnings.filterwarnings("ignore", category=UserWarning, module="gradio_client.documentation")
+
+
+load_dotenv('ragtest/.env')
+
+# Set default values for API-related environment variables
+os.environ.setdefault("LLM_API_BASE", os.getenv("LLM_API_BASE", "http://localhost:1234/v1"))
+os.environ.setdefault("LLM_API_KEY", os.getenv("LLM_API_KEY", "dummy-key"))
+os.environ.setdefault("LLM_MODEL", os.getenv("LLM_MODEL", "arcee-ai/Arcee-Spark-GGUF/Arcee-Spark-Q4_K_M.gguf"))
+os.environ.setdefault("EMBEDDINGS_API_BASE", os.getenv("EMBEDDINGS_API_BASE", "http://localhost:11434"))
+os.environ.setdefault("EMBEDDINGS_API_KEY", os.getenv("EMBEDDINGS_API_KEY", "dummy-key"))
+os.environ.setdefault("EMBEDDINGS_MODEL", os.getenv("EMBEDDINGS_MODEL", "nomic-embed-text:latest"))
 
 # Add the project root to the Python path
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, project_root)
 
-import gradio as gr
-from graphrag.query import cli 
 
 # Set up logging
 log_queue = queue.Queue()
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+
+llm = None
+text_embedder = None
 
 class QueueHandler(logging.Handler):
     def __init__(self, log_queue):
@@ -40,9 +90,232 @@ class QueueHandler(logging.Handler):
 
     def emit(self, record):
         self.log_queue.put(self.format(record))
-
 queue_handler = QueueHandler(log_queue)
 logging.getLogger().addHandler(queue_handler)
+
+class OllamaLLM:
+    def __init__(self, api_base, model, max_retries=20):
+        self.api_base = api_base
+        self.model = model
+        self.max_retries = max_retries
+
+    async def __call__(self, prompt, **kwargs):
+        endpoint = f"{self.api_base}/v1/completions"
+        data = {
+            "model": self.model,
+            "prompt": prompt,
+            **kwargs
+        }
+        async with aiohttp.ClientSession() as session:
+            async with session.post(endpoint, json=data) as response:
+                if response.status == 200:
+                    result = await response.json()
+                    return result['response']
+                else:
+                    raise Exception(f"Error generating response: {await response.text()}")
+
+class VectorStoreWrapper:
+    def __init__(self, embedding_function, connection_string, table_name, collection_name):
+        self.embedding_function = embedding_function
+        self.connection_string = connection_string
+        self.table_name = table_name
+        self.collection_name = collection_name
+        self._vector_store = None
+
+    def get_vector_store(self):
+        if self._vector_store is None:
+            try:
+                from graphrag.vector_stores.lancedb import LanceDBVectorStore
+                self._vector_store = LanceDBVectorStore(
+                    embedding_function=self.embedding_function,
+                    connection_string=self.connection_string,
+                    table_name=self.table_name,
+                    collection_name=self.collection_name
+                )
+                logging.info("Vector store initialized successfully")
+            except Exception as e:
+                logging.error(f"Error initializing vector store: {str(e)}")
+                self._vector_store = None
+        return self._vector_store
+
+    def __getstate__(self):
+        # This method is called when pickling the object
+        state = self.__dict__.copy()
+        # Don't pickle _vector_store
+        state['_vector_store'] = None
+        return state
+
+    def __setstate__(self, state):
+        # This method is called when unpickling the object
+        self.__dict__.update(state)
+        # _vector_store will be None, but it will be recreated when needed    
+
+def create_vector_store_wrapper(text_embedder):
+    return VectorStoreWrapper(
+        embedding_function=text_embedder,
+        connection_string="lancedb",
+        table_name="documents",
+        collection_name="graphrag_collection"
+    )
+
+
+def initialize_models():
+    global llm, text_embedder
+    
+    llm_api_base = os.getenv("LLM_API_BASE")
+    llm_api_key = os.getenv("LLM_API_KEY")
+    embeddings_api_base = os.getenv("EMBEDDINGS_API_BASE")
+    embeddings_api_key = os.getenv("EMBEDDINGS_API_KEY")
+    
+    llm_service_type = os.getenv("LLM_SERVICE_TYPE",)
+    embeddings_service_type = os.getenv("EMBEDDINGS_SERVICE_TYPE")
+    
+    llm_model = os.getenv("LLM_MODEL")
+    embeddings_model = os.getenv("EMBEDDINGS_MODEL")
+    
+    logging.info("Fetching models...")
+    models = fetch_models(llm_api_base, llm_api_key, llm_service_type)
+    
+    # Use the same models list for both LLM and embeddings
+    llm_models = models
+    embeddings_models = models
+    
+    # Initialize LLM
+    if llm_service_type.lower() == "openai compatible":
+        llm = ChatOpenAI(
+            api_key=llm_api_key,
+            api_base=f"{llm_api_base}/v1",
+            model=llm_model,
+            api_type=OpenaiApiType.OpenAI,
+            max_retries=20,
+        )
+    else:  # Ollama
+        llm = OllamaLLM(
+            api_base=llm_api_base,
+            model=llm_model,
+            max_retries=20,
+        )
+
+    # Initialize OpenAI client for embeddings
+    openai_client = OpenAI(
+        api_key=embeddings_api_key,
+        base_url=f"{embeddings_api_base}/v1"
+    )
+
+    # Initialize text embedder using OpenAIEmbeddingsLLM
+    text_embedder = OpenAIEmbeddingsLLM(
+        client=openai_client,
+        configuration={
+            "model": embeddings_model,
+            "api_type": "open_ai",
+            "api_base": embeddings_api_base,
+            "api_key": embeddings_api_key,
+        }
+    )
+    
+    return llm_models, embeddings_models, llm_service_type, embeddings_service_type, llm_api_base, embeddings_api_base, text_embedder
+
+def find_latest_output_folder():
+    root_dir = "./ragtest/output"
+    folders = [f for f in os.listdir(root_dir) if os.path.isdir(os.path.join(root_dir, f))]
+    
+    if not folders:
+        raise ValueError("No output folders found")
+    
+    # Sort folders by creation time, most recent first
+    sorted_folders = sorted(folders, key=lambda x: os.path.getctime(os.path.join(root_dir, x)), reverse=True)
+    
+    latest_folder = None
+    timestamp = None
+    
+    for folder in sorted_folders:
+        try:
+            # Try to parse the folder name as a timestamp
+            timestamp = datetime.strptime(folder, "%Y%m%d-%H%M%S")
+            latest_folder = folder
+            break
+        except ValueError:
+            # If the folder name is not a valid timestamp, skip it
+            continue
+    
+    if latest_folder is None:
+        raise ValueError("No valid timestamp folders found")
+    
+    latest_path = os.path.join(root_dir, latest_folder)
+    artifacts_path = os.path.join(latest_path, "artifacts")
+    
+    if not os.path.exists(artifacts_path):
+        raise ValueError(f"Artifacts folder not found in {latest_path}")
+    
+    return latest_path, latest_folder
+
+def initialize_data():
+    global entity_df, relationship_df, text_unit_df, report_df, covariate_df
+    
+    tables = {
+        "entity_df": "create_final_nodes",
+        "relationship_df": "create_final_edges",
+        "text_unit_df": "create_final_text_units",
+        "report_df": "create_final_reports",
+        "covariate_df": "create_final_covariates"
+    }
+    
+    timestamp = None  # Initialize timestamp to None
+    
+    try:
+        latest_output_folder, timestamp = find_latest_output_folder()
+        artifacts_folder = os.path.join(latest_output_folder, "artifacts")
+        
+        for df_name, file_prefix in tables.items():
+            file_pattern = os.path.join(artifacts_folder, f"{file_prefix}*.parquet")
+            matching_files = glob.glob(file_pattern)
+            
+            if matching_files:
+                latest_file = max(matching_files, key=os.path.getctime)
+                df = pd.read_parquet(latest_file)
+                globals()[df_name] = df
+                logging.info(f"Successfully loaded {df_name} from {latest_file}")
+            else:
+                logging.warning(f"No matching file found for {df_name} in {artifacts_folder}. Initializing as an empty DataFrame.")
+                globals()[df_name] = pd.DataFrame()
+    
+    except Exception as e:
+        logging.error(f"Error initializing data: {str(e)}")
+        for df_name in tables.keys():
+            globals()[df_name] = pd.DataFrame()
+
+    return timestamp
+
+# Call initialize_data and store the timestamp
+current_timestamp = initialize_data()
+
+
+def find_available_port(start_port, max_attempts=100):
+    for port in range(start_port, start_port + max_attempts):
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            try:
+                s.bind(('', port))
+                return port
+            except OSError:
+                continue
+    raise IOError("No free ports found")
+
+def start_api_server(port):
+    subprocess.Popen([sys.executable, "api_server.py", "--port", str(port)])
+
+def wait_for_api_server(port):
+    max_retries = 30
+    for _ in range(max_retries):
+        try:
+            response = requests.get(f"http://localhost:{port}")
+            if response.status_code == 200:
+                print(f"API server is up and running on port {port}")
+                return
+            else:
+                print(f"Unexpected response from API server: {response.status_code}")
+        except requests.ConnectionError:
+            time.sleep(1)
+    print("Failed to connect to API server")
 
 def load_settings():
     try:
@@ -89,69 +362,198 @@ def create_setting_component(key, value):
 
 def index_graph(progress=gr.Progress()):
     root_dir = "./ragtest"
-    command = f"python -m graphrag.index --root {root_dir}"
-    logging.info(f"Running indexing command: {command}")
+    command = [
+        "python", "-m", "graphrag.index",
+        "--verbose",
+        "--root", root_dir,
+        "--reporter", "rich",
+        "--emit", "parquet,csv,json"
+    ]
+    logging.info(f"Running indexing command: {' '.join(command)}")
     
-    # Create a queue to store the output
     output_queue = queue.Queue()
     
     def run_command_with_output():
-        process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+        process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
         for line in iter(process.stdout.readline, ''):
             output_queue.put(line)
         process.stdout.close()
         process.wait()
     
-    # Start the command in a separate thread
     thread = threading.Thread(target=run_command_with_output)
     thread.start()
     
-    # Initialize progress
     progress(0, desc="Starting indexing...")
     
-    # Process the output and update progress
     full_output = []
+    files_processed = 0
+    total_files = 0
+    current_stage = "Initializing"
+    
     while thread.is_alive() or not output_queue.empty():
         try:
             line = output_queue.get_nowait()
             full_output.append(line)
             
-            # Update progress based on the output
             if "Processing file" in line:
-                progress((0.5, None), desc="Processing files...")
+                files_processed += 1
+                current_stage = "Processing files"
+            elif "Total files to process:" in line:
+                total_files = int(line.split(":")[1].strip())
             elif "Indexing completed" in line:
+                current_stage = "Indexing completed"
                 progress(1, desc="Indexing completed")
             
-            yield "\n".join(full_output), update_logs()
+            if total_files > 0:
+                progress_value = files_processed / total_files
+                progress_desc = f"{current_stage}: {files_processed}/{total_files} files processed"
+                progress((progress_value, None), desc=progress_desc)
+            else:
+                progress((None, None), desc=f"{current_stage}...")
+            
+            yield "\n".join(full_output[-10:]), progress_desc
         except queue.Empty:
             time.sleep(0.1)
     
     thread.join()
     logging.info("Indexing completed")
-    return "\n".join(full_output), update_logs()
+    return "\n".join(full_output[-10:]), "Indexing completed"
 
-def run_query(root_dir, method, query, history, model, temperature, max_tokens):
-    system_message = f"You are a helpful assistant performing a {method} search on the knowledge graph. Provide a concise and relevant answer based on the query."
-    messages = [{"role": "system", "content": system_message}]
-    for item in history:
-        if isinstance(item, tuple) and len(item) == 2:
-            human, ai = item
-            messages.append({"role": "user", "content": human})
-            messages.append({"role": "assistant", "content": ai})
-    messages.append({"role": "user", "content": query})
 
+
+def get_openai_client():
+    return OpenAI(
+        base_url=os.getenv("LLM_API_BASE", "http://localhost:11434"),
+        api_key=os.getenv("LLM_API_KEY", "dummy-key"),
+        llm_model = os.getenv("LLM_MODEL", "mistral:7b")
+    )
+
+def chat_with_openai(messages, model, temperature, max_tokens, api_base):
     try:
-        response = chat(
+        logging.info(f"Attempting to use model: {model}")
+        client = OpenAI(base_url=api_base, api_key=os.getenv("LLM_API_KEY", "dummy-key"))
+        response = client.chat.completions.create(
             model=model,
             messages=messages,
-            options={
-                "temperature": temperature,
-                "num_predict": max_tokens
-            }
+            temperature=temperature,
+            max_tokens=max_tokens
         )
-        return response['message']['content']
+        return response.choices[0].message.content
     except Exception as e:
+        logging.error(f"Error in chat_with_openai: {str(e)}")
+        logging.error(f"Attempted with model: {model}, api_base: {api_base}")
         return f"Error: {str(e)}"
+
+def chat_with_llm(query, history, system_message, temperature, max_tokens, model, api_base):
+    try:
+        messages = [{"role": "system", "content": system_message}]
+        for item in history:
+            if isinstance(item, tuple) and len(item) == 2:
+                human, ai = item
+                messages.append({"role": "user", "content": human})
+                messages.append({"role": "assistant", "content": ai})
+        messages.append({"role": "user", "content": query})
+
+        logging.info(f"Sending chat request to {api_base} with model {model}")
+        client = OpenAI(base_url=api_base, api_key=os.getenv("LLM_API_KEY", "dummy-key"))
+        response = client.chat.completions.create(
+            model=model,
+            messages=messages,
+            temperature=temperature,
+            max_tokens=max_tokens
+        )
+        return response.choices[0].message.content
+    except Exception as e:
+        logging.error(f"Error in chat_with_llm: {str(e)}")
+        logging.error(f"Attempted with model: {model}, api_base: {api_base}")
+        raise RuntimeError(f"Chat request failed: {str(e)}")
+
+def run_graphrag_query(cli_args):
+    try:
+        command = ' '.join(cli_args)
+        logging.info(f"Executing command: {command}")
+        result = subprocess.run(cli_args, capture_output=True, text=True, check=True)
+        return result.stdout.strip()
+    except subprocess.CalledProcessError as e:
+        logging.error(f"Error running GraphRAG query: {e}")
+        logging.error(f"Command output (stdout): {e.stdout}")
+        logging.error(f"Command output (stderr): {e.stderr}")
+        raise RuntimeError(f"GraphRAG query failed: {e.stderr}")
+
+def send_message(query_type, query, history, system_message, temperature, max_tokens, preset, community_level, response_type, custom_cli_args, selected_folder):
+    try:
+        if query_type in ["global", "local"]:
+            cli_args = construct_cli_args(query_type, preset, community_level, response_type, custom_cli_args, query, selected_folder)
+            logging.info(f"Executing {query_type} search with command: {' '.join(cli_args)}")
+            result = run_graphrag_query(cli_args)
+            logging.info(f"Query result: {result}")
+        else:  # Direct chat
+            llm_model = os.getenv("LLM_MODEL", "arcee-ai/Arcee-Spark-GGUF/Arcee-Spark-Q4_K_M.gguf")
+            llm_api_base = os.getenv("LLM_API_BASE", "http://localhost:1234/v1")
+            logging.info(f"Executing direct chat with model: {llm_model}, API base: {llm_api_base}")
+            
+            try:
+                result = chat_with_llm(query, history, system_message, temperature, max_tokens, llm_model, llm_api_base)
+                logging.info(f"Direct chat result: {result[:100]}...")  # Log first 100 chars of result
+            except Exception as chat_error:
+                logging.error(f"Error in chat_with_llm: {str(chat_error)}")
+                raise RuntimeError(f"Direct chat failed: {str(chat_error)}")
+        
+        history.append((query, result))
+    except Exception as e:
+        error_message = f"An error occurred: {str(e)}"
+        logging.error(error_message)
+        logging.exception("Exception details:")
+        history.append((query, error_message))
+    
+    return history, gr.update(value=""), update_logs()
+
+def construct_cli_args(query_type, preset, community_level, response_type, custom_cli_args, query, selected_folder):
+    if not selected_folder:
+        raise ValueError("No folder selected. Please select an output folder before querying.")
+
+    artifacts_folder = os.path.join("./ragtest/output", selected_folder, "artifacts")
+    if not os.path.exists(artifacts_folder):
+        raise ValueError(f"Artifacts folder not found in {artifacts_folder}")
+
+    base_args = [
+        "python", "-m", "graphrag.query",
+        "--data", artifacts_folder,
+        "--method", query_type,
+    ]
+
+    # Apply preset configurations
+    if preset.startswith("Default"):
+        base_args.extend(["--community_level", "2", "--response_type", "Multiple Paragraphs"])
+    elif preset.startswith("Detailed"):
+        base_args.extend(["--community_level", "4", "--response_type", "Multi-Page Report"])
+    elif preset.startswith("Quick"):
+        base_args.extend(["--community_level", "1", "--response_type", "Single Paragraph"])
+    elif preset.startswith("Bullet"):
+        base_args.extend(["--community_level", "2", "--response_type", "List of 3-7 Points"])
+    elif preset.startswith("Comprehensive"):
+        base_args.extend(["--community_level", "5", "--response_type", "Multi-Page Report"])
+    elif preset.startswith("High-Level"):
+        base_args.extend(["--community_level", "1", "--response_type", "Single Page"])
+    elif preset.startswith("Focused"):
+        base_args.extend(["--community_level", "3", "--response_type", "Multiple Paragraphs"])
+    elif preset == "Custom Query":
+        base_args.extend([
+            "--community_level", str(community_level),
+            "--response_type", f'"{response_type}"',
+        ])
+        if custom_cli_args:
+            base_args.extend(custom_cli_args.split())
+
+    # Add the query at the end
+    base_args.append(query)
+    
+    return base_args
+
+
+
+
+
 
 def upload_file(file):
     if file is not None:
@@ -179,7 +581,9 @@ def upload_file(file):
 
 def list_input_files():
     input_dir = os.path.join("ragtest", "input")
-    files = os.listdir(input_dir)
+    files = []
+    if os.path.exists(input_dir):
+        files = os.listdir(input_dir)
     return [{"name": f, "path": os.path.join(input_dir, f)} for f in files]
 
 def delete_file(file_path):
@@ -269,7 +673,7 @@ def find_latest_graph_file(root_dir):
     latest_file = max(graph_files, key=os.path.getmtime)
     return latest_file
 
-def update_visualization(folder_name, file_name):
+def update_visualization(folder_name, file_name, layout_type, node_size, edge_width, node_color_attribute, color_scheme, show_labels, label_size):
     root_dir = "./ragtest"
     if not folder_name or not file_name:
         return None, "Please select a folder and a GraphML file."
@@ -281,23 +685,39 @@ def update_visualization(folder_name, file_name):
         # Load the GraphML file
         graph = nx.read_graphml(graph_path)
 
-        # Create a 3D spring layout with more separation
-        pos = nx.spring_layout(graph, dim=3, seed=42, k=0.5)
+        # Create layout based on user selection
+        if layout_type == "3D Spring":
+            pos = nx.spring_layout(graph, dim=3, seed=42, k=0.5)
+        elif layout_type == "2D Spring":
+            pos = nx.spring_layout(graph, dim=2, seed=42, k=0.5)
+        else:  # Circular
+            pos = nx.circular_layout(graph)
 
         # Extract node positions
-        x_nodes = [pos[node][0] for node in graph.nodes()]
-        y_nodes = [pos[node][1] for node in graph.nodes()]
-        z_nodes = [pos[node][2] for node in graph.nodes()]
+        if layout_type == "3D Spring":
+            x_nodes = [pos[node][0] for node in graph.nodes()]
+            y_nodes = [pos[node][1] for node in graph.nodes()]
+            z_nodes = [pos[node][2] for node in graph.nodes()]
+        else:
+            x_nodes = [pos[node][0] for node in graph.nodes()]
+            y_nodes = [pos[node][1] for node in graph.nodes()]
+            z_nodes = [0] * len(graph.nodes())  # Set all z-coordinates to 0 for 2D layouts
 
         # Extract edge positions
         x_edges, y_edges, z_edges = [], [], []
         for edge in graph.edges():
             x_edges.extend([pos[edge[0]][0], pos[edge[1]][0], None])
             y_edges.extend([pos[edge[0]][1], pos[edge[1]][1], None])
-            z_edges.extend([pos[edge[0]][2], pos[edge[1]][2], None])
+            if layout_type == "3D Spring":
+                z_edges.extend([pos[edge[0]][2], pos[edge[1]][2], None])
+            else:
+                z_edges.extend([0, 0, None])
 
-        # Generate node colors based on node degree
-        node_colors = [graph.degree(node) for node in graph.nodes()]
+        # Generate node colors based on user selection
+        if node_color_attribute == "Degree":
+            node_colors = [graph.degree(node) for node in graph.nodes()]
+        else:  # Random
+            node_colors = [random.random() for _ in graph.nodes()]
         node_colors = np.array(node_colors)
         node_colors = (node_colors - node_colors.min()) / (node_colors.max() - node_colors.min())
 
@@ -305,20 +725,20 @@ def update_visualization(folder_name, file_name):
         edge_trace = go.Scatter3d(
             x=x_edges, y=y_edges, z=z_edges,
             mode='lines',
-            line=dict(color='lightgray', width=0.5),
+            line=dict(color='lightgray', width=edge_width),
             hoverinfo='none'
         )
 
         # Create the trace for nodes
         node_trace = go.Scatter3d(
             x=x_nodes, y=y_nodes, z=z_nodes,
-            mode='markers+text',
+            mode='markers+text' if show_labels else 'markers',
             marker=dict(
-                size=7,
+                size=node_size,
                 color=node_colors,
-                colorscale='Viridis',
+                colorscale=color_scheme,
                 colorbar=dict(
-                    title='Node Degree',
+                    title='Node Degree' if node_color_attribute == "Degree" else "Random Value",
                     thickness=10,
                     x=1.1,
                     tickvals=[0, 1],
@@ -328,16 +748,16 @@ def update_visualization(folder_name, file_name):
             ),
             text=[node for node in graph.nodes()],
             textposition="top center",
-            textfont=dict(size=10, color='black'),
+            textfont=dict(size=label_size, color='black'),
             hoverinfo='text'
         )
 
-        # Create the 3D plot
+        # Create the plot
         fig = go.Figure(data=[edge_trace, node_trace])
 
         # Update layout for better visualization
         fig.update_layout(
-            title=f'3D Graph Visualization: {os.path.basename(graph_path)}',
+            title=f'{layout_type} Graph Visualization: {os.path.basename(graph_path)}',
             showlegend=False,
             scene=dict(
                 xaxis=dict(showbackground=False, showticklabels=False, title=''),
@@ -348,7 +768,7 @@ def update_visualization(folder_name, file_name):
             annotations=[
                 dict(
                     showarrow=False,
-                    text="Interactive 3D visualization of GraphML data",
+                    text=f"Interactive {layout_type} visualization of GraphML data",
                     xref="paper",
                     yref="paper",
                     x=0,
@@ -373,57 +793,148 @@ def update_logs():
 
 
 
-def chat_with_llm(message, history, system_message, temperature, max_tokens, model):
-    messages = [{"role": "system", "content": system_message}]
-    for item in history:
-        if isinstance(item, tuple) and len(item) == 2:
-            human, ai = item
-            messages.append({"role": "user", "content": human})
-            messages.append({"role": "assistant", "content": ai})
-        elif isinstance(item, str):
-            messages.append({"role": "user", "content": item})
-    messages.append({"role": "user", "content": message})
+def update_model_choices(base_url, api_key, service_type):
+    if service_type == "Ollama":
+        models = fetch_ollama_models(base_url)
+    else:  # OpenAI Compatible
+        models = fetch_openai_models(base_url, api_key)
+    
+    if not models:
+        logging.warning(f"No models fetched for {service_type}.")
 
-    try:
-        response = chat(
-            model=model,
-            messages=messages,
-            options={
-                "temperature": temperature,
-                "num_predict": max_tokens
-            }
-        )
-        return response['message']['content']
-    except Exception as e:
-        return f"Error: {str(e)}"
-
-def send_message(query_type, query, history, system_message, temperature, max_tokens, model):
-    root_dir = "./ragtest"
-    try:
-        if query_type in ["global", "local"]:
-            result = run_query(root_dir, query_type, query, history, model, temperature, max_tokens)
-        else:  # Direct chat
-            result = chat_with_llm(query, history, system_message, temperature, max_tokens, model)
-        history.append((query, result))
-    except Exception as e:
-        error_message = f"An error occurred: {str(e)}"
-        history.append((query, error_message))
-    return history, gr.update(value=""), update_logs()
-
-def fetch_ollama_models():
-    try:
-        response = requests.get("http://localhost:11434/api/tags")
-        if response.status_code == 200:
-            models = response.json()
-            return [model['name'] for model in models['models']]
-        else:
-            return ["Error fetching models"]
-    except Exception as e:
-        return [f"Error: {str(e)}"]
-
-def update_model_choices():
-    models = fetch_ollama_models()
+    
     return gr.update(choices=models, value=models[0] if models else None)
+
+def fetch_ollama_models(base_url):
+    try:
+        # Remove '/v1' from the base_url if present
+        base_url = base_url.rstrip('/v1')
+        response = requests.get(f"{base_url}/api/tags", timeout=10)
+        logging.info(f"Raw Ollama API response: {response.text}")
+        if response.status_code == 200:
+            data = response.json()
+            if 'models' in data:
+                models = [model['name'] for model in data['models']]
+            else:
+                models = [tag['name'] for tag in data]  # The response is a list of tag objects
+            
+            if not models:
+                logging.warning("No models found in Ollama API response")
+                return ["No models available"]
+            
+            logging.info(f"Successfully fetched Ollama models: {models}")
+            return models
+        else:
+            logging.error(f"Error fetching Ollama models. Status code: {response.status_code}, Response: {response.text}")
+            return ["Error fetching models"]
+    except requests.RequestException as e:
+        logging.error(f"Exception while fetching Ollama models: {str(e)}")
+        return ["Error: Connection failed"]
+    except Exception as e:
+        logging.error(f"Unexpected error in fetch_ollama_models: {str(e)}")
+        return ["Error: Unexpected issue"]
+
+def fetch_openai_models(base_url, api_key):
+    try:
+        headers = {
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json"
+        }
+        response = requests.get(f"{base_url}/models", headers=headers)
+        if response.status_code == 200:
+            models = [model['id'] for model in response.json()['data']]
+            return models
+        else:
+            print(f"Error fetching OpenAI models: {response.text}")
+            return []
+    except Exception as e:
+        print(f"Error fetching OpenAI models: {str(e)}")
+        return []
+
+def fetch_models(base_url, api_key, service_type):
+    if service_type.lower() == "ollama":
+        return fetch_ollama_models(base_url)
+    else:  # OpenAI Compatible
+        return fetch_openai_models(base_url, api_key)
+
+
+def update_llm_settings(llm_model, embeddings_model, context_window, system_message, temperature, max_tokens, 
+                        llm_api_base, llm_api_key, llm_service_type, 
+                        embeddings_api_base, embeddings_api_key, embeddings_service_type):
+    try:
+        # Map UI service types to GraphRAG types
+        llm_type_mapping = {
+            "openai_chat": "openai",
+            "ollama": "openai"
+        }
+        embeddings_type_mapping = {
+            "openai_embedding": "openai_embedding",
+            "ollama": "openai_embedding"  # Map Ollama to openai_embedding for GraphRAG compatibility
+        }
+
+        llm_type = llm_type_mapping.get(llm_service_type, "openai")
+        embeddings_type = embeddings_type_mapping.get(embeddings_service_type, "openai_embedding")
+
+        # Update settings.yaml
+        settings = load_settings()
+        settings['llm'].update({
+            "type": llm_type,
+            "model": llm_model,
+            "api_base": llm_api_base,
+            "api_key": "${GRAPHRAG_API_KEY}",
+            "temperature": temperature,
+            "max_tokens": max_tokens,
+            "provider": "ollama" if llm_service_type == "ollama" else "openai"
+        })
+        settings['embeddings']['llm'].update({
+            "type": embeddings_type,
+            "model": embeddings_model,
+            "api_base": embeddings_api_base,
+            "api_key": "${GRAPHRAG_API_KEY}",
+            "provider": "ollama" if embeddings_service_type == "ollama" else "openai"
+        })
+        
+        with open("ragtest/settings.yaml", 'w') as f:
+            yaml.dump(settings, f, default_flow_style=False)
+        
+        # Update .env file
+        update_env_file("LLM_API_BASE", llm_api_base)
+        update_env_file("LLM_API_KEY", llm_api_key)
+        update_env_file("LLM_MODEL", llm_model)
+        update_env_file("EMBEDDINGS_API_BASE", embeddings_api_base)
+        update_env_file("EMBEDDINGS_API_KEY", embeddings_api_key)
+        update_env_file("EMBEDDINGS_MODEL", embeddings_model)
+        update_env_file("CONTEXT_WINDOW", str(context_window))
+        update_env_file("SYSTEM_MESSAGE", system_message)
+        update_env_file("TEMPERATURE", str(temperature))
+        update_env_file("MAX_TOKENS", str(max_tokens))
+        update_env_file("LLM_SERVICE_TYPE", llm_service_type)
+        update_env_file("EMBEDDINGS_SERVICE_TYPE", embeddings_service_type)
+        
+        # Reload environment variables
+        load_dotenv(override=True)
+        
+        return "LLM and embeddings settings updated successfully in both settings.yaml and .env files."
+    except Exception as e:
+        return f"Error updating LLM and embeddings settings: {str(e)}"
+
+def update_env_file(key, value):
+    env_path = 'ragtest/.env'
+    with open(env_path, 'r') as file:
+        lines = file.readlines()
+    
+    updated = False
+    for i, line in enumerate(lines):
+        if line.startswith(f"{key}="):
+            lines[i] = f"{key}={value}\n"
+            updated = True
+            break
+    
+    if not updated:
+        lines.append(f"{key}={value}\n")
+    
+    with open(env_path, 'w') as file:
+        file.writelines(lines)
 
 custom_css = """
 html, body {
@@ -480,7 +991,7 @@ html, body {
 }
 
 #chatbot {
-    overflow-y: auto;
+    overflow-y: hidden;
     height: 100%;
 }
 
@@ -751,177 +1262,569 @@ def list_folder_contents(folder_path):
             contents.append(f"[{ext[1:].upper()}] {item}")
     return contents
 
+
 settings = load_settings()
 default_model = settings['llm']['model']
+cli_args = gr.State({})
+stop_indexing = threading.Event()
+indexing_thread = None
 
-with gr.Blocks(css=custom_css, theme=gr.themes.Base()) as demo:
-    gr.Markdown("# GraphRAG Local UI", elem_id="title")
+def start_indexing(*args):
+    global indexing_thread
+    stop_indexing.clear()
+    indexing_thread = threading.Thread(target=run_indexing, args=args)
+    indexing_thread.start()
+    return gr.update(interactive=False), gr.update(interactive=True)
+
+def stop_indexing_process():
+    logging.info("Stop indexing requested")
+    stop_indexing.set()
+    if indexing_thread and indexing_thread.is_alive():
+        logging.info("Waiting for indexing thread to finish")
+        indexing_thread.join(timeout=10)
+        logging.info("Indexing thread finished" if not indexing_thread.is_alive() else "Indexing thread did not finish within timeout")
+    return gr.update(interactive=True), gr.update(interactive=False)
+
+def run_indexing(root_dir, config_file, verbose, nocache, resume, reporter, emit_formats):
+    cmd = ["python", "-m", "graphrag.index", "--root", root_dir]
+    if config_file:
+        cmd.extend(["--config", config_file.name])
+    if verbose:
+        cmd.append("--verbose")
+    if nocache:
+        cmd.append("--nocache")
+    if resume:
+        cmd.extend(["--resume", resume])
+    cmd.extend(["--reporter", reporter])
+    cmd.extend(["--emit", ",".join(emit_formats)])
     
-    with gr.Row(elem_id="main-container"):
-        with gr.Column(scale=1, elem_id="left-column"):
-            with gr.Tabs():
-                with gr.TabItem("Data Management"):
-                    with gr.Accordion("File Upload (.txt)", open=True):
-                        file_upload = gr.File(label="Upload .txt File", file_types=[".txt"])
-                        upload_btn = gr.Button("Upload File", variant="primary")
-                        upload_output = gr.Textbox(label="Upload Status", visible=False)
-                    
-                    with gr.Accordion("File Management", open=True):
-                        file_list = gr.Dropdown(label="Select File", choices=[], interactive=True)
-                        refresh_btn = gr.Button("Refresh File List", variant="secondary")
+    process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, bufsize=1, universal_newlines=True)
+    
+    output = []
+    progress = "Initializing indexing..."
+    progress_value = 0
+    iterations = 0
+    start_time = time.time()
+    total_files = 0
+    processed_files = 0
+    
+    while True:
+        if stop_indexing.is_set():
+            process.terminate()
+            process.wait(timeout=5)
+            if process.poll() is None:
+                process.kill()
+            return ("\n".join(output + ["Indexing stopped by user."]), 
+                    "Indexing stopped.", 
+                    100, 
+                    str(iterations), 
+                    gr.update(interactive=True), 
+                    gr.update(interactive=False))
+
+        try:
+            line = process.stdout.readline()
+            if not line and process.poll() is not None:
+                break
+
+            if line:
+                line = line.strip()
+                output.append(line)
+                
+                if "Processing file" in line:
+                    processed_files += 1
+                    progress = f"Processing files... ({processed_files}/{total_files})"
+                    progress_value = min(100, int((processed_files / total_files) * 100)) if total_files > 0 else 0
+                elif "Total files to process:" in line:
+                    total_files = int(line.split(":")[1].strip())
+                elif "Indexing completed" in line:
+                    progress = "Indexing completed"
+                    progress_value = 100
+                
+                iterations += 1
+                elapsed_time = time.time() - start_time
+                if elapsed_time > 0:
+                    rate = iterations / elapsed_time
+                    eta = (total_files - processed_files) / rate if rate > 0 else 0
+                    progress += f" | Rate: {rate:.2f} it/s | ETA: {eta:.2f}s"
+                
+                yield ("\n".join(output), 
+                       progress, 
+                       progress_value, 
+                       str(iterations), 
+                       gr.update(interactive=False), 
+                       gr.update(interactive=True))
+        except Exception as e:
+            logging.error(f"Error during indexing: {str(e)}")
+            return ("\n".join(output + [f"Error: {str(e)}"]), 
+                    "Error occurred during indexing.", 
+                    100, 
+                    str(iterations), 
+                    gr.update(interactive=True), 
+                    gr.update(interactive=False))
+    
+    if process.returncode != 0 and not stop_indexing.is_set():
+        final_output = "\n".join(output + [f"Error: Process exited with return code {process.returncode}"])
+        final_progress = "Indexing failed. Check output for details."
+    else:
+        final_output = "\n".join(output)
+        final_progress = "Indexing completed successfully!"
+    
+    return (final_output, 
+            final_progress, 
+            100, 
+            str(iterations), 
+            gr.update(interactive=True), 
+            gr.update(interactive=False))
+
+global_vector_store_wrapper = None
+
+def create_gradio_interface():
+    global global_vector_store_wrapper
+    llm_models, embeddings_models, llm_service_type, embeddings_service_type, llm_api_base, embeddings_api_base, text_embedder = initialize_models()
+    settings = load_settings()
+    
+    global_vector_store_wrapper = create_vector_store_wrapper(text_embedder)
+
+    with gr.Blocks(css=custom_css, theme=gr.themes.Base()) as demo:
+        gr.Markdown("# GraphRAG Local UI", elem_id="title")
+        
+        with gr.Row(elem_id="main-container"):
+            with gr.Column(scale=1, elem_id="left-column"):
+                with gr.Tabs():
+                    with gr.TabItem("Data Management"):
+                        with gr.Accordion("File Upload (.txt)", open=True):
+                            file_upload = gr.File(label="Upload .txt File", file_types=[".txt"])
+                            upload_btn = gr.Button("Upload File", variant="primary")
+                            upload_output = gr.Textbox(label="Upload Status", visible=False)
                         
-                        file_content = gr.TextArea(label="File Content", lines=10)
+                        with gr.Accordion("File Management", open=True):
+                            file_list = gr.Dropdown(label="Select File", choices=[], interactive=True)
+                            refresh_btn = gr.Button("Refresh File List", variant="secondary")
+                            
+                            file_content = gr.TextArea(label="File Content", lines=10)
+                            
+                            with gr.Row():
+                                delete_btn = gr.Button("Delete Selected File", variant="stop")
+                                save_btn = gr.Button("Save Changes", variant="primary")
+                            
+                            operation_status = gr.Textbox(label="Operation Status", visible=False)
                         
+                        
+
+                    with gr.TabItem("Indexing"):
+                        root_dir = gr.Textbox(label="Root Directory", value="./ragtest")
+                        config_file = gr.File(label="Config File (optional)")
                         with gr.Row():
-                            delete_btn = gr.Button("Delete Selected File", variant="stop")
-                            save_btn = gr.Button("Save Changes", variant="primary")
+                            verbose = gr.Checkbox(label="Verbose", value=True)
+                            nocache = gr.Checkbox(label="No Cache", value=False)
+                        with gr.Row():
+                            resume = gr.Textbox(label="Resume Timestamp (optional)")
+                            reporter = gr.Dropdown(label="Reporter", choices=["rich", "print", "none"], value="rich")
+                        with gr.Row():
+                            emit_formats = gr.CheckboxGroup(label="Emit Formats", choices=["json", "csv", "parquet"], value=["parquet"])
+                        with gr.Row():
+                            run_index_button = gr.Button("Run Indexing")
+                            stop_index_button = gr.Button("Stop Indexing", variant="stop")
                         
-                        operation_status = gr.Textbox(label="Operation Status", visible=False)
-                    
-                    
-                with gr.Accordion("Indexing", open=False):
-                    index_btn = gr.Button("Run Indexing", variant="primary")
-                    index_output = gr.Textbox(label="Indexing Output", lines=10, visible=True)
-                    index_progress = gr.Textbox(label="Indexing Progress", visible=True)
-                
-                with gr.TabItem("Indexing Outputs"):
-                    output_folder_list = gr.Dropdown(label="Select Output Folder", choices=[], interactive=True)
-                    refresh_folder_btn = gr.Button("Refresh Folder List", variant="secondary")
-                    initialize_folder_btn = gr.Button("Initialize Selected Folder", variant="primary")
-                    folder_content_list = gr.Dropdown(label="Select File or Directory", choices=[], interactive=True)
-                    file_info = gr.Textbox(label="File Information", interactive=False)
-                    output_content = gr.TextArea(label="File Content", lines=20, interactive=False)
-                    initialization_status = gr.Textbox(label="Initialization Status")
-                
-                with gr.TabItem("Settings"):
-                    settings = load_settings()
-                    with gr.Group():
-                        for key, value in settings.items():
-                            create_setting_component(key, value)
+                        index_output = gr.Textbox(label="Indexing Output", lines=20, max_lines=30)
+                        index_progress = gr.Textbox(label="Indexing Progress", lines=3)
+                        progress_bar = gr.Slider(label="Progress", minimum=0, maximum=100, value=0, interactive=False)
+                        iterations_completed = gr.Textbox(label="Iterations Completed", value="0")
 
-            with gr.Group(elem_id="log-container"):
-                log_output = gr.TextArea(label="Logs", elem_id="log-output")
-
-        with gr.Column(scale=2, elem_id="right-column"):
-            with gr.Group(elem_id="chat-container"):
-                chatbot = gr.Chatbot(label="Chat History", elem_id="chatbot")
-                with gr.Row(elem_id="chat-input-row"):
-                    query_type = gr.Radio(["global", "local", "direct"], label="Query Type", value="global")
-                    with gr.Column(scale=1):
-                        query_input = gr.Textbox(
-                            label="Query",
-                            placeholder="Enter your query here...",
-                            elem_id="query-input"
+                        run_index_button.click(
+                            fn=run_indexing,
+                            inputs=[root_dir, config_file, verbose, nocache, resume, reporter, emit_formats],
+                            outputs=[index_output, index_progress, progress_bar, iterations_completed, run_index_button, stop_index_button]
                         )
-                        query_btn = gr.Button("Send Query", variant="primary")
+
+                        stop_index_button.click(
+                            fn=stop_indexing_process,
+                            outputs=[run_index_button, stop_index_button]
+                        )
+
+                    with gr.TabItem("KG Chat/Outputs"):
+                        output_folder_list = gr.Dropdown(label="Select Output Folder", choices=[], interactive=True)
+                        refresh_folder_btn = gr.Button("Refresh Folder List", variant="secondary")
+                        initialize_folder_btn = gr.Button("Initialize Selected Folder", variant="primary")
+                        folder_content_list = gr.Dropdown(label="Select File or Directory", choices=[], interactive=True)
+                        file_info = gr.Textbox(label="File Information", interactive=False)
+                        output_content = gr.TextArea(label="File Content", lines=20, interactive=False)
+                        initialization_status = gr.Textbox(label="Initialization Status")
+                    
+                    with gr.TabItem("LLM Settings"):
+                        llm_base_url = gr.Textbox(label="LLM API Base URL", value=os.getenv("LLM_API_BASE"))
+                        llm_api_key = gr.Textbox(label="LLM API Key", value=os.getenv("LLM_API_KEY"), type="password")
+                        llm_service_type = gr.Radio(
+                            label="LLM Service Type",
+                            choices=["openai_chat", "ollama"],
+                            value=settings['llm'].get('type', 'openai_chat')
+                        )
+                        llm_model_dropdown = gr.Dropdown(label="LLM Model", choices=llm_models, value=settings['llm'].get('model'))
+                        refresh_llm_models_btn = gr.Button("Refresh LLM Models", variant="secondary")
+                        
+                        embeddings_base_url = gr.Textbox(label="Embeddings API Base URL", value=os.getenv("EMBEDDINGS_API_BASE"))
+                        embeddings_api_key = gr.Textbox(label="Embeddings API Key", value=os.getenv("EMBEDDINGS_API_KEY"), type="password")
+                        embeddings_service_type = gr.Radio(
+                            label="Embeddings Service Type",
+                            choices=["openai_embedding", "ollama"],
+                            value=settings['embeddings']['llm'].get('type', 'openai_embedding')
+                        )
+                        embeddings_model_dropdown = gr.Dropdown(label="Embeddings Model", choices=embeddings_models, value=settings['embeddings']['llm'].get('model'))
+                        refresh_embeddings_models_btn = gr.Button("Refresh Embedding Models", variant="secondary")
+                        system_message = gr.Textbox(
+                            lines=5,
+                            label="System Message",
+                            value=os.getenv("SYSTEM_MESSAGE", "You are a helpful AI assistant.")
+                        )
+                        context_window = gr.Slider(
+                            label="Context Window",
+                            minimum=512,
+                            maximum=32768,
+                            step=512,
+                            value=int(os.getenv("CONTEXT_WINDOW", 4096))
+                        )                        
+                        temperature = gr.Slider(
+                            label="Temperature",
+                            minimum=0.0,
+                            maximum=2.0,
+                            step=0.1,
+                            value=float(settings['llm'].get('TEMPERATURE', 0.5))
+                        )
+                        max_tokens = gr.Slider(
+                            label="Max Tokens",
+                            minimum=1,
+                            maximum=8192,
+                            step=1,
+                            value=int(settings['llm'].get('MAX_TOKENS', 1024))
+                        )
+                        update_settings_btn = gr.Button("Update LLM Settings", variant="primary")
+                        llm_settings_status = gr.Textbox(label="Status", interactive=False)
+
+                        # Update LLM model choices when service type or base URL changes
+                        llm_service_type.change(
+                            fn=update_model_choices,
+                            inputs=[llm_base_url, llm_api_key, llm_service_type],
+                            outputs=llm_model_dropdown
+                        )
+                        llm_base_url.change(
+                            fn=update_model_choices,
+                            inputs=[llm_base_url, llm_api_key, llm_service_type],
+                            outputs=llm_model_dropdown
+                        )
+
+                        # Update Embeddings model choices when service type or base URL changes
+                        embeddings_service_type.change(
+                            fn=update_model_choices,
+                            inputs=[embeddings_base_url, embeddings_api_key, embeddings_service_type],
+                            outputs=embeddings_model_dropdown
+                        )
+                        embeddings_base_url.change(
+                            fn=update_model_choices,
+                            inputs=[embeddings_base_url, embeddings_api_key, embeddings_service_type],
+                            outputs=embeddings_model_dropdown
+                        )
+
+                        update_settings_btn.click(
+                            fn=update_llm_settings,
+                            inputs=[
+                                llm_model_dropdown,
+                                embeddings_model_dropdown,
+                                context_window,
+                                system_message,
+                                temperature,
+                                max_tokens,
+                                llm_base_url, 
+                                llm_api_key,
+                                llm_service_type,
+                                embeddings_base_url,
+                                embeddings_api_key,
+                                embeddings_service_type
+                            ],
+                            outputs=[llm_settings_status]
+                        )
+
+                        refresh_llm_models_btn.click(
+                            fn=update_model_choices,
+                            inputs=[llm_base_url, llm_api_key, llm_service_type],
+                            outputs=[llm_model_dropdown]
+                        )
+
+                        refresh_embeddings_models_btn.click(
+                            fn=update_model_choices,
+                            inputs=[embeddings_base_url, embeddings_api_key, embeddings_service_type],
+                            outputs=[embeddings_model_dropdown]
+                        )
+
+                    with gr.TabItem("YAML Settings"):
+                        settings = load_settings()
+                        with gr.Group():
+                            for key, value in settings.items():
+                                if key != 'llm':
+                                    create_setting_component(key, value)
+
+                with gr.Group(elem_id="log-container"):
+                    log_output = gr.TextArea(label="Logs", elem_id="log-output")
+
+            with gr.Column(scale=2, elem_id="right-column"):
+                with gr.Group(elem_id="chat-container"):
+                    chatbot = gr.Chatbot(label="Chat History", elem_id="chatbot")
+                    with gr.Row(elem_id="chat-input-row"):
+                        with gr.Column(scale=1):
+                            query_input = gr.Textbox(
+                                label="Input",
+                                placeholder="Enter your query here...",
+                                elem_id="query-input"
+                            )
+                            query_btn = gr.Button("Send Query", variant="primary")
+                        
+                    with gr.Accordion("Query Parameters", open=True):
+                        query_type = gr.Radio(
+                            ["global", "local", "direct"],
+                            label="Query Type",
+                            value="global",
+                            info="Global: community-based search, Local: entity-based search, Direct: LLM chat"
+                        )
+                        preset_dropdown = gr.Dropdown(
+                            label="Preset Query Options",
+                            choices=[
+                                "Default Global Search",
+                                "Default Local Search",
+                                "Detailed Global Analysis",
+                                "Detailed Local Analysis",
+                                "Quick Global Summary",
+                                "Quick Local Summary",
+                                "Global Bullet Points",
+                                "Local Bullet Points",
+                                "Comprehensive Global Report",
+                                "Comprehensive Local Report",
+                                "High-Level Global Overview",
+                                "High-Level Local Overview",
+                                "Focused Global Insight",
+                                "Focused Local Insight",
+                                "Custom Query"
+                            ],
+                            value="Default Global Search",
+                            info="Select a preset or choose 'Custom Query' for manual configuration"
+                        )
+                        selected_folder = gr.Dropdown(
+                            label="Select Output Folder",
+                            choices=list_output_folders("./ragtest"),
+                            value=None,
+                            interactive=True
+                        )
+                        
+                        with gr.Group(visible=False) as custom_options:
+                            community_level = gr.Slider(
+                                label="Community Level",
+                                minimum=1,
+                                maximum=10,
+                                value=2,
+                                step=1,
+                                info="Higher values use reports on smaller communities"
+                            )
+                            response_type = gr.Dropdown(
+                                label="Response Type",
+                                choices=[
+                                    "Multiple Paragraphs",
+                                    "Single Paragraph",
+                                    "Single Sentence",
+                                    "List of 3-7 Points",
+                                    "Single Page",
+                                    "Multi-Page Report"
+                                ],
+                                value="Multiple Paragraphs",
+                                info="Specify the desired format of the response"
+                            )
+                            custom_cli_args = gr.Textbox(
+                                label="Custom CLI Arguments",
+                                placeholder="--arg1 value1 --arg2 value2",
+                                info="Additional CLI arguments for advanced users"
+                            )
+
+                    def update_custom_options(preset):
+                        if preset == "Custom Query":
+                            return gr.update(visible=True)
+                        else:
+                            return gr.update(visible=False)
+
+                    preset_dropdown.change(fn=update_custom_options, inputs=[preset_dropdown], outputs=[custom_options])
+
                 
-                with gr.Accordion("Model Parameters", open=False):
-                    system_message = gr.Textbox(label="System Message", value="You are a helpful assistant.", lines=2)
-                    temperature = gr.Slider(label="Temperature", minimum=0, maximum=1, value=0.7, step=0.1)
-                    max_tokens = gr.Slider(label="Max Tokens", minimum=1, maximum=4096, value=150, step=1)
-                    model = gr.Dropdown(label="Model", choices=[default_model] + fetch_ollama_models(), value=default_model)
-                    refresh_models_btn = gr.Button("Refresh Models", variant="secondary")
-                
+                    
 
-                with gr.Group(elem_id="visualization-container"):
-                    vis_output = gr.Plot(label="Graph Visualization", elem_id="visualization-plot")
-                    with gr.Row(elem_id="vis-controls-row"):
-                        vis_btn = gr.Button("Visualize Graph", variant="secondary")
-                    vis_status = gr.Textbox(label="Visualization Status", elem_id="vis-status", show_label=False)
+                    with gr.Group(elem_id="visualization-container"):
+                        vis_output = gr.Plot(label="Graph Visualization", elem_id="visualization-plot")
+                        with gr.Row(elem_id="vis-controls-row"):
+                            vis_btn = gr.Button("Visualize Graph", variant="secondary")
+                        
+                        # Add new controls for customization
+                        with gr.Accordion("Visualization Settings", open=False):
+                            layout_type = gr.Dropdown(["3D Spring", "2D Spring", "Circular"], label="Layout Type", value="3D Spring")
+                            node_size = gr.Slider(1, 20, 7, label="Node Size", step=1)
+                            edge_width = gr.Slider(0.1, 5, 0.5, label="Edge Width", step=0.1)
+                            node_color_attribute = gr.Dropdown(["Degree", "Random"], label="Node Color Attribute", value="Degree")
+                            color_scheme = gr.Dropdown(["Viridis", "Plasma", "Inferno", "Magma", "Cividis"], label="Color Scheme", value="Viridis")
+                            show_labels = gr.Checkbox(label="Show Node Labels", value=True)
+                            label_size = gr.Slider(5, 20, 10, label="Label Size", step=1)
+                        
+                        vis_status = gr.Textbox(label="Visualization Status", elem_id="vis-status", show_label=False)
 
-    # Event handlers
-    upload_btn.click(fn=upload_file, inputs=[file_upload], outputs=[upload_output, file_list, log_output])
-    refresh_btn.click(fn=update_file_list, outputs=[file_list]).then(
-        fn=update_logs,
-        outputs=[log_output]
-    )
-    file_list.change(fn=update_file_content, inputs=[file_list], outputs=[file_content]).then(
-        fn=update_logs,
-        outputs=[log_output]
-    )
-    delete_btn.click(fn=delete_file, inputs=[file_list], outputs=[operation_status, file_list, log_output])
-    save_btn.click(fn=save_file_content, inputs=[file_list, file_content], outputs=[operation_status, log_output])
-    index_btn.click(
-        fn=index_graph,
-        outputs=[index_output, log_output],
-        show_progress=True
-    )
-    refresh_folder_btn.click(fn=update_output_folder_list, outputs=[output_folder_list]).then(
-        fn=update_logs,
-        outputs=[log_output]
-    )
-    output_folder_list.change(
-        fn=update_folder_content_list,
-        inputs=[output_folder_list],
-        outputs=[folder_content_list]
-    ).then(
-        fn=update_logs,
-        outputs=[log_output]
-    )
-    folder_content_list.change(
-        fn=handle_content_selection,
-        inputs=[output_folder_list, folder_content_list],
-        outputs=[folder_content_list, file_info, output_content]
-    ).then(
-        fn=update_logs,
-        outputs=[log_output]
-    )
-    initialize_folder_btn.click(
-        fn=initialize_selected_folder,
-        inputs=[output_folder_list],
-        outputs=[initialization_status, folder_content_list]
-    ).then(
-        fn=update_logs,
-        outputs=[log_output]
-    )
-    vis_btn.click(
-        fn=update_visualization,
-        inputs=[output_folder_list, folder_content_list],
-        outputs=[vis_output, vis_status]
-    ).then(
-        fn=update_logs,
-        outputs=[log_output]
-    )
-    query_btn.click(
-        fn=send_message,
-        inputs=[query_type, query_input, chatbot, system_message, temperature, max_tokens, model],
-        outputs=[chatbot, query_input, log_output]
-    )
-    query_input.submit(
-        fn=send_message,
-        inputs=[query_type, query_input, chatbot, system_message, temperature, max_tokens, model],
-        outputs=[chatbot, query_input, log_output]
-    )
-    refresh_models_btn.click(
-        fn=update_model_choices,
-        outputs=[model]
-    ).then(
-        fn=update_logs,
-        outputs=[log_output]
-    )
+        # Event handlers
+        upload_btn.click(fn=upload_file, inputs=[file_upload], outputs=[upload_output, file_list, log_output])
+        refresh_btn.click(fn=update_file_list, outputs=[file_list]).then(
+            fn=update_logs,
+            outputs=[log_output]
+        )
+        file_list.change(fn=update_file_content, inputs=[file_list], outputs=[file_content]).then(
+            fn=update_logs,
+            outputs=[log_output]
+        )
+        delete_btn.click(fn=delete_file, inputs=[file_list], outputs=[operation_status, file_list, log_output])
+        save_btn.click(fn=save_file_content, inputs=[file_list, file_content], outputs=[operation_status, log_output])
 
-    # Add this JavaScript to enable Shift+Enter functionality
-    demo.load(js="""
-    function addShiftEnterListener() {
-        const queryInput = document.getElementById('query-input');
-        if (queryInput) {
-            queryInput.addEventListener('keydown', function(event) {
-                if (event.key === 'Enter' && event.shiftKey) {
-                    event.preventDefault();
-                    const submitButton = queryInput.closest('.gradio-container').querySelector('button.primary');
-                    if (submitButton) {
-                        submitButton.click();
+        refresh_folder_btn.click(fn=update_output_folder_list, outputs=[output_folder_list]).then(
+            fn=update_logs,
+            outputs=[log_output]
+        )
+        output_folder_list.change(
+            fn=update_folder_content_list,
+            inputs=[output_folder_list],
+            outputs=[folder_content_list]
+        ).then(
+            fn=update_logs,
+            outputs=[log_output]
+        )
+        folder_content_list.change(
+            fn=handle_content_selection,
+            inputs=[output_folder_list, folder_content_list],
+            outputs=[folder_content_list, file_info, output_content]
+        ).then(
+            fn=update_logs,
+            outputs=[log_output]
+        )
+        initialize_folder_btn.click(
+            fn=initialize_selected_folder,
+            inputs=[output_folder_list],
+            outputs=[initialization_status, folder_content_list]
+        ).then(
+            fn=update_logs,
+            outputs=[log_output]
+        )
+        vis_btn.click(
+            fn=update_visualization,
+            inputs=[
+                output_folder_list,
+                folder_content_list,
+                layout_type,
+                node_size,
+                edge_width,
+                node_color_attribute,
+                color_scheme,
+                show_labels,
+                label_size
+            ],
+            outputs=[vis_output, vis_status]
+        ).then(
+            fn=update_logs,
+            outputs=[log_output]
+        )
+
+        query_btn.click(
+            fn=send_message,
+            inputs=[
+                query_type,
+                query_input,
+                chatbot,
+                system_message,
+                temperature,
+                max_tokens,
+                preset_dropdown,
+                community_level,
+                response_type,
+                custom_cli_args,
+                selected_folder
+            ],
+            outputs=[chatbot, query_input, log_output]
+        )
+
+        query_input.submit(
+            fn=send_message,
+            inputs=[
+                query_type,
+                query_input,
+                chatbot,
+                system_message,
+                temperature,
+                max_tokens,
+                preset_dropdown,
+                community_level,
+                response_type,
+                custom_cli_args,
+                selected_folder
+            ],
+            outputs=[chatbot, query_input, log_output]
+        )
+        refresh_llm_models_btn.click(
+            fn=update_model_choices,
+            inputs=[llm_base_url, llm_api_key, llm_service_type],
+            outputs=[llm_model_dropdown]
+        ).then(
+            fn=update_logs,
+            outputs=[log_output]
+        )
+
+        # Update Embeddings model choices
+        refresh_embeddings_models_btn.click(
+            fn=update_model_choices,
+            inputs=[embeddings_base_url, embeddings_api_key, embeddings_service_type],
+            outputs=[embeddings_model_dropdown]
+        ).then(
+            fn=update_logs,
+            outputs=[log_output]
+        )
+        
+        # Add this JavaScript to enable Shift+Enter functionality
+        demo.load(js="""
+        function addShiftEnterListener() {
+            const queryInput = document.getElementById('query-input');
+            if (queryInput) {
+                queryInput.addEventListener('keydown', function(event) {
+                    if (event.key === 'Enter' && event.shiftKey) {
+                        event.preventDefault();
+                        const submitButton = queryInput.closest('.gradio-container').querySelector('button.primary');
+                        if (submitButton) {
+                            submitButton.click();
+                        }
                     }
-                }
-            });
+                });
+            }
         }
-    }
-    document.addEventListener('DOMContentLoaded', addShiftEnterListener);
-    """)
+        document.addEventListener('DOMContentLoaded', addShiftEnterListener);
+        """)
+
+    return demo.queue()
+
+def main():
+    api_port = 8088
+    gradio_port = 7860
+
+    print(f"Starting API server on port {api_port}")
+    start_api_server(api_port)
+
+    # Wait for the API server to start in a separate thread
+    threading.Thread(target=wait_for_api_server, args=(api_port,)).start()
+
+    # Create the Gradio app
+    demo = create_gradio_interface()
+
+    print(f"Starting Gradio app on port {gradio_port}")
+    # Launch the Gradio app
+    demo.launch(server_port=gradio_port, share=True)
 
 
-demo = demo.queue()  
-
+demo = create_gradio_interface()
+app = demo.app
 
 if __name__ == "__main__":
-    demo.launch(share=True, reload=False)
+    initialize_data()
+    demo.launch(server_port=7860, share=True)
