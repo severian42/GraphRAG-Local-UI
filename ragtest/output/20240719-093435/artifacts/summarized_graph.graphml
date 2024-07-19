@@ -1,0 +1,1475 @@
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+  <key id="d6" for="edge" attr.name="source_id" attr.type="string" />
+  <key id="d5" for="edge" attr.name="description" attr.type="string" />
+  <key id="d4" for="edge" attr.name="weight" attr.type="double" />
+  <key id="d3" for="node" attr.name="entity_type" attr.type="string" />
+  <key id="d2" for="node" attr.name="source_id" attr.type="string" />
+  <key id="d1" for="node" attr.name="description" attr.type="string" />
+  <key id="d0" for="node" attr.name="type" attr.type="string" />
+  <graph edgedefault="undirected">
+    <node id="&quot;ALICE ARAUJO MARQUES DE S&#193;&quot;">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">"Alice Araujo Marques de S&#225; is the first author of the article on design and biomimicry."</data>
+      <data key="d2">7323cecb72b3fa0472a26a5aa37c4131</data>
+    </node>
+    <node id="&quot;DIANNE MAGALH&#195;ES VIANA&quot;">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">"Dianne Magalh&#227;es Viana is the second author of the article on design and biomimicry."</data>
+      <data key="d2">7323cecb72b3fa0472a26a5aa37c4131</data>
+    </node>
+    <node id="&quot;DEPARTMENT OF DESIGN, INSTITUTE OF ARTS, UNIVERSITY OF BRAS&#205;LIA&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"This organization represents where Alice Araujo Marques de S&#225; works."</data>
+      <data key="d2">7323cecb72b3fa0472a26a5aa37c4131</data>
+    </node>
+    <node id="&quot;DEPARTMENT OF MECHANICAL ENGINEERING, FACULTY OF TECHNOLOGY, UNIVERSITY OF BRAS&#205;LIA&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"This organization represents where Dianne Magalh&#227;es Viana works."</data>
+      <data key="d2">7323cecb72b3fa0472a26a5aa37c4131</data>
+    </node>
+    <node id="&quot;WEB OF SCIENCE&quot;">
+      <data key="d0">"GEO"</data>
+      <data key="d1">The WEB OF SCIENCE is a comprehensive academic database designed to index and provide access to scholarly literature, encompassing articles, books, and conference papers. It serves as an essential tool for scientific research and analysis, utilized not only for creating bibliographic coupling maps but also for generating data for co-citation maps that illuminate trends in academic research. This resource is pivotal in the search for scientific literature, facilitating the exploration of various fields including biomimicry. WEB OF SCIENCE has been employed in international literature reviews, as seen in projects like TEMAC, to gather sources on emerging areas such as biomimicry, contributing significantly to the understanding and advancement of knowledge across disciplines.</data>
+      <data key="d2">44c8dff86ecf90b601e21ef2335e8c61,6e87b92e6c843cb54a008ae676d3b416,7323cecb72b3fa0472a26a5aa37c4131,8d7e6e7209519d7dec8948a364fdbab2,b3c5de72ae4c784c9fef28c432a247eb,c16a050b9f05d4adcbe87cd85974f73b,ea3022e7c889776437eec7e0ff1e3b2c,fe902bcadf86addbe747f348c1ccc56f</data>
+    </node>
+    <node id="&quot;DESIGN AND BIOMIMICRY&quot;">
+      <data key="d0">"EVENT"</data>
+      <data key="d1">"The event refers to the article written by Alice Araujo Marques de S&#225; and Dianne Magalh&#227;es Viana on design and biomimicry."</data>
+      <data key="d2">7323cecb72b3fa0472a26a5aa37c4131</data>
+    </node>
+    <node id="&quot;INTERCONNECTIONS AND CREATIVE&quot;">
+      <data key="d0">"EVENT"</data>
+      <data key="d1">"Interconnections and Creative refers to a review article discussing interdisciplinary approaches in biomimetics."</data>
+      <data key="d2">23c34b74899c04c60dc7b087b88e0137</data>
+    </node>
+    <node id="&quot;BIOMIMETICS&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">BIOMIMETICS, a scientific field, centers on developing solutions inspired by nature for various human activities. It also refers to the study of using principles@from biological systems as inspiration for technological design. Biomimetics embraces interdisciplinary philosophical and creative approaches@guided by natural phenomena. The popularity of biomimetics reached its zenith after Janine Benyus's influential book was published in 1997, marking a pivotal moment in the field's evolution.</data>
+      <data key="d2">23c34b74899c04c60dc7b087b88e0137,2aee03ca69624bff0ae2d030f6f31e19,d1f202cadb144570739c718437dd9c7b,fe902bcadf86addbe747f348c1ccc56f</data>
+    </node>
+    <node id="&quot;CARDOSO&quot;">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">"Cardoso's opinion highlights the importance of adopting an interdisciplinary approach in teaching, learning, and practice for designers."</data>
+      <data key="d2">23c34b74899c04c60dc7b087b88e0137</data>
+    </node>
+    <node id="&quot;STANISLAV N. GORB&quot;">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">"Stanislav N. Gorb is the Academic Editor of the review article."</data>
+      <data key="d2">23c34b74899c04c60dc7b087b88e0137</data>
+    </node>
+    <node id="&quot;CREATIVE COMMONS ATTRIBUTION (CC BY) LICENSE&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"Creative Commons Attribution (CC BY) license refers to the terms under which the review article is distributed."</data>
+      <data key="d2">23c34b74899c04c60dc7b087b88e0137</data>
+    </node>
+    <node id="&quot;ISO 18458:2015&quot;">
+      <data key="d0">"STANDARD"</data>
+      <data key="d1">"ISO 18458:2015 is an international standard that provides guidelines for biomimicry terminology and concepts."</data>
+      <data key="d2">2aee03ca69624bff0ae2d030f6f31e19</data>
+    </node>
+    <node id="&quot;IOUGUINA ET AL.&quot;">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">IOUGUINA ET AL. are authors who have significantly contributed to the advancement and understanding of biomimicry, a field that is rapidly expanding as it draws inspiration from nature. Their work has illuminated various principles and applications in biomimicry, consolidating their expertise and influence within this interdisciplinary area.</data>
+      <data key="d2">2aee03ca69624bff0ae2d030f6f31e19,6e87b92e6c843cb54a008ae676d3b416</data>
+    </node>
+    <node id="&quot;SPECK ET AL.&quot;">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">"Speck and his team are researchers@who have also contributed to the expanding field of biomimicry."</data>
+      <data key="d2">2aee03ca69624bff0ae2d030f6f31e19</data>
+    </node>
+    <node id="&quot;BIOMIMICRY&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">Biomimicry is an innovative approach that involves the study and application of biological systems, principles, and organisms for problem-solving in engineering and design. This concept emphasizes developing solutions@inspired by nature to meet human needs and challenges. Biomimicry is a process of creative implementation of biologically-inspired concepts, ideas, and strategies into functional products. It draws inspiration from nature for problem-solving and innovation, studying natural processes with the aim of replicating them for technological applications. As a theoretical and technical framework@closely associated with design, architecture, and philosophy, biomimicry is adopted for its advantages in providing sustainable solutions by emulating biological systems and processes for design purposes. This approach focuses on understanding and applying principles@from nature for problem-solving and design, aiming to create eco-friendly and efficient innovations that mimic the efficiency of natural systems.</data>
+      <data key="d2">10357a9455875b5f9c5deca2d9871135,2aee03ca69624bff0ae2d030f6f31e19,4c8d34a6cb7efcbac85f88b2fbb3973e,50d87eb794de75e87a2b0897c5432e39,5bb96e57d4c79ea40feeb5ecb3296afe,6e87b92e6c843cb54a008ae676d3b416,a43faaba2ebb888387d5b0f59efb6381,b3c5de72ae4c784c9fef28c432a247eb,b8f2d8b6f8181c950be1341e09d5f6ac,c16a050b9f05d4adcbe87cd85974f73b,fe902bcadf86addbe747f348c1ccc56f</data>
+    </node>
+    <node id="&quot;BIONICS&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"Bionics is a concept that involves applying biological principles and components in engineering and technology."</data>
+      <data key="d2">2aee03ca69624bff0ae2d030f6f31e19</data>
+    </node>
+    <node id="&quot;BIOINSPIRATION&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"Bioinspiration refers to the process of drawing inspiration from living organisms or biological systems to develop innovative solutions."</data>
+      <data key="d2">2aee03ca69624bff0ae2d030f6f31e19</data>
+    </node>
+    <node id="&quot;BIOMIMETIC CONCEPTS&quot;">
+      <data key="d0" />
+      <data key="d1">Biomimetic Concepts, as understood and interpreted by various authors, denote ideas that are either considered equivalent or complementary to each other. This notion of biomimetics signifies an approach inspired by nature's strategies, designs, and systems, aiming to emulate them for the development of innovative solutions in fields such as engineering, architecture, and design. Despite potential discrepancies in definitions among different authors, the core principle@ remains unified: the pursuit of understanding and applying natural phenomena to solve human problems or enhance existing technologies.</data>
+      <data key="d2">2aee03ca69624bff0ae2d030f6f31e19,6e87b92e6c843cb54a008ae676d3b416</data>
+    </node>
+    <node id="&quot;TERMINOLOGY IN BIOMIMICRY&quot;">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">2aee03ca69624bff0ae2d030f6f31e19</data>
+    </node>
+    <node id="&quot;BIOMIMICRY CONCEPTS&quot;">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">2aee03ca69624bff0ae2d030f6f31e19</data>
+    </node>
+    <node id="&quot;AUTHORS&quot;">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">"authors refer to individuals who have written about biomimetic concepts and their interpretations."</data>
+      <data key="d2">6e87b92e6c843cb54a008ae676d3b416</data>
+    </node>
+    <node id="&quot;GAMAGE AND HYDE&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"Gamage and Hyde are another set of authors contributing to the understanding of biomimicry."</data>
+      <data key="d2">6e87b92e6c843cb54a008ae676d3b416</data>
+    </node>
+    <node id="&quot;SPECIALIZED LITERATURE&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"specialized literature is essential for systematizing knowledge, identifying trends, and suggesting agendas for future research."</data>
+      <data key="d2">6e87b92e6c843cb54a008ae676d3b416</data>
+    </node>
+    <node id="&quot;BIBLIOGRAPHICAL RESEARCH&quot;">
+      <data key="d0">"EVENT"</data>
+      <data key="d1">"bibliographical research involves the survey of specialized literature to gather, systematize, and analyze knowledge."</data>
+      <data key="d2">6e87b92e6c843cb54a008ae676d3b416</data>
+    </node>
+    <node id="&quot;INTEGRATIVE SYSTEMATIC REVIEW&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"an integrative systematic review model called TEMAC helps in developing research preparation, data presentation, interrelation, integrative models, and evidence validation."</data>
+      <data key="d2">6e87b92e6c843cb54a008ae676d3b416</data>
+    </node>
+    <node id="&quot;THEORY OF CONSOLIDATED META-ANALYTICAL APPROACH (TEMAC)&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"TEMAC is a bibliometric-based resource for reviewing international literature and conducting research."</data>
+      <data key="d2">6e87b92e6c843cb54a008ae676d3b416</data>
+    </node>
+    <node id="&quot;SCOPUS&quot;">
+      <data key="d0">"GEO"</data>
+      <data key="d1">"Scopus is another database utilized by TEMAC for international literature review."</data>
+      <data key="d2">6e87b92e6c843cb54a008ae676d3b416</data>
+    </node>
+    <node id="&quot;GOOGLE SCHOLAR&quot;">
+      <data key="d0">"GEO"</data>
+      <data key="d1">"Google Scholar is a third database that TEMAC uses for international literature review."</data>
+      <data key="d2">6e87b92e6c843cb54a008ae676d3b416</data>
+    </node>
+    <node id="&quot;VOSVIEWER&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">VOSVIEWER, often paired with TagCrowd as part of a suite of tools, is a free software solution endorsed by TEMAC. Primarily utilized for the processing and visualization of data, VOSVIEWER enables users to gain insightful graphical representations from their datasets, facilitating easier analysis and understanding. Despite an initial empty description entry for VOSVIEWER, it's significant to note that its integration with TagCrowd supports a comprehensive approach to data interpretation, making these tools valuable assets in the field of data processing and visualization.</data>
+      <data key="d2">4c8d34a6cb7efcbac85f88b2fbb3973e,6e87b92e6c843cb54a008ae676d3b416</data>
+    </node>
+    <node id="&quot;BIOMIMETIC DESIGN&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"biomimetic design, also known as biomimicry-based design, is the creative implementation of biologically-inspired concepts into functional products to solve human challenges with potential sustainability in design."</data>
+      <data key="d2">6e87b92e6c843cb54a008ae676d3b416</data>
+    </node>
+    <node id="&quot;TEMAC&quot;">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">6e87b92e6c843cb54a008ae676d3b416</data>
+    </node>
+    <node id="&quot;IMETIC DESIGN&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"IMETIC Design refers to biomimicry-based design that creatively implements@biologically-inspired concepts into functional products."</data>
+      <data key="d2">a43faaba2ebb888387d5b0f59efb6381</data>
+    </node>
+    <node id="&quot;SUSTAINABILITY IN DESIGN&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"Sustainability in Design refers to the potential for biomimetic design solutions to meet current needs."</data>
+      <data key="d2">a43faaba2ebb888387d5b0f59efb6381</data>
+    </node>
+    <node id="&quot;GAMAGE AND HYDE [15]">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">"Authors Gamage and Hyde have perspectives on biomimicry-based design."</data>
+      <data key="d2">a43faaba2ebb888387d5b0f59efb6381</data>
+    </node>
+    <node id="&quot;HSIAO AND CHOU [20]">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">"Authors Hsiao and Chou contribute to the understanding of biomimicry-based design."</data>
+      <data key="d2">a43faaba2ebb888387d5b0f59efb6381</data>
+    </node>
+    <node id="&quot;VOLSTAD AND BOKS [21]">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">"Authors Volstad and Boks provide insights into biomimetic productions in design."</data>
+      <data key="d2">a43faaba2ebb888387d5b0f59efb6381</data>
+    </node>
+    <node id="&quot;BIOMIMETICS 2023, 8, 61">
+      <data key="d0">"PUBLICATION"</data>
+      <data key="d1">"This refers to a publication that aids the grounding, guiding, planning, creation, and evaluation of biomimetic productions."</data>
+      <data key="d2">a43faaba2ebb888387d5b0f59efb6381</data>
+    </node>
+    <node id="&quot;WEB OF SCIENCE DATABASE">
+      <data key="d0">"DATABASE"</data>
+      <data key="d1">"The Web of Science database is used for systematic review on biomimicry-based design."</data>
+      <data key="d2">a43faaba2ebb888387d5b0f59efb6381</data>
+    </node>
+    <node id="&quot;BIOMIMETICS 2023, 8, 61&quot;">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">a43faaba2ebb888387d5b0f59efb6381</data>
+    </node>
+    <node id="&quot;MATERIALS AND METHODS&quot;">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">a43faaba2ebb888387d5b0f59efb6381</data>
+    </node>
+    <node id="&quot;WEB OF SCIENCE DATABASE&quot;">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">a43faaba2ebb888387d5b0f59efb6381</data>
+    </node>
+    <node id="&quot;THEORY OF CONSOLIDATED META-ANALYTICAL APPROACH (TEMAC)">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">a43faaba2ebb888387d5b0f59efb6381</data>
+    </node>
+    <node id="&quot;DESIGN">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">a43faaba2ebb888387d5b0f59efb6381</data>
+    </node>
+    <node id="&quot;LI ET AL.&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"This organization refers to the authors of a pioneering study in biomimetic approach towards structural applications of synthetic composites and natural bamboo fibers."</data>
+      <data key="d2">fe902bcadf86addbe747f348c1ccc56f</data>
+    </node>
+    <node id="&quot;SYNTHETIC COMPOSITES&quot;">
+      <data key="d0">"TECHNOLOGY"</data>
+      <data key="d1">"Synthetic composites are materials produced with mechanical@behavior similar to resistant structures@present in nature."</data>
+      <data key="d2">fe902bcadf86addbe747f348c1ccc56f</data>
+    </node>
+    <node id="&quot;NATURAL BAMBOO FIBERS&quot;">
+      <data key="d0">"MATERIAL"</data>
+      <data key="d1">"Natural bamboo fibers are a component of synthetic composites explored for their structural applications."</data>
+      <data key="d2">fe902bcadf86addbe747f348c1ccc56f</data>
+    </node>
+    <node id="&quot;JANINE BENYUS&quot;">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">"Janine Benyus is the author of a 1997 book that significantly contributed to the field of biomimetics. This work has been pivotal in advancing efforts and research related to biomimetics, especially within the realms of design and architecture."</data>
+      <data key="d2">d1f202cadb144570739c718437dd9c7b,fe902bcadf86addbe747f348c1ccc56f</data>
+    </node>
+    <node id="&quot;LITERATURE REVIEW&quot;">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">fe902bcadf86addbe747f348c1ccc56f</data>
+    </node>
+    <node id="&quot;UNITED STATES&quot;">
+      <data key="d0">"GEO"</data>
+      <data key="d1">The UNITED STATES, as a prominent leader in scientific research and innovation, demonstrated its dominance by having the highest number of publications related to biomimetics. Notably, this country showcased its expertise and advancements significantly through an impressive output of 68 publications on the subject. These figures underline the United States' pivotal role in driving progress and knowledge within the field of biomimetics.</data>
+      <data key="d2">17a811ea2375e85ee164ddd52dbe5a80,d1f202cadb144570739c718437dd9c7b</data>
+    </node>
+    <node id="&quot;UNITED KINGDOM&quot;">
+      <data key="d0">"GEO"</data>
+      <data key="d1">The United Kingdom played a significant role in the field, contributing notably with 19 publications overall. Furthermore, it ranked second, showcasing a commendable number of contributions specifically within the area of biomimetics.</data>
+      <data key="d2">17a811ea2375e85ee164ddd52dbe5a80,d1f202cadb144570739c718437dd9c7b</data>
+    </node>
+    <node id="&quot;TURKEY&quot;">
+      <data key="d0">"GEO"</data>
+      <data key="d1">Turkey, in recent scholarly endeavors, demonstrated a significant contribution through 15 publications, positioning itself prominently within the academic community. Notably, Turkey's involvement extends into specialized fields such as biomimetics research, showcasing its substantial engagement and expertise in innovative scientific pursuits.</data>
+      <data key="d2">17a811ea2375e85ee164ddd52dbe5a80,d1f202cadb144570739c718437dd9c7b</data>
+    </node>
+    <node id="&quot;WIT TRANSACTIONS ON ECOLOGY AND THE ENVIRONMENT&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"This organization published works related to biomimetics, albeit not exclusively in design."</data>
+      <data key="d2">d1f202cadb144570739c718437dd9c7b</data>
+    </node>
+    <node id="&quot;SCIENTIFIC REPORTS&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"Scientific Reports also published works@related to biomimetics."</data>
+      <data key="d2">d1f202cadb144570739c718437dd9c7b</data>
+    </node>
+    <node id="&quot;ARCHITECTURAL SCIENCE REVIEW&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"The Architectural Science Review was among the journals that published a significant number of works on biomimetics."</data>
+      <data key="d2">d1f202cadb144570739c718437dd9c7b</data>
+    </node>
+    <node id="&quot;PROCEDIA SOCIAL AND BEHAVIORAL SCIENCES&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">The PROCEDIA SOCIAL AND BEHAVIORAL SCIENCES is an esteemed publication that has made significant contributions to the field, notably by disseminating knowledge through five works focused on design and biomimicry. It actively supports and advances the biomimetics discourse via its scholarly publications, serving as a pivotal platform for researchers and professionals interested in integrating natural patterns and processes into human innovations.</data>
+      <data key="d2">17a811ea2375e85ee164ddd52dbe5a80,d1f202cadb144570739c718437dd9c7b</data>
+    </node>
+    <node id="&quot;UNIVERSITY SYSTEM OF GEORGIA&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">The University System of Georgia is an esteemed educational institution recognized for its contributions to various fields of study, including biomimetics. Notably, it has been among the entities that published a significant number of works related to biomimetics, highlighting its commitment to advancing scientific knowledge and fostering innovation through interdisciplinary research in this area.</data>
+      <data key="d2">17a811ea2375e85ee164ddd52dbe5a80,d1f202cadb144570739c718437dd9c7b</data>
+    </node>
+    <node id="&quot;DELFT UNIVERSITY OF TECHNOLOGY AND UNIVERSITY OF AKRON&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">The entities referred to as "Delft University of Technology and University of Akron" made significant contributions to the biomimetics field through their scholarly work. Both institutions demonstrated an equal level of engagement and expertise, evidenced by their joint accomplishment of publishing six articles each in this domain, thus highlighting their collaborative efforts and impactful research towards advancing biomimetics.</data>
+      <data key="d2">17a811ea2375e85ee164ddd52dbe5a80,d1f202cadb144570739c718437dd9c7b</data>
+    </node>
+    <node id="&quot;UNIVERSITY OF CALIFORNIA SYSTEM&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"This institution published eight works on the subject, indicating its significant contribution."</data>
+      <data key="d2">17a811ea2375e85ee164ddd52dbe5a80</data>
+    </node>
+    <node id="&quot;VICTORIA UNIVERSITY OF WELLINGTON&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"This university also contributed significantly with eight publications."</data>
+      <data key="d2">17a811ea2375e85ee164ddd52dbe5a80</data>
+    </node>
+    <node id="&quot;INSTITUTIONS THAT PUBLISHED THE MOST WORKS&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"University System of Georgia stood out with seven publications, showing its high output in this area."</data>
+      <data key="d2">17a811ea2375e85ee164ddd52dbe5a80</data>
+    </node>
+    <node id="&quot;MAIBRITT PEDERSEN ZARI&quot;">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">"Author Maibritt Pedersen Zari published eight works, being the most prolific author in this context."</data>
+      <data key="d2">17a811ea2375e85ee164ddd52dbe5a80</data>
+    </node>
+    <node id="&quot;DONNISON, FALUDI, JONES, NIEWIAROWSKI AND PAUW&quot;">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">"This group of authors published three works together, contributing to the field with their collaborative efforts."</data>
+      <data key="d2">17a811ea2375e85ee164ddd52dbe5a80</data>
+    </node>
+    <node id="&quot;2019&quot;">
+      <data key="d0">"EVENT"</data>
+      <data key="d1">"The year 2019 had a high number of publications (n = 27), indicating its significant role in this context."</data>
+      <data key="d2">17a811ea2375e85ee164ddd52dbe5a80</data>
+    </node>
+    <node id="&quot;2016&quot;">
+      <data key="d0">"EVENT"</data>
+      <data key="d1">"Similarly, the year 2016 also showed a high volume of publications (n = 26)."</data>
+      <data key="d2">17a811ea2375e85ee164ddd52dbe5a80</data>
+    </node>
+    <node id="&quot;2020&quot;">
+      <data key="d0">"EVENT"</data>
+      <data key="d1">"The year 2020 had another significant number of publications (n = 24)."</data>
+      <data key="d2">17a811ea2375e85ee164ddd52dbe5a80</data>
+    </node>
+    <node id="&quot;BIOMIMETICS 2023&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">BIOMIMETICS 2023 refers to an influential group, event, and possibly a publication platform dedicated to the exploration and analysis of natural and artificial systems. This entity serves as a central hub for researchers, practitioners, and academics interested in biomimicry &#8211; the study inspired by nature's strategies, structures, and processes. It encompasses not only conferences or gatherings where groundbreaking research on biomimetics is shared but also potentially includes journal articles that delve into diverse facets of this interdisciplinary field. BIOMIMETICS 2023 embodies a comprehensive approach to fostering innovation and understanding through the lens of biomimetic principles, encompassing both theoretical insights and practical applications derived from nature's wisdom.</data>
+      <data key="d2">b3c5de72ae4c784c9fef28c432a247eb,ea3022e7c889776437eec7e0ff1e3b2c,f770903009c82b1aeca7bf9e490877ad</data>
+    </node>
+    <node id="&quot;NATURE&quot;">
+      <data key="d0">"GEO"</data>
+      <data key="d1">"Nature, as a concept, is widely recognized and conceptualized as a profound source of inspiration and innovative solutions within the realm of biomimicry. It represents an integral part of human thought processes, particularly evident through figures like Janine Benyus, who advocate for the transfer of natural knowledge to human contexts, aiming to emulate ecological wisdom and efficiency in technological systems. At its core, nature is defined as encompassing the natural world or the array of phenomena observed within it, underscoring its multifaceted significance across scientific, environmental, and design disciplines."</data>
+      <data key="d2">10357a9455875b5f9c5deca2d9871135,b3c5de72ae4c784c9fef28c432a247eb,c16a050b9f05d4adcbe87cd85974f73b</data>
+    </node>
+    <node id="&quot;MICROSCOPIC SCALE&quot;">
+      <data key="d0">"GEO"</data>
+      <data key="d1">"Microscopic scale refers to the level of observation@ microscopic dimensions."</data>
+      <data key="d2">b3c5de72ae4c784c9fef28c432a247eb</data>
+    </node>
+    <node id="&quot;BIOMIMETICS: LESSONS FROM NATURE&#8212;AN OVERVIEW&quot;">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">The entity referred to as "BIOMIMETICS: LESSONS FROM NATURE\u2014AN OVERVIEW" is the title of an informative article. This piece offers a comprehensive summary of biomimetics, a scientific discipline that draws inspiration and solutions from natural phenomena. It delves into various insights, methodologies, and applications derived from observing and emulating nature's designs and processes to innovate in fields such as engineering, technology, and design.</data>
+      <data key="d2">b315f4391fd31deebdefc7e4496ccc53,b3c5de72ae4c784c9fef28c432a247eb</data>
+    </node>
+    <node id="&quot;NATURE&#8212;AN OVERVIEW&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"Nature&#8212;an overview refers to the comprehensive view or understanding of the natural world."</data>
+      <data key="d2">b3c5de72ae4c784c9fef28c432a247eb</data>
+    </node>
+    <node id="&quot;NATURE-BASED CONFIGURATIONS&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"Nature-based configurations@ refer to designs, materials, or technologies@ inspired by natural elements."</data>
+      <data key="d2">b3c5de72ae4c784c9fef28c432a247eb</data>
+    </node>
+    <node id="&quot;CIRCULAR ECONOMY&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">The circular economy, a concept associated with entities such as "CIRCULAR ECONOMY," is designed to promote sustainability across diverse industries by incorporating principles@of biomimetic design. This economic model aims to eradicate waste generation and foster a continuous cycle of resource utilization, thereby advocating for an efficient and environmentally friendly approach to consumption and production processes.</data>
+      <data key="d2">439722d75181e1aa687e95df70e09d63,b3c5de72ae4c784c9fef28c432a247eb</data>
+    </node>
+    <node id="&quot;BACKCASTING&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"Backcasting is a participatory foresight process that works backward from desired future outcomes to identify actions needed today."</data>
+      <data key="d2">b3c5de72ae4c784c9fef28c432a247eb</data>
+    </node>
+    <node id="&quot;ECO-DESIGN&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"Eco-design refers to the design process with environmental considerations, aiming for sustainability."</data>
+      <data key="d2">b3c5de72ae4c784c9fef28c432a247eb</data>
+    </node>
+    <node id="&quot;PHOTOSYNTHESIS&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"Photosynthesis is a biological process used by plants and some bacteria to convert light energy into chemical energy."</data>
+      <data key="d2">b3c5de72ae4c784c9fef28c432a247eb</data>
+    </node>
+    <node id="&quot;SOLAR FUEL&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"Solar fuel refers to fuels produced through solar-powered processes, often involving artificial photosynthesis."</data>
+      <data key="d2">b3c5de72ae4c784c9fef28c432a247eb</data>
+    </node>
+    <node id="&quot;PHOTOSYSTEM&quot;">
+      <data key="d0">"GEO"</data>
+      <data key="d1">"Photosystem refers to the biological system in a cell that uses light energy to produce oxygen and chemical energy."</data>
+      <data key="d2">b3c5de72ae4c784c9fef28c432a247eb</data>
+    </node>
+    <node id="&quot;BIOMIMETIC APPROACHES&quot;">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">b3c5de72ae4c784c9fef28c432a247eb</data>
+    </node>
+    <node id="&quot;INTEGRATING BACKCASTING AND ECO-DESIGN&quot;">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">b3c5de72ae4c784c9fef28c432a247eb</data>
+    </node>
+    <node id="&quot;EVOLUTION OF REACTION CENTER&quot;">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">b3c5de72ae4c784c9fef28c432a247eb</data>
+    </node>
+    <node id="&quot;ARTIFICIAL REACTIONS&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"The organization involves research on artificial processes@based on photosynthesis for fuel production."</data>
+      <data key="d2">b315f4391fd31deebdefc7e4496ccc53</data>
+    </node>
+    <node id="&quot;RESEARCH ON PHOTOELECTRIC SYSTEMS&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"The organization conducts studies on systems capable of converting solar energy into fuels."</data>
+      <data key="d2">b315f4391fd31deebdefc7e4496ccc53</data>
+    </node>
+    <node id="&quot;NATURAL FACTORS&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"Natural factors inspire innovations in robot design and neuromechanics."</data>
+      <data key="d2">b315f4391fd31deebdefc7e4496ccc53</data>
+    </node>
+    <node id="&quot;ANTENNA PROJECT FOR TASK CONTROL&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"An antenna project, based on spatial navigation techniques from cockroaches and robots, is designed to guide the wall following of robots."</data>
+      <data key="d2">b315f4391fd31deebdefc7e4496ccc53</data>
+    </node>
+    <node id="&quot;PERIPLANETA AMERICANA SPECIES&quot;">
+      <data key="d0">"GEO"</data>
+      <data key="d1">"This refers to a specific insect species used as a model for robot design."</data>
+      <data key="d2">b315f4391fd31deebdefc7e4496ccc53</data>
+    </node>
+    <node id="&quot;SELF-CLEANING CAPACITY&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"The concept involves organisms capable of self-cleaning, which can be applied in various fields."</data>
+      <data key="d2">b315f4391fd31deebdefc7e4496ccc53</data>
+    </node>
+    <node id="&quot;BIOMIMETIC SELF-CLEANING SURFACES&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"Designs inspired by self-cleaning characteristics are developed for applications like medicine, aerospace construction, solar energy production, and water treatment."</data>
+      <data key="d2">b315f4391fd31deebdefc7e4496ccc53</data>
+    </node>
+    <node id="&quot;SYSTEMS-LEVEL REGENERATIVE DESIGN&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"The organization focuses on biomimetic design to mitigate climate change effects."</data>
+      <data key="d2">b315f4391fd31deebdefc7e4496ccc53</data>
+    </node>
+    <node id="&quot;BIOMIMETIC DESIGN FOR CLIMATE&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"This concept involves the use of biomimicry in designing systems that are responsive, adaptable, and autonomous."</data>
+      <data key="d2">b315f4391fd31deebdefc7e4496ccc53</data>
+    </node>
+    <node id="&quot;BIOMIMICRY APPLICATIONS&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"The organization explores various applications of biomimicry in environmental preservation projects, such as design and architecture."</data>
+      <data key="d2">b315f4391fd31deebdefc7e4496ccc53</data>
+    </node>
+    <node id="&quot;BIOMIMICRY: LESSONS FROM NATURE&#8212;AN OVERVIEW&quot;">
+      <data key="d0">"EVENT"</data>
+      <data key="d1">"A study that provides an overview of biomimetics and its lessons learned from nature."</data>
+      <data key="d2">b315f4391fd31deebdefc7e4496ccc53</data>
+    </node>
+    <node id="&quot;BIOMIMICRY IN TEXTILES: PAST, PRESENT, AND POTENTIAL&#8212;AN OVERVIEW&quot;">
+      <data key="d0">"EVENT"</data>
+      <data key="d1">"Another study providing insights into the history, current state, and future possibilities of biomimetic principles@in textile design."</data>
+      <data key="d2">b315f4391fd31deebdefc7e4496ccc53</data>
+    </node>
+    <node id="&quot;SYSTEMS-LEVEL REGENERATIVE AND BIOMIMETIC DESIGN&quot;">
+      <data key="d0" />
+      <data key="d1">The entity referred to as "SYSTEMS-LEVEL REGENERATIVE AND BIOMIMETIC DESIGN" is aimed at designing solutions that focus on mitigating the causes and effects of climate change. This innovative approach integrates principles from nature (biomimetics) with the goal of creating sustainable, regenerative systems capable of addressing environmental challenges posed by global warming and other climate-related issues. Through this design philosophy, efforts are directed towards developing technologies and methodologies that not only reduce carbon footprints but also promote ecological balance and resilience in various sectors such as energy, agriculture, and urban planning.</data>
+      <data key="d2">b315f4391fd31deebdefc7e4496ccc53,bc2123b5f86d53a8b6c4f35594131571</data>
+    </node>
+    <node id="&quot;BHUSHAN (2009)&quot;">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">"Bhushan's work highlighted the field of biomimetic research at a microscopic and nanoscopic@scale."</data>
+      <data key="d2">bc2123b5f86d53a8b6c4f35594131571</data>
+    </node>
+    <node id="&quot;BIOMIMETIC RESEARCH&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"Research focused on generating creations@inspired by biological surfaces and materials."</data>
+      <data key="d2">bc2123b5f86d53a8b6c4f35594131571</data>
+    </node>
+    <node id="&quot;SUPERHYDROPHOBICITY, SELF-CLEANING, FLUID FLOW, DRAG REDUCTION, ADHESION, AERODYNAMICS, STRUCTURAL COLORATION, THERMAL INSULATION, MECHANICAL STRENGTH&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"Various aspects addressed in applications of biomimetic research."</data>
+      <data key="d2">bc2123b5f86d53a8b6c4f35594131571</data>
+    </node>
+    <node id="&quot;HEAT MAP OF CO-CITATIONS&quot;">
+      <data key="d0">"EVENT"</data>
+      <data key="d1">"Analysis determining which documents are frequently cited@together to identify the highest-density nuclei."</data>
+      <data key="d2">bc2123b5f86d53a8b6c4f35594131571</data>
+    </node>
+    <node id="&quot;ANTENNA-BASED WALL FOLLOWING DESIGN AND NEUROMECHANICS&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"A project for task control based on spatial navigation of cockroaches."</data>
+      <data key="d2">bc2123b5f86d53a8b6c4f35594131571</data>
+    </node>
+    <node id="&quot;BIOMIMETIC SELF-CLEANING CAPACITY&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"Capacity@of organisms to stimulate innovations in design based on surface characteristics."</data>
+      <data key="d2">bc2123b5f86d53a8b6c4f35594131571</data>
+    </node>
+    <node id="&quot;MEDICINE, AEROSPACE CONSTRUCTION, SOLAR ENERGY PRODUCTION, AND WATER TREATMENT&quot;">
+      <data key="d0">"APPLICATION"</data>
+      <data key="d1">"Possible applications inspired by self-cleaning capacity."</data>
+      <data key="d2">bc2123b5f86d53a8b6c4f35594131571</data>
+    </node>
+    <node id="&quot;RENEWABLE ENERGIES, RESPONSIVE SYSTEMS, LOCAL CONTEXT ADAPTATION, FEEDBACK LOOPS, AND AUTONOMY&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"Important aspects noted for biomimetic principles in projects."</data>
+      <data key="d2">bc2123b5f86d53a8b6c4f35594131571</data>
+    </node>
+    <node id="&quot;BENYUS (1997)&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"Benyus's work is a fundamental publication in biomimicry research."</data>
+      <data key="d2">c16a050b9f05d4adcbe87cd85974f73b</data>
+    </node>
+    <node id="&quot;CO-CITATION MAP&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"A visual representation showing the relationships between different works based on their mutual citations."</data>
+      <data key="d2">c16a050b9f05d4adcbe87cd85974f73b</data>
+    </node>
+    <node id="&quot;MODEL, MEASURE AND MENTOR&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"Benyus conceptualizes nature as a model to emulate, measure the efficiency against, and mentor for guidance."</data>
+      <data key="d2">c16a050b9f05d4adcbe87cd85974f73b</data>
+    </node>
+    <node id="&quot;BENYUS&quot;">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">"Benyus" conceptualizes nature not only as a model but also as a measure and mentor agent, fundamentally capable of generating highly efficient systems. This visionary approach has established "Benyus" as a pivotal figure in the dissemination of knowledge about biomimicry, significantly impacting thematic emphases in related publications through influential contributions and insightful perspectives.</data>
+      <data key="d2">10357a9455875b5f9c5deca2d9871135,50d87eb794de75e87a2b0897c5432e39</data>
+    </node>
+    <node id="&quot;TRIZ HEURISTIC MATRIX&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"TRIZ heuristic matrix, used in biomimicry projects, can be adapted for biologically-inspired systems creation."</data>
+      <data key="d2">10357a9455875b5f9c5deca2d9871135</data>
+    </node>
+    <node id="&quot;VINCENT ET AL.&quot;">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">"Vincent et al. emphasized that biomimicry requires specific tools and processes including the TRIZ heuristic matrix."</data>
+      <data key="d2">10357a9455875b5f9c5deca2d9871135</data>
+    </node>
+    <node id="&quot;BIOTRIZ TOOL&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"BioTRIZ tool is used to transfer configurations@from natural systems for technological innovations."</data>
+      <data key="d2">10357a9455875b5f9c5deca2d9871135</data>
+    </node>
+    <node id="&quot;HELMS, VATTAM, AND GOEL&quot;">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">"Helms et al. featured two main approaches in biomimetic projects: design problem centered or solution-driven approach."</data>
+      <data key="d2">10357a9455875b5f9c5deca2d9871135</data>
+    </node>
+    <node id="&quot;ARCHITECTURE&quot;">
+      <data key="d0">"GEO"</data>
+      <data key="d1">"Architecture, as an esteemed organization or field of study, encompasses a wide range of concepts, theories, and practices aimed at designing built environments that serve human needs while considering aesthetic, functional, and societal impacts. A notable example is Pawlyn's work, which exemplifies the innovative integration of biomimicry with sustainable architecture. By drawing inspiration from nature, Pawlyn's projects not only promote environmental sustainability but also implement restorative initiatives to enhance ecological balance. This approach underscores a commitment to creating harmonious relationships between human-built structures and their natural surroundings."</data>
+      <data key="d2">10357a9455875b5f9c5deca2d9871135,84d05d265cebbc1d33e9d523b860d87e,e01fbf716e63081d999f9f22c28e098a</data>
+    </node>
+    <node id="&quot;PAWLYN&quot;">
+      <data key="d0" />
+      <data key="d1">"Pawllyn is an author known for his work in the field of biomimicry and architecture. He specializes in sustainable and innovative construction methods that have a restorative environmental impact."</data>
+      <data key="d2">10357a9455875b5f9c5deca2d9871135,b8f2d8b6f8181c950be1341e09d5f6ac</data>
+    </node>
+    <node id="&quot;CHAKRABARTI ET AL.&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"Chakrabarti et al. developed the GEMS of SAPPhIRE Model of Causality tool for functional understanding in biomimetic design projects."</data>
+      <data key="d2">b8f2d8b6f8181c950be1341e09d5f6ac</data>
+    </node>
+    <node id="&quot;BAUMEISTER ET AL.&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"Baumeister et al. provided a Biomimicry Resource Handbook, offering guidelines and tools to apply biomimetic methods in creative projects."</data>
+      <data key="d2">b8f2d8b6f8181c950be1341e09d5f6ac</data>
+    </node>
+    <node id="&quot;BRAUNGART AND MCDONOUGH&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"BRAUNGART AND MCDONOUGH are proponents of the principles underlying the circular economy, emphasizing design reconfiguration for positive impact. They are well-known for proposing the concept of Cradle to Cradle, advocating for a radical redesign of product life cycles that not only promote environmental sustainability but also aim@for social benefits."</data>
+      <data key="d2">50d87eb794de75e87a2b0897c5432e39,b8f2d8b6f8181c950be1341e09d5f6ac</data>
+    </node>
+    <node id="&quot;GEMS OF SAPPHIRE MODEL OF CAUSALITY&quot;">
+      <data key="d0">"EVENT"</data>
+      <data key="d1">"The GEMS of SAPPhIRE Model of Causality is a computational tool that aids in biomimetic design projects based on natural system analogies."</data>
+      <data key="d2">b8f2d8b6f8181c950be1341e09d5f6ac</data>
+    </node>
+    <node id="&quot;BIOMIMICRY RESOURCE HANDBOOK&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"The Biomimicry Resource Handbook provides guidelines for applying biomimetic methods and tools to creative projects."</data>
+      <data key="d2">b8f2d8b6f8181c950be1341e09d5f6ac</data>
+    </node>
+    <node id="&quot;CRADLE TO CRADLE&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"Cradle to Cradle is a concept that advocates for redesigning product life cycles with social benefits, environmental sustainability, and the circular economy."</data>
+      <data key="d2">b8f2d8b6f8181c950be1341e09d5f6ac</data>
+    </node>
+    <node id="&quot;CIRCULARITY&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"Circularity is a focus in biomimicry-based design, emphasizing sustainability and waste reduction."</data>
+      <data key="d2">50d87eb794de75e87a2b0897c5432e39</data>
+    </node>
+    <node id="&quot;SUSTAINABILITY&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"SUSTAINABILITY" refers to a pivotal focus area that underscores the promotion of well-being associated with natural environments. It is intricately linked with biomimicry-based design, which aims@ for environmentally friendly practices. This concept permeates various subjects and scales in biomimetic design, including research, production, and application. The integration of sustainability across these diverse areas highlights its importance in fostering eco-friendly solutions and practices.</data>
+      <data key="d2">439722d75181e1aa687e95df70e09d63,50d87eb794de75e87a2b0897c5432e39,5bb96e57d4c79ea40feeb5ecb3296afe,84d05d265cebbc1d33e9d523b860d87e,e01fbf716e63081d999f9f22c28e098a</data>
+    </node>
+    <node id="&quot;CIRCULARITY AND SUSTAINABILITY&quot;">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">50d87eb794de75e87a2b0897c5432e39</data>
+    </node>
+    <node id="&quot;PROBLEM-BASED APPROACH&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"A design challenge-oriented approach in biomimetic projects, starting with functional requirements."</data>
+      <data key="d2">ea3022e7c889776437eec7e0ff1e3b2c</data>
+    </node>
+    <node id="&quot;AUTHORS LOCATED IN THE CENTER OF THE MAP&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"Authors who predominantly use the problem-based biomimetic approach are situated centrally."</data>
+      <data key="d2">ea3022e7c889776437eec7e0ff1e3b2c</data>
+    </node>
+    <node id="&quot;BIOMIMICRY-BASED DESIGN&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"Design that incorporates principles@from natural systems, often used by the authors."</data>
+      <data key="d2">ea3022e7c889776437eec7e0ff1e3b2c</data>
+    </node>
+    <node id="&quot;COCITATION ANALYSIS&quot;">
+      <data key="d0">"EVENT"</data>
+      <data key="d1">"A bibliometric technique to evaluate relationships between works based on their citations."</data>
+      <data key="d2">ea3022e7c889776437eec7e0ff1e3b2c</data>
+    </node>
+    <node id="&quot;WORD CLOUD&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">The entity "Word Cloud" refers to a graphical depiction that visually represents the prominence of words within a collection of documents or publications. In this visualization, the size and color of each word are used to indicate its frequency and importance. The larger and more prominently displayed a word is in the cloud, the more significant it appears to be in relation to the content being analyzed, thus highlighting key topics from the set of publications. This method provides an intuitive overview for understanding the thematic focus or common vocabulary within a given corpus.</data>
+      <data key="d2">44c8dff86ecf90b601e21ef2335e8c61,ea3022e7c889776437eec7e0ff1e3b2c</data>
+    </node>
+    <node id="&quot;ARCH, THE MOST&quot;">
+      <data key="d0">"GEO"</data>
+      <data key="d1">"Refers to architectural context or location."</data>
+      <data key="d2">e01fbf716e63081d999f9f22c28e098a</data>
+    </node>
+    <node id="&quot;FREQUENTLY&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"Describes how often certain keywords are mentioned."</data>
+      <data key="d2">e01fbf716e63081d999f9f22c28e098a</data>
+    </node>
+    <node id="&quot;KEYWOR RDS&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"Keywords that are frequently mentioned in the text."</data>
+      <data key="d2">e01fbf716e63081d999f9f22c28e098a</data>
+    </node>
+    <node id="&quot;SUSTAINABILIT">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"Concept of sustainability, a prominent theme in discussions related to architecture and design."</data>
+      <data key="d2">e01fbf716e63081d999f9f22c28e098a</data>
+    </node>
+    <node id="&quot;ECOLOGY&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"Ecology as an organization or field of study."</data>
+      <data key="d2">e01fbf716e63081d999f9f22c28e098a</data>
+    </node>
+    <node id="&quot;PRODUCT&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"Product design within the context of architecture and innovation."</data>
+      <data key="d2">e01fbf716e63081d999f9f22c28e098a</data>
+    </node>
+    <node id="&quot;URBAN&quot;">
+      <data key="d0">"GEO"</data>
+      <data key="d1">"Urban context, referring to city environments and urban planning."</data>
+      <data key="d2">e01fbf716e63081d999f9f22c28e098a</data>
+    </node>
+    <node id="&quot;SYSTEMS&quot;">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">e01fbf716e63081d999f9f22c28e098a</data>
+    </node>
+    <node id="&quot;NETWORKS&quot;">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">e01fbf716e63081d999f9f22c28e098a</data>
+    </node>
+    <node id="&quot;CLIMATE&quot;">
+      <data key="d0">"GEO"</data>
+      <data key="d1">"Climate refers to the study of atmospheric conditions and its impact on various systems."</data>
+      <data key="d2">3cafe8221f0d2b661270f9e33c59993d</data>
+    </node>
+    <node id="&quot;CHANGE&quot;">
+      <data key="d0">"EVENT"</data>
+      <data key="d1">"Change is associated with the adaptive approach at systemic level, influencing technical solutions specifically in climate crisis scenarios."</data>
+      <data key="d2">3cafe8221f0d2b661270f9e33c59993d</data>
+    </node>
+    <node id="&quot;EDUCATION&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"Education methodology and performance are discussed, denoting concerns about efficiency and improvement in teaching methods."</data>
+      <data key="d2">3cafe8221f0d2b661270f9e33c59993d</data>
+    </node>
+    <node id="&quot;OPTIMIZATION&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"Optimization is also included, along with biomimetic products and resources associated with practice and achievement."</data>
+      <data key="d2">3cafe8221f0d2b661270f9e33c59993d</data>
+    </node>
+    <node id="&quot;ORGANIZATION&quot;">
+      <data key="d0">"VOSVIEWER"</data>
+      <data key="d1">"ORGANIZATION" utilizes VOSViewer, a specialized software designed for the generation and visualization of thematic groupings of words through co-occurrence analysis. This tool enables an in-depth examination of how concepts interrelate within given datasets, providing researchers with insights into patterns and relationships among various topics or entities mentioned together across multiple sources. While there seems to be a gap in the provided description list that might contain additional information about "ORGANIZATION," focusing on VOSViewer reveals its central role as an analytical tool for thematic exploration within the context of this entity.</data>
+      <data key="d2">4c8d34a6cb7efcbac85f88b2fbb3973e,f770903009c82b1aeca7bf9e490877ad</data>
+    </node>
+    <node id="&quot;PERSON&quot;">
+      <data key="d0">"RESEARCHER"</data>
+      <data key="d1">"Researchers are involved in the field of biomimicry, focusing on morphology and movement of organisms, as well as water environment studies."</data>
+      <data key="d2">4c8d34a6cb7efcbac85f88b2fbb3973e</data>
+    </node>
+    <node id="&quot;GEO&quot;">
+      <data key="d0">"WATER ENVIRONMENT"</data>
+      <data key="d1">"Water environment is a subject area@ that includes new hydrodynamic products, hydrophilic/hydrophobic surfaces/vehicles, water harvesting products, and aquatic organism studies."</data>
+      <data key="d2">4c8d34a6cb7efcbac85f88b2fbb3973e</data>
+    </node>
+    <node id="&quot;EVENT&quot;">
+      <data key="d0">"CO-OCCURRENCE ANALYSIS"</data>
+      <data key="d1">"Co-occurrence analysis was conducted on the words from publications spanning 1991 to 2021."</data>
+      <data key="d2">4c8d34a6cb7efcbac85f88b2fbb3973e</data>
+    </node>
+    <node id="&quot;CONCEPT&quot;">
+      <data key="d0">"BIOMIMICRY"</data>
+      <data key="d1">"Biomimicry is a research field that focuses on creating new materials and surfaces@ inspired by biological systems, particularly at microscopic/nanoscopic levels."</data>
+      <data key="d2">4c8d34a6cb7efcbac85f88b2fbb3973e</data>
+    </node>
+    <node id="&quot;CO-OCCURRENCE ANALYSIS&quot;">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">4c8d34a6cb7efcbac85f88b2fbb3973e,5bb96e57d4c79ea40feeb5ecb3296afe</data>
+    </node>
+    <node id="&quot;RESEARCHER&quot;">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">4c8d34a6cb7efcbac85f88b2fbb3973e</data>
+    </node>
+    <node id="&quot;WATER ENVIRONMENT&quot;">
+      <data key="d0" />
+      <data key="d1">The "Water Environment" pertains to the aquatic settings encompassing both natural and man-made bodies of water. This concept encompasses a wide range of applications connected with hydrodynamics, product development, water harvesting techniques, and the study of aquatic life. It is an inclusive term@ that characterizes the conditions, dynamics, and interactions within water systems which are crucial for various fields including environmental science, engineering, and conservation efforts. The notion of Water Environment underscores the importance of understanding and managing these ecosystems to ensure sustainable use and preservation of our water resources.</data>
+      <data key="d2">4c8d34a6cb7efcbac85f88b2fbb3973e,5bb96e57d4c79ea40feeb5ecb3296afe</data>
+    </node>
+    <node id="&quot;HYDRODYNAMIC PRODUCTS&quot;">
+      <data key="d0" />
+      <data key="d1">"Hydrodynamic Products" refer to a selection of items that are designed, influenced, or optimized based on principles@ of water dynamics and fluid mechanics. This term encapsulates a variety of products which leverage the understanding and application of how fluids behave under different conditions, especially in relation to motion and forces exerted by water. These entities may encompass anything from marine technology components, hydrodynamic designs for efficiency in water movement, or consumer goods that benefit from optimized fluid dynamics for improved performance or functionality. However, it seems there was an oversight as the description list initially provided an empty entry; thus, we have focused on interpreting and consolidating the intended meaning based on the following relevant description.</data>
+      <data key="d2">4c8d34a6cb7efcbac85f88b2fbb3973e,5bb96e57d4c79ea40feeb5ecb3296afe</data>
+    </node>
+    <node id="&quot;PRODUCTS FOR WATER HARVESTING&quot;">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">4c8d34a6cb7efcbac85f88b2fbb3973e</data>
+    </node>
+    <node id="&quot;AQUATIC ORGANISMS&quot;">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">4c8d34a6cb7efcbac85f88b2fbb3973e</data>
+    </node>
+    <node id="&quot;MATERIALS AND SURFACES&quot;">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">4c8d34a6cb7efcbac85f88b2fbb3973e</data>
+    </node>
+    <node id="&quot;ENTOMOLOGY&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"Entomology is a field of study dealing with insects."</data>
+      <data key="d2">5bb96e57d4c79ea40feeb5ecb3296afe</data>
+    </node>
+    <node id="&quot;ADHESION&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"Adhesion represents a specific focus in biomimicry, aimed at creating materials with bioinspired properties."</data>
+      <data key="d2">5bb96e57d4c79ea40feeb5ecb3296afe</data>
+    </node>
+    <node id="&quot;MATERIALS&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"Materials are a key focus in biomimicry, with the aim to create new materials inspired by nature."</data>
+      <data key="d2">5bb96e57d4c79ea40feeb5ecb3296afe</data>
+    </node>
+    <node id="&quot;SURFACES&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"Surfaces are studied@ microscopic and nanoscopic levels for bioinspired properties."</data>
+      <data key="d2">5bb96e57d4c79ea40feeb5ecb3296afe</data>
+    </node>
+    <node id="&quot;HYDROPHILIC PRODUCTS&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"Hydrophilic Products are those that@ interact favorably with water."</data>
+      <data key="d2">5bb96e57d4c79ea40feeb5ecb3296afe</data>
+    </node>
+    <node id="&quot;HYDROPHOBIC PRODUCTS&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"Hydrophobic Products are those that@ repel or avoid@ interaction with water."</data>
+      <data key="d2">5bb96e57d4c79ea40feeb5ecb3296afe</data>
+    </node>
+    <node id="&quot;ANALYSIS&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"The analysis is centered on sustainability, design, architecture, and initiatives related to climate change and ecosystem services."</data>
+      <data key="d2">84d05d265cebbc1d33e9d523b860d87e</data>
+    </node>
+    <node id="&quot;DESIGN&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"Design plays a significant role in sustainability efforts, focusing on aspects like biophilic configurations and eco-logical ing design."</data>
+      <data key="d2">84d05d265cebbc1d33e9d523b860d87e</data>
+    </node>
+    <node id="&quot;ARC&quot;">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">"Arc is possibly an individual or team involved in the thematic research and initiatives."</data>
+      <data key="d2">84d05d265cebbc1d33e9d523b860d87e</data>
+    </node>
+    <node id="&quot;SUSTAINABLE&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"Sustainability is associated with initiatives that inspire a connection to nature, promoting biophilic concepts."</data>
+      <data key="d2">84d05d265cebbc1d33e9d523b860d87e</data>
+    </node>
+    <node id="&quot;TERMS SUSTAINABILITY&quot;">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">84d05d265cebbc1d33e9d523b860d87e</data>
+    </node>
+    <node id="&quot;INITIATIVES&quot;">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">84d05d265cebbc1d33e9d523b860d87e</data>
+    </node>
+    <node id="&quot;WELL-BEING&quot;">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">84d05d265cebbc1d33e9d523b860d87e</data>
+    </node>
+    <node id="&quot;ARCHITECTURAL DESIGN&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"Architectural design is a field that encompasses creativity, innovation, and the exploration of biotechnologies."</data>
+      <data key="d2">439722d75181e1aa687e95df70e09d63</data>
+    </node>
+    <node id="&quot;BIOTECHNOLOGY&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"Biotechnology organization focuses on sustainable development, waste management, circular economy, materials, and energy efficiency."</data>
+      <data key="d2">439722d75181e1aa687e95df70e09d63</data>
+    </node>
+    <node id="&quot;SUSTAINABLE DEVELOPMENT&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"Sustainable development is a principle@principle that influences research, production, and design methodologies."</data>
+      <data key="d2">439722d75181e1aa687e95df70e09d63</data>
+    </node>
+    <node id="&quot;WASTE MANAGEMENT&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"Waste management practices@practices are integrated into sustainable development efforts."</data>
+      <data key="d2">439722d75181e1aa687e95df70e09d63</data>
+    </node>
+    <node id="&quot;MORPHOLOGICAL STUDY&quot;">
+      <data key="d0">"EVENT"</data>
+      <data key="d1">"Morphological study of animals like geckos and beetles is part of the broader field of biomimicry."</data>
+      <data key="d2">439722d75181e1aa687e95df70e09d63</data>
+    </node>
+    <node id="&quot;MATERIAL FIBERS&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"Material fibers organization investigates adhesion properties, locomotion, and other surface characteristics."</data>
+      <data key="d2">439722d75181e1aa687e95df70e09d63</data>
+    </node>
+    <node id="&quot;BIBLIOGRAPHIC COUPLING MAP&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"A graphical representation showing relationships between publications based on their citation patterns."</data>
+      <data key="d2">44c8dff86ecf90b601e21ef2335e8c61</data>
+    </node>
+    <node id="&quot;CITATION&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"The act of referring or attributing a source in writing or speech."</data>
+      <data key="d2">44c8dff86ecf90b601e21ef2335e8c61</data>
+    </node>
+    <node id="&quot;CO-CITATION&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"When two items@are frequently cited together, it indicates they are often considered as part of the same scholarly conversation."</data>
+      <data key="d2">44c8dff86ecf90b601e21ef2335e8c61</data>
+    </node>
+    <node id="&quot;CO-OCCURRENCE&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"The occurrence of two terms in the same context or text, suggesting a possible relationship between them."</data>
+      <data key="d2">44c8dff86ecf90b601e21ef2335e8c61</data>
+    </node>
+    <node id="&quot;PUBLICATION&quot;">
+      <data key="d0">"EVENT"</data>
+      <data key="d1">"An academic paper or book that contributes to a scholarly conversation."</data>
+      <data key="d2">44c8dff86ecf90b601e21ef2335e8c61</data>
+    </node>
+    <node id="&quot;FIGURE 4&quot;">
+      <data key="d0">"EVENT"</data>
+      <data key="d1">"Figure 4 refers to a specific visual representation in the text, which covers the bibliographic coupling map created from the mentioned period."</data>
+      <data key="d2">8d7e6e7209519d7dec8948a364fdbab2</data>
+    </node>
+    <node id="&quot;PERERA&quot;">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">"Perera is an author who investigates new design possibilities through bioinspired materials and chemical engineering."</data>
+      <data key="d2">8d7e6e7209519d7dec8948a364fdbab2</data>
+    </node>
+    <node id="&quot;COPPEPS&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"Coppeps refers to a company or group of authors, as indicated by the abbreviation in their publication."</data>
+      <data key="d2">8d7e6e7209519d7dec8948a364fdbab2</data>
+    </node>
+    <node id="&quot;PUBLICATION 40&quot;">
+      <data key="d0">"EVENT"</data>
+      <data key="d1">"Publication 40 is a specific work by Perera and Coppeps that focuses on new design possibilities through bioinspired materials and chemical engineering."</data>
+      <data key="d2">8d7e6e7209519d7dec8948a364fdbab2</data>
+    </node>
+    <node id="&quot;TATE ET AL.&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"Tate et al. exemplified their concepts by reviewing relationships of mutualism@found in nature."</data>
+      <data key="d2">f770903009c82b1aeca7bf9e490877ad</data>
+    </node>
+    <node id="&quot;XING ET AL.&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"Xing et al.'s work contributed to the recognition of biomimicry as an area from which knowledge can be useful in strategic, administrative, and organizational plans of companies.""Their contribution helped recognize biomimicry as a valuable area for strategic, administrative, and organizational planning."</data>
+      <data key="d2">f770903009c82b1aeca7bf9e490877ad</data>
+      <data key="d3">"ORGANIZATION"</data>
+    </node>
+    <node id="&quot;AMER&quot;">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">"Incorporated biomimetic concepts into university course curriculum.""Amer incorporated biomimetic notions into the syllabus of a university course."</data>
+      <data key="d2">f770903009c82b1aeca7bf9e490877ad</data>
+      <data key="d3">"PERSON"</data>
+    </node>
+    <node id="&quot;CLARK&quot;">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">"Clark researched marine biomineralization for monitoring and forecasting impacts of climate change.""Conducted research on marine biomineralization related to climate change."</data>
+      <data key="d2">f770903009c82b1aeca7bf9e490877ad</data>
+      <data key="d3">"PERSON"</data>
+    </node>
+    <node id="&quot;ZARI&quot;">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">"Zari analyzed how urban environment can@insert new proposals@into its design that incorporate ecosystem services committed to regeneration of biodiversity.""Analyzed urban design proposals@committed to biodiversity and resilience in response to climate change."</data>
+      <data key="d2">f770903009c82b1aeca7bf9e490877ad</data>
+      <data key="d3">"PERSON"</data>
+    </node>
+    <edge source="&quot;ALICE ARAUJO MARQUES DE S&#193;&quot;" target="&quot;DIANNE MAGALH&#195;ES VIANA&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Both are co-authors of the article on design and biomimicry."</data>
+      <data key="d6">7323cecb72b3fa0472a26a5aa37c4131</data>
+    </edge>
+    <edge source="&quot;ALICE ARAUJO MARQUES DE S&#193;&quot;" target="&quot;DEPARTMENT OF DESIGN, INSTITUTE OF ARTS, UNIVERSITY OF BRAS&#205;LIA&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Alice Araujo Marques de S&#225; works at this department."</data>
+      <data key="d6">7323cecb72b3fa0472a26a5aa37c4131</data>
+    </edge>
+    <edge source="&quot;DIANNE MAGALH&#195;ES VIANA&quot;" target="&quot;DEPARTMENT OF MECHANICAL ENGINEERING, FACULTY OF TECHNOLOGY, UNIVERSITY OF BRAS&#205;LIA&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Dianne Magalh&#227;es Viana works at this department."</data>
+      <data key="d6">7323cecb72b3fa0472a26a5aa37c4131</data>
+    </edge>
+    <edge source="&quot;WEB OF SCIENCE&quot;" target="&quot;SCOPUS&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Both Web of Science and Scopus are databases@ utilized by TEMAC for international literature review."</data>
+      <data key="d6">6e87b92e6c843cb54a008ae676d3b416</data>
+    </edge>
+    <edge source="&quot;WEB OF SCIENCE&quot;" target="&quot;LITERATURE REVIEW&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"The Web of Science was used for conducting a literature review on emerging areas like biomimicry."</data>
+      <data key="d6">fe902bcadf86addbe747f348c1ccc56f</data>
+    </edge>
+    <edge source="&quot;WEB OF SCIENCE&quot;" target="&quot;BIOMIMETICS 2023&quot;">
+      <data key="d4">2.0</data>
+      <data key="d5">Biomimetics 2023, a significant event in the field of biomimetics, has its research cataloged within the comprehensive and influential "Web of Science" database. This indicates that the studies discussed at Biomimetics 2023 are officially indexed and accessible through this extensive resource, facilitating scholarly access and citation for researchers worldwide. The integration of Biomimetics 2023's work into Web of Science underscores its relevance and impact within scientific communities.</data>
+      <data key="d6">b3c5de72ae4c784c9fef28c432a247eb,ea3022e7c889776437eec7e0ff1e3b2c</data>
+    </edge>
+    <edge source="&quot;WEB OF SCIENCE&quot;" target="&quot;CO-CITATION MAP&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"A co-citation map generated from Web of Science data helps visualize relationships between works."</data>
+      <data key="d6">c16a050b9f05d4adcbe87cd85974f73b</data>
+    </edge>
+    <edge source="&quot;WEB OF SCIENCE&quot;" target="&quot;BIBLIOGRAPHIC COUPLING MAP&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"The Bibliographic coupling map is created using data from the Web of Science, indicating its source and methodological basis."</data>
+      <data key="d6">44c8dff86ecf90b601e21ef2335e8c61</data>
+    </edge>
+    <edge source="&quot;INTERCONNECTIONS AND CREATIVE&quot;" target="&quot;CREATIVE COMMONS ATTRIBUTION (CC BY) LICENSE&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"The review article is distributed under a Creative Commons Attribution (CC BY) license."</data>
+      <data key="d6">23c34b74899c04c60dc7b087b88e0137</data>
+    </edge>
+    <edge source="&quot;BIOMIMETICS&quot;" target="&quot;CARDOSO&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Cardoso's opinion on interdisciplinary approach applies specifically in the context of biomimetics."</data>
+      <data key="d6">23c34b74899c04c60dc7b087b88e0137</data>
+    </edge>
+    <edge source="&quot;BIOMIMETICS&quot;" target="&quot;STANISLAV N. GORB&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Stanislav N. Gorb's role as Academic Editor pertains@to the field of biomimetics."</data>
+      <data key="d6">23c34b74899c04c60dc7b087b88e0137</data>
+    </edge>
+    <edge source="&quot;BIOMIMETICS&quot;" target="&quot;BIOMIMICRY CONCEPTS&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Biomimetics as a scientific field encompasses various concepts such as biomimicry, biomimetics, bionics, and bioinspiration."</data>
+      <data key="d6">2aee03ca69624bff0ae2d030f6f31e19</data>
+    </edge>
+    <edge source="&quot;BIOMIMETICS&quot;" target="&quot;JANINE BENYUS&quot;">
+      <data key="d4">2.0</data>
+      <data key="d5">Janine Benyus, through her influential 1997 publication, has notably shaped the development and interest in the interdisciplinary field of Biomimetics. Her work has made significant contributions to various sectors including design and architecture, highlighting the innovative approach that Biomimetics brings by emulating nature's strategies for problem-solving and solution generation.</data>
+      <data key="d6">d1f202cadb144570739c718437dd9c7b,fe902bcadf86addbe747f348c1ccc56f</data>
+    </edge>
+    <edge source="&quot;BIOMIMETICS&quot;" target="&quot;UNITED STATES&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"The United States was a key contributor to the field of biomimetics, having published the highest number of works."</data>
+      <data key="d6">d1f202cadb144570739c718437dd9c7b</data>
+    </edge>
+    <edge source="&quot;BIOMIMETICS&quot;" target="&quot;UNITED KINGDOM&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"The United Kingdom played an important role in advancing Biomimetics with its substantial contributions."</data>
+      <data key="d6">d1f202cadb144570739c718437dd9c7b</data>
+    </edge>
+    <edge source="&quot;BIOMIMETICS&quot;" target="&quot;TURKEY&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Turkey contributed to the biomimetics field, showcasing its significance beyond Western Europe."</data>
+      <data key="d6">d1f202cadb144570739c718437dd9c7b</data>
+    </edge>
+    <edge source="&quot;BIOMIMETICS&quot;" target="&quot;DELFT UNIVERSITY OF TECHNOLOGY AND UNIVERSITY OF AKRON&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"These institutions were involved in advancing the field of Biomimetics through their publications."</data>
+      <data key="d6">d1f202cadb144570739c718437dd9c7b</data>
+    </edge>
+    <edge source="&quot;ISO 18458:2015&quot;" target="&quot;TERMINOLOGY IN BIOMIMICRY&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"The ISO 18458:2015 standard provides guidelines for the terminologies used in biomimicry, helping to clarify and differentiate concepts within this field."</data>
+      <data key="d6">2aee03ca69624bff0ae2d030f6f31e19</data>
+    </edge>
+    <edge source="&quot;IOUGUINA ET AL.&quot;" target="&quot;BIOMIMICRY&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Iouguina and colleagues have made significant contributions to the expanding field of biomimicry."</data>
+      <data key="d6">2aee03ca69624bff0ae2d030f6f31e19</data>
+    </edge>
+    <edge source="&quot;IOUGUINA ET AL.&quot;" target="&quot;GAMAGE AND HYDE&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Both Iouguina et al. and Gamage and Hyde contribute to the understanding of biomimicry, highlighting its theoretical and technical framework."</data>
+      <data key="d6">6e87b92e6c843cb54a008ae676d3b416</data>
+    </edge>
+    <edge source="&quot;SPECK ET AL.&quot;" target="&quot;BIOMIMETIC CONCEPTS&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Speck and his team have contributed to the development and understanding of various biomimetic concepts."</data>
+      <data key="d6">2aee03ca69624bff0ae2d030f6f31e19</data>
+    </edge>
+    <edge source="&quot;BIOMIMICRY&quot;" target="&quot;DESIGN">
+      <data key="d4">1.0</data>
+      <data key="d5">"Biomimicry contributes significantly to design, as per a survey of publications indexed in the Web of Science database."</data>
+      <data key="d6">a43faaba2ebb888387d5b0f59efb6381</data>
+    </edge>
+    <edge source="&quot;BIOMIMICRY&quot;" target="&quot;LI ET AL.&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"The work by Li et al. is considered pioneering in the field of biomimetic approach towards structural applications."</data>
+      <data key="d6">fe902bcadf86addbe747f348c1ccc56f</data>
+    </edge>
+    <edge source="&quot;BIOMIMICRY&quot;" target="&quot;SYNTHETIC COMPOSITES&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Biomimicry is related to the study and application of synthetic composites in engineering and design."</data>
+      <data key="d6">fe902bcadf86addbe747f348c1ccc56f</data>
+    </edge>
+    <edge source="&quot;BIOMIMICRY&quot;" target="&quot;NATURAL BAMBOO FIBERS&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Natural bamboo fibers are studied within biomimetic approach for their structural applications."</data>
+      <data key="d6">fe902bcadf86addbe747f348c1ccc56f</data>
+    </edge>
+    <edge source="&quot;BIOMIMICRY&quot;" target="&quot;BIOMIMETICS 2023&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"The concept of Biomimicry is central to the research presented at Biomimetics 2023."</data>
+      <data key="d6">b3c5de72ae4c784c9fef28c432a247eb</data>
+    </edge>
+    <edge source="&quot;BIOMIMICRY&quot;" target="&quot;BENYUS (1997)&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"The work by Benyus is foundational in establishing biomimicry as an academic field."</data>
+      <data key="d6">c16a050b9f05d4adcbe87cd85974f73b</data>
+    </edge>
+    <edge source="&quot;BIOMIMICRY&quot;" target="&quot;NATURE&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Nature is the primary source for biomimicry, providing principles@ and solutions for efficient systems."</data>
+      <data key="d6">c16a050b9f05d4adcbe87cd85974f73b</data>
+    </edge>
+    <edge source="&quot;BIOMIMICRY&quot;" target="&quot;HELMS, VATTAM, AND GOEL&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Their work is part of biomimicry cluster focusing on natural system-based design approaches."</data>
+      <data key="d6">10357a9455875b5f9c5deca2d9871135</data>
+    </edge>
+    <edge source="&quot;BIOMIMICRY&quot;" target="&quot;PAWLYN&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Pawlyn's work focuses on biomimicry in architecture, emphasizing sustainable construction methods."</data>
+      <data key="d6">b8f2d8b6f8181c950be1341e09d5f6ac</data>
+    </edge>
+    <edge source="&quot;BIOMIMICRY&quot;" target="&quot;BENYUS&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Benyus' work is central to the dissemination of biomimicry knowledge."</data>
+      <data key="d6">50d87eb794de75e87a2b0897c5432e39</data>
+    </edge>
+    <edge source="&quot;BIOMIMICRY&quot;" target="&quot;CIRCULARITY AND SUSTAINABILITY&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Biomimicry principles@are often applied in practices aiming for circularity and sustainability."</data>
+      <data key="d6">50d87eb794de75e87a2b0897c5432e39</data>
+    </edge>
+    <edge source="&quot;BIOMIMICRY&quot;" target="&quot;RESEARCHER&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Researchers are engaged in the field of biomimicry, focusing on morphology and movement of organisms, as well as water environment studies."</data>
+      <data key="d6">4c8d34a6cb7efcbac85f88b2fbb3973e</data>
+    </edge>
+    <edge source="&quot;BIOMIMICRY&quot;" target="&quot;MATERIALS AND SURFACES&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Biomimicry research focuses on creating new materials and surfaces with bioinspired properties at the microscopic/nanoscopic levels."</data>
+      <data key="d6">4c8d34a6cb7efcbac85f88b2fbb3973e</data>
+    </edge>
+    <edge source="&quot;BIOMIMICRY&quot;" target="&quot;ADHESION&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Biomimicry and adhesion are closely related as a specific focus of research."</data>
+      <data key="d6">5bb96e57d4c79ea40feeb5ecb3296afe</data>
+    </edge>
+    <edge source="&quot;BIOMIMETIC CONCEPTS&quot;" target="&quot;AUTHORS&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"the understanding and interpretation of biomimetic concepts vary among different authors."</data>
+      <data key="d6">6e87b92e6c843cb54a008ae676d3b416</data>
+    </edge>
+    <edge source="&quot;SPECIALIZED LITERATURE&quot;" target="&quot;BIBLIOGRAPHICAL RESEARCH&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Specialized literature is a key component of bibliographical research for gathering, systematizing, and analyzing knowledge."</data>
+      <data key="d6">6e87b92e6c843cb54a008ae676d3b416</data>
+    </edge>
+    <edge source="&quot;INTEGRATIVE SYSTEMATIC REVIEW&quot;" target="&quot;TEMAC&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"The integrative systematic review model TEMAC facilitates the development of various aspects including data presentation, interrelation, integrative models, and evidence validation."</data>
+      <data key="d6">6e87b92e6c843cb54a008ae676d3b416</data>
+    </edge>
+    <edge source="&quot;GOOGLE SCHOLAR&quot;" target="&quot;TEMAC&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Google Scholar is one of the databases used in TEMAC for international literature review, aiding in research preparation."</data>
+      <data key="d6">6e87b92e6c843cb54a008ae676d3b416</data>
+    </edge>
+    <edge source="&quot;VOSVIEWER&quot;" target="&quot;CO-OCCURRENCE ANALYSIS&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"VOSViewer software was used to perform co-occurrence analysis in the biomimicry study."</data>
+      <data key="d6">4c8d34a6cb7efcbac85f88b2fbb3973e</data>
+    </edge>
+    <edge source="&quot;BIOMIMETICS 2023, 8, 61&quot;" target="&quot;MATERIALS AND METHODS&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"This publication outlines the methods for conducting a systematic review on biomimetic productions in this field."</data>
+      <data key="d6">a43faaba2ebb888387d5b0f59efb6381</data>
+    </edge>
+    <edge source="&quot;WEB OF SCIENCE DATABASE&quot;" target="&quot;THEORY OF CONSOLIDATED META-ANALYTICAL APPROACH (TEMAC)">
+      <data key="d4">1.0</data>
+      <data key="d5">"The Web of Science database is organized using the TEMAC model to collect and categorize information from various sources."</data>
+      <data key="d6">a43faaba2ebb888387d5b0f59efb6381</data>
+    </edge>
+    <edge source="&quot;UNITED STATES&quot;" target="&quot;WIT TRANSACTIONS ON ECOLOGY AND THE ENVIRONMENT&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"The United States is associated with WIT Transactions on Ecology and the Environment as an organization that published works related to biomimetics."</data>
+      <data key="d6">d1f202cadb144570739c718437dd9c7b</data>
+    </edge>
+    <edge source="&quot;UNITED STATES&quot;" target="&quot;ARCHITECTURAL SCIENCE REVIEW&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"The Architectural Science Review, an organization based in the United States, published works on biomimetics."</data>
+      <data key="d6">d1f202cadb144570739c718437dd9c7b</data>
+    </edge>
+    <edge source="&quot;UNITED STATES&quot;" target="&quot;UNIVERSITY SYSTEM OF GEORGIA&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"The University System of Georgia, based in the United States, contributed to biomimetics research."</data>
+      <data key="d6">d1f202cadb144570739c718437dd9c7b</data>
+    </edge>
+    <edge source="&quot;UNITED KINGDOM&quot;" target="&quot;SCIENTIFIC REPORTS&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"The United Kingdom's contribution to Biomimetics includes publications@in Scientific Reports."</data>
+      <data key="d6">d1f202cadb144570739c718437dd9c7b</data>
+    </edge>
+    <edge source="&quot;TURKEY&quot;" target="&quot;PROCEDIA SOCIAL AND BEHAVIORAL SCIENCES&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Turkey's publications on biomimetics are featured in Procedia Social and Behavioral Sciences."</data>
+      <data key="d6">d1f202cadb144570739c718437dd9c7b</data>
+    </edge>
+    <edge source="&quot;UNIVERSITY SYSTEM OF GEORGIA&quot;" target="&quot;DELFT UNIVERSITY OF TECHNOLOGY AND UNIVERSITY OF AKRON&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"All three institutions@had a significant contribution to the field with six publications each, highlighting their shared impact."</data>
+      <data key="d6">17a811ea2375e85ee164ddd52dbe5a80</data>
+    </edge>
+    <edge source="&quot;UNIVERSITY OF CALIFORNIA SYSTEM&quot;" target="&quot;VICTORIA UNIVERSITY OF WELLINGTON&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Both institutions have published similar numbers of works on design and biomimicry, indicating their collaborative effort in this area."</data>
+      <data key="d6">17a811ea2375e85ee164ddd52dbe5a80</data>
+    </edge>
+    <edge source="&quot;MAIBRITT PEDERSEN ZARI&quot;" target="&quot;DONNISON, FALUDI, JONES, NIEWIAROWSKI AND PAUW&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Maibritt Pedersen Zari published more works than this group of authors, indicating her individual contribution to the field."</data>
+      <data key="d6">17a811ea2375e85ee164ddd52dbe5a80</data>
+    </edge>
+    <edge source="&quot;BIOMIMETICS 2023&quot;" target="&quot;PROBLEM-BASED APPROACH&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Biomimetics 2023's works are centered around a problem-based approach."</data>
+      <data key="d6">ea3022e7c889776437eec7e0ff1e3b2c</data>
+    </edge>
+    <edge source="&quot;BIOMIMETICS 2023&quot;" target="&quot;BIOMIMICRY-BASED DESIGN&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Biomimetics 2023 conducts research that often involves biomimicry-based design."</data>
+      <data key="d6">ea3022e7c889776437eec7e0ff1e3b2c</data>
+    </edge>
+    <edge source="&quot;NATURE&quot;" target="&quot;NATURE&#8212;AN OVERVIEW&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Nature&#8212;an overview encompasses the broad understanding and inspiration from natural phenomena."</data>
+      <data key="d6">b3c5de72ae4c784c9fef28c432a247eb</data>
+    </edge>
+    <edge source="&quot;NATURE&quot;" target="&quot;BENYUS&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Benyus uses nature as a source for solutions, emphasizing its model, measure, and mentor role."</data>
+      <data key="d6">10357a9455875b5f9c5deca2d9871135</data>
+    </edge>
+    <edge source="&quot;NATURE&quot;" target="&quot;TRIZ HEURISTIC MATRIX&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Natural systems provide the basis for TRIZ heuristic matrix applications in biomimicry projects."</data>
+      <data key="d6">10357a9455875b5f9c5deca2d9871135</data>
+    </edge>
+    <edge source="&quot;BIOMIMETICS: LESSONS FROM NATURE&#8212;AN OVERVIEW&quot;" target="&quot;ARTIFICIAL REACTIONS&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"The study on artificial reactions is related to the broader context provided by the 'lessons from nature' study."</data>
+      <data key="d6">b315f4391fd31deebdefc7e4496ccc53</data>
+    </edge>
+    <edge source="&quot;NATURE&#8212;AN OVERVIEW&quot;" target="&quot;BIOMIMETIC APPROACHES&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Nature&#8212;an overview provides inspiration for biomimetic approaches in various fields."</data>
+      <data key="d6">b3c5de72ae4c784c9fef28c432a247eb</data>
+    </edge>
+    <edge source="&quot;CIRCULAR ECONOMY&quot;" target="&quot;INTEGRATING BACKCASTING AND ECO-DESIGN&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"The integration of circular economy concepts with backcasting and eco-design is explored."</data>
+      <data key="d6">b3c5de72ae4c784c9fef28c432a247eb</data>
+    </edge>
+    <edge source="&quot;CIRCULAR ECONOMY&quot;" target="&quot;MATERIAL FIBERS&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Circular economy concept is applied in material fiber studies for sustainable design."</data>
+      <data key="d6">439722d75181e1aa687e95df70e09d63</data>
+    </edge>
+    <edge source="&quot;PHOTOSYNTHESIS&quot;" target="&quot;EVOLUTION OF REACTION CENTER&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Research on artificial reactions@ based on photosynthesis contributes to the evolution of systems capable of photochemical processes."</data>
+      <data key="d6">b3c5de72ae4c784c9fef28c432a247eb</data>
+    </edge>
+    <edge source="&quot;ARTIFICIAL REACTIONS&quot;" target="&quot;RESEARCH ON PHOTOELECTRIC SYSTEMS&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Both are related through research in artificial processes that mimic natural phenomena for energy conversion."</data>
+      <data key="d6">b315f4391fd31deebdefc7e4496ccc53</data>
+    </edge>
+    <edge source="&quot;ARTIFICIAL REACTIONS&quot;" target="&quot;BIOMIMETIC SELF-CLEANING SURFACES&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"The concept of artificial reactions is related to the development of self-cleaning surfaces through biomimicry."</data>
+      <data key="d6">b315f4391fd31deebdefc7e4496ccc53</data>
+    </edge>
+    <edge source="&quot;RESEARCH ON PHOTOELECTRIC SYSTEMS&quot;" target="&quot;BIOMIMICRY IN TEXTILES: PAST, PRESENT, AND POTENTIAL&#8212;AN OVERVIEW&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Both studies involve biomimetic principles but are focused on different applications&#8212;energy conversion vs. textile design."</data>
+      <data key="d6">b315f4391fd31deebdefc7e4496ccc53</data>
+    </edge>
+    <edge source="&quot;NATURAL FACTORS&quot;" target="&quot;ANTENNA PROJECT FOR TASK CONTROL&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"The antenna project is inspired by the spatial navigation techniques of natural species, including cockroaches and robots."</data>
+      <data key="d6">b315f4391fd31deebdefc7e4496ccc53</data>
+    </edge>
+    <edge source="&quot;PERIPLANETA AMERICANA SPECIES&quot;" target="&quot;SELF-CLEANING CAPACITY&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"This insect species serves as a model for understanding self-cleaning characteristics."</data>
+      <data key="d6">b315f4391fd31deebdefc7e4496ccc53</data>
+    </edge>
+    <edge source="&quot;SELF-CLEANING CAPACITY&quot;" target="&quot;BIOMIMETIC SELF-CLEANING SURFACES&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"The concept is applied through the development of specific designs inspired by self-cleaning organisms."</data>
+      <data key="d6">b315f4391fd31deebdefc7e4496ccc53</data>
+    </edge>
+    <edge source="&quot;SYSTEMS-LEVEL REGENERATIVE DESIGN&quot;" target="&quot;BIOMIMICRY APPLICATIONS&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"They are both part of biomimetic approaches used in various fields, including environmental preservation projects."</data>
+      <data key="d6">b315f4391fd31deebdefc7e4496ccc53</data>
+    </edge>
+    <edge source="&quot;BIOMIMETIC DESIGN FOR CLIMATE&quot;" target="&quot;SYSTEMS-LEVEL REGENERATIVE AND BIOMIMETIC DESIGN&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Both are related through the application of biomimicry in addressing climate change effects."</data>
+      <data key="d6">b315f4391fd31deebdefc7e4496ccc53</data>
+    </edge>
+    <edge source="&quot;BHUSHAN (2009)&quot;" target="&quot;BIOMIMETIC RESEARCH&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Bhushan's work is foundational to the field of biomimetic research."</data>
+      <data key="d6">bc2123b5f86d53a8b6c4f35594131571</data>
+    </edge>
+    <edge source="&quot;BIOMIMETIC RESEARCH&quot;" target="&quot;HEAT MAP OF CO-CITATIONS&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Co-citation analysis identifies a nucleus of highly interconnected documents in biomimetic research."</data>
+      <data key="d6">bc2123b5f86d53a8b6c4f35594131571</data>
+    </edge>
+    <edge source="&quot;BIOMIMETIC RESEARCH&quot;" target="&quot;ANTENNA-BASED WALL FOLLOWING DESIGN AND NEUROMECHANICS&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"A specific project illustrates the application of biomimetics in robot design."</data>
+      <data key="d6">bc2123b5f86d53a8b6c4f35594131571</data>
+    </edge>
+    <edge source="&quot;BIOMIMETIC SELF-CLEANING CAPACITY&quot;" target="&quot;MEDICINE, AEROSPACE CONSTRUCTION, SOLAR ENERGY PRODUCTION, AND WATER TREATMENT&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Self-cleaning capacity inspires new designs across diverse sectors."</data>
+      <data key="d6">bc2123b5f86d53a8b6c4f35594131571</data>
+    </edge>
+    <edge source="&quot;VINCENT ET AL.&quot;" target="&quot;BIOTRIZ TOOL&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Vincent et al. utilize TRIZ heuristic matrix through BioTRIZ tool for biological-inspired project creation."</data>
+      <data key="d6">10357a9455875b5f9c5deca2d9871135</data>
+    </edge>
+    <edge source="&quot;ARCHITECTURE&quot;" target="&quot;PAWLYN&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Pawlyn's work connects biomimicry with sustainable architecture, emphasizing conscious and systemic initiatives."</data>
+      <data key="d6">10357a9455875b5f9c5deca2d9871135</data>
+    </edge>
+    <edge source="&quot;ARCHITECTURE&quot;" target="&quot;SUSTAINABILITY&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Sustainability is a key theme in architectural discussions and practices."</data>
+      <data key="d6">e01fbf716e63081d999f9f22c28e098a</data>
+    </edge>
+    <edge source="&quot;ARCHITECTURE&quot;" target="&quot;ECOLOGY&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"The field of architecture intersects with ecology through sustainable design principles."</data>
+      <data key="d6">e01fbf716e63081d999f9f22c28e098a</data>
+    </edge>
+    <edge source="&quot;ARCHITECTURE&quot;" target="&quot;DESIGN&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Design and architecture are related in emphasizing sustainability through eco-logical ing design aspects."</data>
+      <data key="d6">84d05d265cebbc1d33e9d523b860d87e</data>
+    </edge>
+    <edge source="&quot;CHAKRABARTI ET AL.&quot;" target="&quot;GEMS OF SAPPHIRE MODEL OF CAUSALITY&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"The GEMS of SAPPhIRE Model of Causality is a tool developed by Chakrabarti et al. for biomimetic design projects."</data>
+      <data key="d6">b8f2d8b6f8181c950be1341e09d5f6ac</data>
+    </edge>
+    <edge source="&quot;BAUMEISTER ET AL.&quot;" target="&quot;BIOMIMICRY RESOURCE HANDBOOK&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Baumeister et al.'s work provides the Biomimicry Resource Handbook, which includes guidelines for applying biomimetic methods in creative projects."</data>
+      <data key="d6">b8f2d8b6f8181c950be1341e09d5f6ac</data>
+    </edge>
+    <edge source="&quot;BRAUNGART AND MCDONOUGH&quot;" target="&quot;CRADLE TO CRADLE&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"The concept of Cradle to Cradle is proposed by Braungart and McDonough, advocating for a redesign of product life cycles with social benefits and environmental sustainability."</data>
+      <data key="d6">b8f2d8b6f8181c950be1341e09d5f6ac</data>
+    </edge>
+    <edge source="&quot;BRAUNGART AND MCDONOUGH&quot;" target="&quot;CIRCULARITY&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Braungart and McDonough's principles influence the concept of circularity in design."</data>
+      <data key="d6">50d87eb794de75e87a2b0897c5432e39</data>
+    </edge>
+    <edge source="&quot;SUSTAINABILITY&quot;" target="&quot;MATERIALS&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Materials and sustainability terms like 'sustainable design' and 'architecture' show significant co-occurrence, indicating their relevance in the literature."</data>
+      <data key="d6">5bb96e57d4c79ea40feeb5ecb3296afe</data>
+    </edge>
+    <edge source="&quot;SUSTAINABILITY&quot;" target="&quot;DESIGN&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Design emphasizes sustainability by incorporating aspects of eco-logical design, biophilic configurations, and biodiversity concerns."</data>
+      <data key="d6">84d05d265cebbc1d33e9d523b860d87e</data>
+    </edge>
+    <edge source="&quot;SUSTAINABILITY&quot;" target="&quot;WELL-BEING&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Sustainability promotes well-being associated with natural environments, as part of the thematic focus."</data>
+      <data key="d6">84d05d265cebbc1d33e9d523b860d87e</data>
+    </edge>
+    <edge source="&quot;SUSTAINABILITY&quot;" target="&quot;MORPHOLOGICAL STUDY&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Morphological study of animals like geckos and beetles contributes to sustainability efforts in biomimetic design."</data>
+      <data key="d6">439722d75181e1aa687e95df70e09d63</data>
+    </edge>
+    <edge source="&quot;PROBLEM-BASED APPROACH&quot;" target="&quot;AUTHORS LOCATED IN THE CENTER OF THE MAP&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"The authors using the problem-based approach are primarily located at the central point in the map."</data>
+      <data key="d6">ea3022e7c889776437eec7e0ff1e3b2c</data>
+    </edge>
+    <edge source="&quot;COCITATION ANALYSIS&quot;" target="&quot;WORD CLOUD&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Cocitation analysis was used to generate the word cloud, indicating related topics in scientific publications."</data>
+      <data key="d6">ea3022e7c889776437eec7e0ff1e3b2c</data>
+    </edge>
+    <edge source="&quot;WORD CLOUD&quot;" target="&quot;CO-OCCURRENCE&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"The frequency and importance of terms are visualized in a word cloud, reflecting their co-occurrence in the dataset."</data>
+      <data key="d6">44c8dff86ecf90b601e21ef2335e8c61</data>
+    </edge>
+    <edge source="&quot;PRODUCT&quot;" target="&quot;URBAN&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Product design, including urban products, is relevant to the urban context and sustainability."</data>
+      <data key="d6">e01fbf716e63081d999f9f22c28e098a</data>
+    </edge>
+    <edge source="&quot;SYSTEMS&quot;" target="&quot;NETWORKS&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Systems thinking connects architecture with network concepts in understanding complex designs and environments."</data>
+      <data key="d6">e01fbf716e63081d999f9f22c28e098a</data>
+    </edge>
+    <edge source="&quot;CLIMATE&quot;" target="&quot;CHANGE&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Climate adaptation strategies@are influenced by change at systemic level."</data>
+      <data key="d6">3cafe8221f0d2b661270f9e33c59993d</data>
+    </edge>
+    <edge source="&quot;CLIMATE&quot;" target="&quot;EDUCATION&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Climate studies and education methodology are interconnected, highlighting the importance of educational approaches in understanding climate systems."</data>
+      <data key="d6">3cafe8221f0d2b661270f9e33c59993d</data>
+    </edge>
+    <edge source="&quot;EDUCATION&quot;" target="&quot;OPTIMIZATION&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Education methods are discussed@alongside optimization, indicating a focus on efficiency in teaching."</data>
+      <data key="d6">3cafe8221f0d2b661270f9e33c59993d</data>
+    </edge>
+    <edge source="&quot;ORGANIZATION&quot;" target="&quot;AMER&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"The university course taught by Amer includes topics that align with the themes discussed by Xing et al. and others in biomimetics."</data>
+      <data key="d6">f770903009c82b1aeca7bf9e490877ad</data>
+    </edge>
+    <edge source="&quot;CO-OCCURRENCE ANALYSIS&quot;" target="&quot;WATER ENVIRONMENT&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Water Environment is closely related to co-occurrence analysis, indicating its prominence in research."</data>
+      <data key="d6">5bb96e57d4c79ea40feeb5ecb3296afe</data>
+    </edge>
+    <edge source="&quot;WATER ENVIRONMENT&quot;" target="&quot;HYDRODYNAMIC PRODUCTS&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Water environment is associated with new hydrodynamic products like surfaces and vehicles."</data>
+      <data key="d6">4c8d34a6cb7efcbac85f88b2fbb3973e</data>
+    </edge>
+    <edge source="&quot;WATER ENVIRONMENT&quot;" target="&quot;PRODUCTS FOR WATER HARVESTING&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Water environment is linked to water harvesting products."</data>
+      <data key="d6">4c8d34a6cb7efcbac85f88b2fbb3973e</data>
+    </edge>
+    <edge source="&quot;WATER ENVIRONMENT&quot;" target="&quot;AQUATIC ORGANISMS&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Water environment includes studies on aquatic organisms and their characteristics."</data>
+      <data key="d6">4c8d34a6cb7efcbac85f88b2fbb3973e</data>
+    </edge>
+    <edge source="&quot;ANALYSIS&quot;" target="&quot;TERMS SUSTAINABILITY&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"The analysis focuses on terms like 'sustainability', 'design', and 'architecture'."</data>
+      <data key="d6">84d05d265cebbc1d33e9d523b860d87e</data>
+    </edge>
+    <edge source="&quot;ANALYSIS&quot;" target="&quot;INITIATIVES&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"The analysis includes initiatives inspired by nature and biotechnology."</data>
+      <data key="d6">84d05d265cebbc1d33e9d523b860d87e</data>
+    </edge>
+    <edge source="&quot;ARCHITECTURAL DESIGN&quot;" target="&quot;BIOTECHNOLOGY&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Architectural design field explores biotechnologies like sustainable development, waste management, circular economy, materials, and energy efficiency."</data>
+      <data key="d6">439722d75181e1aa687e95df70e09d63</data>
+    </edge>
+    <edge source="&quot;SUSTAINABLE DEVELOPMENT&quot;" target="&quot;WASTE MANAGEMENT&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Sustainable development principles@principles influence waste management practices within the green sector."</data>
+      <data key="d6">439722d75181e1aa687e95df70e09d63</data>
+    </edge>
+    <edge source="&quot;CITATION&quot;" target="&quot;CO-CITATION&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Co-citation occurs when publications are frequently cited@together in scholarly works, suggesting they are part of a similar conversation."</data>
+      <data key="d6">44c8dff86ecf90b601e21ef2335e8c61</data>
+    </edge>
+    <edge source="&quot;CO-CITATION&quot;" target="&quot;CO-OCCURRENCE&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Co-citations@are often indicative of co-occurrences between concepts or ideas in academic literature."</data>
+      <data key="d6">44c8dff86ecf90b601e21ef2335e8c61</data>
+    </edge>
+    <edge source="&quot;PERERA&quot;" target="&quot;COPPEPS&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Both Perera and Coppeps are involved in the investigation of new designs, indicating collaboration."</data>
+      <data key="d6">8d7e6e7209519d7dec8948a364fdbab2</data>
+    </edge>
+    <edge source="&quot;PERERA&quot;" target="&quot;PUBLICATION 40&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Perera is an author of Publication 40, contributing to research on bioinspired materials and chemical engineering."</data>
+      <data key="d6">8d7e6e7209519d7dec8948a364fdbab2</data>
+    </edge>
+    <edge source="&quot;COPPEPS&quot;" target="&quot;PUBLICATION 40&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Coppeps is co-author with Perera in the publication focusing on new design possibilities through bioinspired materials and chemical engineering."</data>
+      <data key="d6">8d7e6e7209519d7dec8948a364fdbab2</data>
+    </edge>
+    <edge source="&quot;TATE ET AL.&quot;" target="&quot;CLARK&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Both authors have contributions that intersect in marine biomineralization, a field related to climate change and biomimetic materials."</data>
+      <data key="d6">f770903009c82b1aeca7bf9e490877ad</data>
+    </edge>
+    <edge source="&quot;XING ET AL.&quot;" target="&quot;ZARI&quot;">
+      <data key="d4">1.0</data>
+      <data key="d5">"Their works both contribute to the understanding of how urban design can incorporate ecosystem services for biodiversity and resilience, reflecting themes in biomimetics."</data>
+      <data key="d6">f770903009c82b1aeca7bf9e490877ad</data>
+    </edge>
+  </graph>
+</graphml>

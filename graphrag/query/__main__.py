@@ -5,6 +5,8 @@
 
 import argparse
 from enum import Enum
+import logging
+import os
 
 from .cli import run_global_search, run_local_search
 
@@ -71,6 +73,17 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
+    # Create the config
+    from graphrag.config import create_graphrag_config
+    config = create_graphrag_config(root_dir=args.root)
+    logging.basicConfig(level=logging.INFO)
+    logger = logging.getLogger(__name__)
+
+    logger.info(f"Created config with root_dir: {config.root_dir}")
+    logger.info(f"Current working directory: {os.getcwd()}")
+    logger.info(f"Data directory: {args.data}")
+    logger.info(f"Root directory: {args.root}")
+
     match args.method:
         case SearchType.LOCAL:
             run_local_search(
@@ -79,6 +92,7 @@ if __name__ == "__main__":
                 args.community_level,
                 args.response_type,
                 args.query[0],
+                config,
             )
         case SearchType.GLOBAL:
             run_global_search(
@@ -87,6 +101,7 @@ if __name__ == "__main__":
                 args.community_level,
                 args.response_type,
                 args.query[0],
+                config,
             )
         case _:
             raise ValueError(INVALID_METHOD_ERROR)

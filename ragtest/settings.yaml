@@ -24,8 +24,8 @@ embeddings:
   llm:
     api_base: http://localhost:11434/v1
     api_key: ${GRAPHRAG_API_KEY}
-    concurrent_requests: 10
-    model: nomic-embed-text
+    model: nomic-embed-text:latest
+    provider: openai
     type: openai_embedding
 encoding_model: cl100k_base
 entity_extraction:
@@ -47,10 +47,12 @@ input:
 llm:
   api_base: http://localhost:11434/v1
   api_key: ${GRAPHRAG_API_KEY}
-  concurrent_requests: 10
-  model: mistral:7b
+  max_tokens: 1024
+  model: sciphi/triplex:latest
   model_supports_json: true
-  type: openai_chat
+  provider: ollama
+  temperature: 0.5
+  type: openai
 local_search: null
 parallelization:
   num_threads: 50

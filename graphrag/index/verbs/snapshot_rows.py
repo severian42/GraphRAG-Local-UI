@@ -4,12 +4,14 @@
 """A module containing 'FormatSpecifier' model."""
 
 import json
+import logging
 from dataclasses import dataclass
 from typing import Any
 
 from datashaper import TableContainer, VerbInput, verb
 
 from graphrag.index.storage import PipelineStorage
+
 
 
 @dataclass
@@ -19,6 +21,7 @@ class FormatSpecifier:
     format: str
     extension: str
 
+log = logging.getLogger(__name__)
 
 @verb(name="snapshot_rows")
 async def snapshot_rows(
@@ -34,6 +37,11 @@ async def snapshot_rows(
     data = input.get_input()
     parsed_formats = _parse_formats(formats)
     num_rows = len(data)
+
+    # Check if the specified column exists in the DataFrame
+    if column is not None and column not in data.columns:
+        log.warning(f"Column '{column}' not found in DataFrame. Skipping snapshot_rows.")
+        return TableContainer(table=data)
 
     def get_row_name(row: Any, row_idx: Any):
         if row_name_column is None:

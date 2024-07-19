@@ -1,0 +1,2 @@
+09:29:16,376 asyncio DEBUG Using selector: KqueueSelector
+09:29:16,381 graphrag.config.read_dotenv INFO Loading pipeline .env file
