@@ -8,7 +8,7 @@ For more details on the original GraphRAG implementation, please refer to the [G
 
 ## 🌟 Features
 
-- **Local Model Support:** Leverage local models for LLM and embeddings, including compatibility with Ollama and OpenAI-compatible APIs.
+- **Local Model Support:** Leverage local models for LLM and embeddings, including compatibility with Ollama and OpenAI-compatible APIs. **Embedding providers that use a /v1/embeddings endpoint work best for now. Ollama's /api/embeddings tag can mess up the indexing 50% of the time due to a hack-work-around needed.**
 - **Cost-Effective:** Eliminate dependency on costly cloud-based models by using your own local models.
 - **Interactive UI:** User-friendly interface for managing data, running queries, and visualizing results.
 - **Real-time Graph Visualization:** Visualize your knowledge graph in 2D or 3D using Plotly.
