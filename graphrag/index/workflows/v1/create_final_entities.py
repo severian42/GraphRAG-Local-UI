@@ -4,6 +4,7 @@
 """A module containing build_steps method definition."""
 
 from graphrag.index.config import PipelineWorkflowConfig, PipelineWorkflowStep
+from typing import Optional
 
 workflow_name = "create_final_entities"
 
@@ -28,11 +29,37 @@ def build_steps(
         is not None
     )
 
+    def get_graph_column(df) -> Optional[str]:
+        """Determine the correct graph column name."""
+        possible_names = ["clustered_graph", "graph", "entity_graph"]
+        for name in possible_names:
+            if name in df.columns:
+                return name
+        return None
+
     return [
+        {
+            "verb": "custom",
+            "args": {
+                "func": lambda df: df.assign(graph_column=get_graph_column(df))
+            }
+        },
+        {
+            "verb": "filter",
+            "args": {
+                "column": "graph_column",
+                "criteria": [
+                    {
+                        "type": "value",
+                        "operator": "is not empty",
+                    }
+                ],
+            },
+        },
         {
             "verb": "unpack_graph",
             "args": {
-                "column": "clustered_graph",
+                "column": lambda df: df["graph_column"].iloc[0],
                 "type": "nodes",
             },
             "input": {"source": "workflow:create_base_entity_graph"},
