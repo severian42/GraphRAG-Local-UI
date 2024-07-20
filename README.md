@@ -18,7 +18,7 @@ For more details on the original GraphRAG implementation, please refer to the [G
 - **Logging:** Real-time logging for better debugging and monitoring.
 - **Flexible Querying:** Support for global, local, and direct chat queries with customizable parameters.
 
-![GraphRAG UI](ui.png)
+![GraphRAG UI](uiv2.png)
 
 ## 🗺️ Roadmap
 
