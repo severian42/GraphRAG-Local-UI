@@ -29,19 +29,12 @@ def build_steps(
         is not None
     )
 
-    def get_graph_column(df) -> Optional[str]:
-        """Determine the correct graph column name."""
-        possible_names = ["clustered_graph", "graph", "entity_graph"]
-        for name in possible_names:
-            if name in df.columns:
-                return name
-        return None
-
     return [
         {
-            "verb": "custom",
+            "verb": "derive",
             "args": {
-                "func": lambda df: df.assign(graph_column=get_graph_column(df))
+                "to": "graph_column",
+                "value": lambda row: next((col for col in ["clustered_graph", "graph", "entity_graph"] if col in row), None)
             }
         },
         {
