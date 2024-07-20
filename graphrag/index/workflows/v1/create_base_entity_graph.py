@@ -5,11 +5,16 @@
 
 from graphrag.index.config import PipelineWorkflowConfig, PipelineWorkflowStep
 import logging
+import json
 
 logger = logging.getLogger(__name__)
 
 workflow_name = "create_base_entity_graph"
 
+def convert_dict_to_json(value):
+    if isinstance(value, dict):
+        return json.dumps(value)
+    return value
 
 def build_steps(
     config: PipelineWorkflowConfig,
@@ -51,28 +56,73 @@ def build_steps(
                 "level_to": "level",
             },
             "input": {"source": "workflow:create_summarized_entities"},
-        }
-    ]
-
-    if embed_graph_enabled:
-        steps.append({
-            "verb": "embed_graph",
-            "args": {
-                **embed_graph_config,
-                "column": "clustered_graph",
-                "to": "embedded_graph",
-            },
-        })
-
-    if graphml_snapshot_enabled:
-        steps.append({
+        },
+        {
             "verb": "snapshot_rows",
+            "enabled": graphml_snapshot_enabled,
             "args": {
-                "base_name": "entity_graph",
-                "column": "embedded_graph" if embed_graph_enabled else "clustered_graph",
+                "base_name": "clustered_graph",
+                "column": "clustered_graph",
                 "formats": [{"format": "text", "extension": "graphml"}],
             },
-        })
+        },
+        {
+            "verb": "embed_graph",
+            "enabled": embed_graph_enabled,
+            "args": {
+                "column": "clustered_graph",
+                "to": "embeddings",
+                **embed_graph_config,
+            },
+        },
+        {
+            "verb": "snapshot_rows",
+            "enabled": graphml_snapshot_enabled,
+            "args": {
+                "base_name": "embedded_graph",
+                "column": "entity_graph",
+                "formats": [{"format": "text", "extension": "graphml"}],
+            },
+        },
+    ]
+
+    # Add steps for renaming columns and converting dictionaries to JSON
+    steps.extend([
+        {
+            "verb": "rename",
+            "args": {
+                "columns": {
+                    "function": "rename_and_convert_columns"
+                }
+            }
+        },
+    ])
+
+    # Add steps to handle duplicate columns
+    steps.extend([
+        {
+            "verb": "select",
+            "args": {
+                "columns": ["level", "entity_graph", "embeddings"] if embed_graph_enabled else ["level", "entity_graph"],
+            },
+        },
+        {
+            "verb": "rename",
+            "args": {
+                "columns": {
+                    "level": "level_final",
+                    "entity_graph": "entity_graph_final",
+                    "embeddings": "embeddings_final" if embed_graph_enabled else None,
+                }
+            }
+        },
+        {
+            "verb": "select",
+            "args": {
+                "columns": ["level_final", "entity_graph_final", "embeddings_final"] if embed_graph_enabled else ["level_final", "entity_graph_final"],
+            },
+        }
+    ])
 
     logger.info(f"Created {len(steps)} steps for {workflow_name}")
     return steps
