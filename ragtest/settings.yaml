@@ -25,7 +25,7 @@ embeddings:
     api_base: http://localhost:11434/v1
     api_key: ${GRAPHRAG_API_KEY}
     model: nomic-embed-text:latest
-    provider: openai
+    provider: ollama
     type: openai_embedding
 encoding_model: cl100k_base
 entity_extraction:
@@ -52,7 +52,7 @@ llm:
   model_supports_json: true
   provider: ollama
   temperature: 0.5
-  type: openai
+  type: openai_chat
 local_search: null
 parallelization:
   num_threads: 50

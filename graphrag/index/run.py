@@ -13,7 +13,7 @@ from dataclasses import asdict
 from io import BytesIO
 from pathlib import Path
 from string import Template
-from typing import cast
+from typing import Any, Dict, cast
 
 import pandas as pd
 from datashaper import (
@@ -233,8 +233,12 @@ async def run_pipeline(
             "No emitters provided. No table outputs will be generated. This is probably not correct."
         )
 
-    async def dump_stats() -> None:
-        await storage.set("stats.json", json.dumps(asdict(stats), indent=4))
+    async def dump_stats(stats: PipelineRunStats, storage: PipelineStorage) -> None:
+        """Dump stats to storage."""
+        try:
+            await storage.set("stats.json", json.dumps(asdict(stats), indent=4, default=str))
+        except Exception as e:
+            log.error(f"Failed to dump stats: {str(e)}")
 
     async def load_table_from_storage(name: str) -> pd.DataFrame:
         if not await storage.has(name):
@@ -261,24 +265,54 @@ async def run_pipeline(
         workflow_result: WorkflowRunResult,
         workflow_start_time: float,
     ) -> None:
-        for vt in workflow_result.verb_timings:
-            stats.workflows[workflow.name][f"{vt.index}_{vt.verb}"] = vt.timing
-
+        workflow_name = workflow.name
         workflow_end_time = time.time()
-        stats.workflows[workflow.name]["overall"] = (
-            workflow_end_time - workflow_start_time
-        )
+        workflow_duration = workflow_end_time - workflow_start_time
+
+        # Record verb timings
+        for vt in workflow_result.verb_timings:
+            stats.workflows[workflow_name][f"{vt.index}_{vt.verb}"] = vt.timing
+
+        # Record overall workflow timing
+        stats.workflows[workflow_name]["overall"] = workflow_duration
         stats.total_runtime = time.time() - start_time
-        await dump_stats()
 
+        # Dump stats
+        try:
+            await dump_stats(stats, storage)
+        except Exception as e:
+            log.error(f"Failed to dump stats for {workflow_name}: {str(e)}")
+
+        # Save memory profile if available
         if workflow_result.memory_profile is not None:
-            await _save_profiler_stats(
-                storage, workflow.name, workflow_result.memory_profile
-            )
+            try:
+                await _save_profiler_stats(storage, workflow_name, workflow_result.memory_profile)
+            except Exception as e:
+                log.error(f"Failed to save profiler stats for {workflow_name}: {str(e)}")
 
-        log.debug(
-            "first row of %s => %s", workflow_name, workflow.output().iloc[0].to_json()
-        )
+        # Log workflow output summary
+        try:
+            output = workflow.output()
+            if output is not None and not output.empty:
+                first_row = output.iloc[0]
+                row_dict = _safe_row_to_dict(first_row)
+                log.debug(f"First row of {workflow_name} => {json.dumps(row_dict, default=str)}")
+                log.info(f"Workflow {workflow_name} completed with {len(output)} rows in {workflow_duration:.2f} seconds")
+            else:
+                log.warning(f"Workflow {workflow_name} produced no output")
+        except Exception as e:
+            log.error(f"Error processing output for {workflow_name}: {str(e)}")
+
+    def _safe_row_to_dict(row: Any) -> Dict[str, Any]:
+        """Safely convert a DataFrame row to a dictionary, handling potential errors."""
+        try:
+            return row.to_dict()
+        except AttributeError:
+            # If row is not a pandas Series, try to convert it to a dict directly
+            return dict(row)
+        except Exception as e:
+            log.warning(f"Could not convert row to dict: {str(e)}")
+            return {"error": "Could not convert row to dict"}
 
     async def emit_workflow_output(workflow: Workflow) -> pd.DataFrame:
         output = cast(pd.DataFrame, workflow.output())
@@ -298,7 +332,7 @@ async def run_pipeline(
     last_workflow = "input"
 
     try:
-        await dump_stats()
+        await dump_stats(stats, storage)
 
         for workflow_to_run in workflows_to_run:
             # Try to flush out any intermediate dataframes
@@ -331,7 +365,7 @@ async def run_pipeline(
             workflow = None
 
         stats.total_runtime = time.time() - start_time
-        await dump_stats()
+        await dump_stats(stats, storage)
     except Exception as e:
         log.exception("error running workflow %s", last_workflow)
         cast(WorkflowCallbacks, callbacks).on_error(

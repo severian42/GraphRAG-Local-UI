@@ -167,7 +167,7 @@ def initialize_models():
     embeddings_api_base = os.getenv("EMBEDDINGS_API_BASE")
     embeddings_api_key = os.getenv("EMBEDDINGS_API_KEY")
     
-    llm_service_type = os.getenv("LLM_SERVICE_TYPE",)
+    llm_service_type = os.getenv("LLM_SERVICE_TYPE")
     embeddings_service_type = os.getenv("EMBEDDINGS_SERVICE_TYPE")
     
     llm_model = os.getenv("LLM_MODEL")
@@ -181,7 +181,7 @@ def initialize_models():
     embeddings_models = models
     
     # Initialize LLM
-    if llm_service_type.lower() == "openai compatible":
+    if llm_service_type.lower() == "openai_chat":
         llm = ChatOpenAI(
             api_key=llm_api_key,
             api_base=f"{llm_api_base}/v1",
@@ -189,12 +189,14 @@ def initialize_models():
             api_type=OpenaiApiType.OpenAI,
             max_retries=20,
         )
-    else:  # Ollama
+    elif llm_service_type.lower() == "ollama":
         llm = OllamaLLM(
             api_base=llm_api_base,
             model=llm_model,
             max_retries=20,
         )
+    else:
+        raise ValueError(f"Unsupported LLM service type: {llm_service_type}")
 
     # Initialize OpenAI client for embeddings
     openai_client = OpenAI(
@@ -210,6 +212,7 @@ def initialize_models():
             "api_type": "open_ai",
             "api_base": embeddings_api_base,
             "api_key": embeddings_api_key,
+            "provider": embeddings_service_type.lower()
         }
     )
     
@@ -360,78 +363,19 @@ def create_setting_component(key, value):
             outputs=[status]
         )
 
-def index_graph(progress=gr.Progress()):
-    root_dir = "./ragtest"
-    command = [
-        "python", "-m", "graphrag.index",
-        "--verbose",
-        "--root", root_dir,
-        "--reporter", "rich",
-        "--emit", "parquet,csv,json"
-    ]
-    logging.info(f"Running indexing command: {' '.join(command)}")
-    
-    output_queue = queue.Queue()
-    
-    def run_command_with_output():
-        process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
-        for line in iter(process.stdout.readline, ''):
-            output_queue.put(line)
-        process.stdout.close()
-        process.wait()
-    
-    thread = threading.Thread(target=run_command_with_output)
-    thread.start()
-    
-    progress(0, desc="Starting indexing...")
-    
-    full_output = []
-    files_processed = 0
-    total_files = 0
-    current_stage = "Initializing"
-    
-    while thread.is_alive() or not output_queue.empty():
-        try:
-            line = output_queue.get_nowait()
-            full_output.append(line)
-            
-            if "Processing file" in line:
-                files_processed += 1
-                current_stage = "Processing files"
-            elif "Total files to process:" in line:
-                total_files = int(line.split(":")[1].strip())
-            elif "Indexing completed" in line:
-                current_stage = "Indexing completed"
-                progress(1, desc="Indexing completed")
-            
-            if total_files > 0:
-                progress_value = files_processed / total_files
-                progress_desc = f"{current_stage}: {files_processed}/{total_files} files processed"
-                progress((progress_value, None), desc=progress_desc)
-            else:
-                progress((None, None), desc=f"{current_stage}...")
-            
-            yield "\n".join(full_output[-10:]), progress_desc
-        except queue.Empty:
-            time.sleep(0.1)
-    
-    thread.join()
-    logging.info("Indexing completed")
-    return "\n".join(full_output[-10:]), "Indexing completed"
-
 
 
 def get_openai_client():
     return OpenAI(
-        base_url=os.getenv("LLM_API_BASE", "http://localhost:11434"),
-        api_key=os.getenv("LLM_API_KEY", "dummy-key"),
-        llm_model = os.getenv("LLM_MODEL", "mistral:7b")
+        base_url=os.getenv("LLM_API_BASE"),
+        api_key=os.getenv("LLM_API_KEY"),
+        llm_model = os.getenv("LLM_MODEL")
     )
 
 def chat_with_openai(messages, model, temperature, max_tokens, api_base):
     try:
         logging.info(f"Attempting to use model: {model}")
-        client = OpenAI(base_url=api_base, api_key=os.getenv("LLM_API_KEY", "dummy-key"))
+        client = OpenAI(base_url=api_base, api_key=os.getenv("LLM_API_KEY"))
         response = client.chat.completions.create(
             model=model,
             messages=messages,
@@ -488,8 +432,8 @@ def send_message(query_type, query, history, system_message, temperature, max_to
             result = run_graphrag_query(cli_args)
             logging.info(f"Query result: {result}")
         else:  # Direct chat
-            llm_model = os.getenv("LLM_MODEL", "arcee-ai/Arcee-Spark-GGUF/Arcee-Spark-Q4_K_M.gguf")
-            llm_api_base = os.getenv("LLM_API_BASE", "http://localhost:1234/v1")
+            llm_model = os.getenv("LLM_MODEL")
+            llm_api_base = os.getenv("LLM_API_BASE")
             logging.info(f"Executing direct chat with model: {llm_model}, API base: {llm_api_base}")
             
             try:
@@ -793,8 +737,8 @@ def update_logs():
 
 
 
-def update_model_choices(base_url, api_key, service_type):
-    if service_type == "Ollama":
+def update_model_choices(base_url, api_key, service_type="openai"):
+    if service_type.lower() == "ollama":
         models = fetch_ollama_models(base_url)
     else:  # OpenAI Compatible
         models = fetch_openai_models(base_url, api_key)
@@ -802,8 +746,14 @@ def update_model_choices(base_url, api_key, service_type):
     if not models:
         logging.warning(f"No models fetched for {service_type}.")
 
+    # Get the current model from settings
+    current_model = settings['llm'].get('model')
     
-    return gr.update(choices=models, value=models[0] if models else None)
+    # If the current model is not in the list, add it
+    if current_model and current_model not in models:
+        models.append(current_model)
+    
+    return gr.update(choices=models, value=current_model if current_model in models else (models[0] if models else None))
 
 def fetch_ollama_models(base_url):
     try:
@@ -857,41 +807,45 @@ def fetch_models(base_url, api_key, service_type):
     else:  # OpenAI Compatible
         return fetch_openai_models(base_url, api_key)
 
+def update_embeddings_model_choices(base_url, api_key, service_type):
+    if service_type.lower() == "ollama":
+        models = fetch_ollama_models(base_url)
+    else:  # OpenAI Compatible
+        models = fetch_openai_models(base_url, api_key)
+    
+    if not models:
+        logging.warning(f"No models fetched for {service_type}.")
+
+    # Get the current model from settings
+    current_model = settings['embeddings']['llm'].get('model')
+    
+    # If the current model is not in the list, add it
+    if current_model and current_model not in models:
+        models.append(current_model)
+    
+    return gr.update(choices=models, value=current_model if current_model in models else (models[0] if models else None))
 
 def update_llm_settings(llm_model, embeddings_model, context_window, system_message, temperature, max_tokens, 
-                        llm_api_base, llm_api_key, llm_service_type, 
+                        llm_api_base, llm_api_key, 
                         embeddings_api_base, embeddings_api_key, embeddings_service_type):
     try:
-        # Map UI service types to GraphRAG types
-        llm_type_mapping = {
-            "openai_chat": "openai",
-            "ollama": "openai"
-        }
-        embeddings_type_mapping = {
-            "openai_embedding": "openai_embedding",
-            "ollama": "openai_embedding"  # Map Ollama to openai_embedding for GraphRAG compatibility
-        }
-
-        llm_type = llm_type_mapping.get(llm_service_type, "openai")
-        embeddings_type = embeddings_type_mapping.get(embeddings_service_type, "openai_embedding")
-
         # Update settings.yaml
         settings = load_settings()
         settings['llm'].update({
-            "type": llm_type,
+            "type": "openai",  # Always set to "openai" since we removed the radio button
             "model": llm_model,
             "api_base": llm_api_base,
             "api_key": "${GRAPHRAG_API_KEY}",
             "temperature": temperature,
             "max_tokens": max_tokens,
-            "provider": "ollama" if llm_service_type == "ollama" else "openai"
+            "provider": "openai_chat"  # Always set to "openai_chat"
         })
         settings['embeddings']['llm'].update({
-            "type": embeddings_type,
+            "type": "openai_embedding",  # Always use OpenAIEmbeddingsLLM
             "model": embeddings_model,
             "api_base": embeddings_api_base,
             "api_key": "${GRAPHRAG_API_KEY}",
-            "provider": "ollama" if embeddings_service_type == "ollama" else "openai"
+            "provider": embeddings_service_type
         })
         
         with open("ragtest/settings.yaml", 'w') as f:
@@ -908,7 +862,7 @@ def update_llm_settings(llm_model, embeddings_model, context_window, system_mess
         update_env_file("SYSTEM_MESSAGE", system_message)
         update_env_file("TEMPERATURE", str(temperature))
         update_env_file("MAX_TOKENS", str(max_tokens))
-        update_env_file("LLM_SERVICE_TYPE", llm_service_type)
+        update_env_file("LLM_SERVICE_TYPE", "openai_chat")
         update_env_file("EMBEDDINGS_SERVICE_TYPE", embeddings_service_type)
         
         # Reload environment variables
@@ -1297,6 +1251,8 @@ def refresh_indexing():
         indexing_thread = None  # Reset the thread
         return gr.update(interactive=True), gr.update(interactive=False), gr.update(interactive=True), "Indexing process refreshed. You can start indexing again."
 
+
+
 def run_indexing(root_dir, config_file, verbose, nocache, resume, reporter, emit_formats, progress=gr.Progress()):
     cmd = ["python", "-m", "graphrag.index", "--root", root_dir]
     if config_file:
@@ -1313,12 +1269,8 @@ def run_indexing(root_dir, config_file, verbose, nocache, resume, reporter, emit
     process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, bufsize=1, universal_newlines=True)
     
     output = []
-    progress_msg = "Initializing indexing..."
     progress_value = 0
-    iterations = 0
-    start_time = time.time()
-    total_files = 0
-    processed_files = 0
+    iterations_completed = 0
     
     while True:
         if stop_indexing.is_set():
@@ -1329,10 +1281,10 @@ def run_indexing(root_dir, config_file, verbose, nocache, resume, reporter, emit
             return ("\n".join(output + ["Indexing stopped by user."]), 
                     "Indexing stopped.", 
                     100, 
-                    str(iterations), 
                     gr.update(interactive=True), 
                     gr.update(interactive=False),
-                    gr.update(interactive=True))
+                    gr.update(interactive=True),
+                    str(iterations_completed))
 
         try:
             line = process.stdout.readline()
@@ -1343,40 +1295,37 @@ def run_indexing(root_dir, config_file, verbose, nocache, resume, reporter, emit
                 line = line.strip()
                 output.append(line)
                 
+                # Update progress based on specific output lines
                 if "Processing file" in line:
-                    processed_files += 1
-                    progress_msg = f"Processing files... ({processed_files}/{total_files})"
-                    progress_value = min(100, int((processed_files / total_files) * 100)) if total_files > 0 else 0
-                elif "Total files to process:" in line:
-                    total_files = int(line.split(":")[1].strip())
+                    progress_value += 1
+                    iterations_completed += 1
                 elif "Indexing completed" in line:
-                    progress_msg = "Indexing completed"
                     progress_value = 100
+                elif "ERROR" in line:
+                    # Highlight errors in the output
+                    line = f"🚨 ERROR: {line}"
                 
-                iterations += 1
-                elapsed_time = time.time() - start_time
-                if elapsed_time > 0:
-                    rate = iterations / elapsed_time
-                    eta = (total_files - processed_files) / rate if rate > 0 else 0
-                    progress_msg += f" | Rate: {rate:.2f} it/s | ETA: {eta:.2f}s"
+                # Use the actual CLI output for progress message
+                progress_msg = line
                 
-                progress(progress_value, desc=progress_msg)
+                # Yield an update for every line of output
                 yield ("\n".join(output), 
                        progress_msg, 
                        progress_value, 
-                       str(iterations), 
                        gr.update(interactive=False), 
                        gr.update(interactive=True),
-                       gr.update(interactive=False))
+                       gr.update(interactive=False),
+                       str(iterations_completed))
+                time.sleep(0.1)  # Add a small delay to prevent overwhelming the UI
         except Exception as e:
             logging.error(f"Error during indexing: {str(e)}")
             return ("\n".join(output + [f"Error: {str(e)}"]), 
                     "Error occurred during indexing.", 
                     100, 
-                    str(iterations), 
                     gr.update(interactive=True), 
                     gr.update(interactive=False),
-                    gr.update(interactive=True))
+                    gr.update(interactive=True),
+                    str(iterations_completed))
     
     if process.returncode != 0 and not stop_indexing.is_set():
         final_output = "\n".join(output + [f"Error: Process exited with return code {process.returncode}"])
@@ -1388,10 +1337,10 @@ def run_indexing(root_dir, config_file, verbose, nocache, resume, reporter, emit
     return (final_output, 
             final_progress, 
             100, 
-            str(iterations), 
             gr.update(interactive=True), 
             gr.update(interactive=False),
-            gr.update(interactive=True))
+            gr.update(interactive=True),
+            str(iterations_completed))
 
 global_vector_store_wrapper = None
 
@@ -1401,6 +1350,8 @@ def create_gradio_interface():
     settings = load_settings()
     
     global_vector_store_wrapper = create_vector_store_wrapper(text_embedder)
+
+    log_output = gr.TextArea(label="Logs", elem_id="log-output", interactive=False, visible=False)
 
     with gr.Blocks(css=custom_css, theme=gr.themes.Base()) as demo:
         gr.Markdown("# GraphRAG Local UI", elem_id="title")
@@ -1446,7 +1397,6 @@ def create_gradio_interface():
                         
                         index_output = gr.Textbox(label="Indexing Output", lines=20, max_lines=30)
                         index_progress = gr.Textbox(label="Indexing Progress", lines=3)
-                        progress_bar = gr.Slider(label="Progress", minimum=0, maximum=100, value=0, interactive=False)
                         iterations_completed = gr.Textbox(label="Iterations Completed", value="0")
                         refresh_status = gr.Textbox(label="Refresh Status", visible=True)
 
@@ -1457,7 +1407,7 @@ def create_gradio_interface():
                         ).then(
                             fn=run_indexing,
                             inputs=[root_dir, config_file, verbose, nocache, resume, reporter, emit_formats],
-                            outputs=[index_output, index_progress, progress_bar, iterations_completed, run_index_button, stop_index_button, refresh_index_button]
+                            outputs=[index_output, index_progress, run_index_button, stop_index_button, refresh_index_button, iterations_completed]
                         )
 
                         stop_index_button.click(
@@ -1484,20 +1434,33 @@ def create_gradio_interface():
                         llm_api_key = gr.Textbox(label="LLM API Key", value=os.getenv("LLM_API_KEY"), type="password")
                         llm_service_type = gr.Radio(
                             label="LLM Service Type",
-                            choices=["openai_chat", "ollama"],
-                            value=settings['llm'].get('type', 'openai_chat')
+                            choices=["openai", "ollama"],
+                            value="openai",
+                            visible=False  # Hide this if you want to always use OpenAI
                         )
-                        llm_model_dropdown = gr.Dropdown(label="LLM Model", choices=llm_models, value=settings['llm'].get('model'))
+
+                        llm_model_dropdown = gr.Dropdown(
+                            label="LLM Model", 
+                            choices=[],  # Start with an empty list
+                            value=settings['llm'].get('model'),
+                            allow_custom_value=True
+                        )
                         refresh_llm_models_btn = gr.Button("Refresh LLM Models", variant="secondary")
                         
                         embeddings_base_url = gr.Textbox(label="Embeddings API Base URL", value=os.getenv("EMBEDDINGS_API_BASE"))
                         embeddings_api_key = gr.Textbox(label="Embeddings API Key", value=os.getenv("EMBEDDINGS_API_KEY"), type="password")
                         embeddings_service_type = gr.Radio(
                             label="Embeddings Service Type",
-                            choices=["openai_embedding", "ollama"],
-                            value=settings['embeddings']['llm'].get('type', 'openai_embedding')
+                            choices=["openai", "ollama"],
+                            value=settings['embeddings']['llm'].get('type', 'openai'),
                         )
-                        embeddings_model_dropdown = gr.Dropdown(label="Embeddings Model", choices=embeddings_models, value=settings['embeddings']['llm'].get('model'))
+
+                        embeddings_model_dropdown = gr.Dropdown(
+                            label="Embeddings Model",
+                            choices=[],
+                            value=settings['embeddings']['llm'].get('model'),
+                            allow_custom_value=True
+                        )
                         refresh_embeddings_models_btn = gr.Button("Refresh Embedding Models", variant="secondary")
                         system_message = gr.Textbox(
                             lines=5,
@@ -1528,26 +1491,21 @@ def create_gradio_interface():
                         update_settings_btn = gr.Button("Update LLM Settings", variant="primary")
                         llm_settings_status = gr.Textbox(label="Status", interactive=False)
 
-                        # Update LLM model choices when service type or base URL changes
-                        llm_service_type.change(
-                            fn=update_model_choices,
-                            inputs=[llm_base_url, llm_api_key, llm_service_type],
-                            outputs=llm_model_dropdown
-                        )
                         llm_base_url.change(
                             fn=update_model_choices,
-                            inputs=[llm_base_url, llm_api_key, llm_service_type],
+                            inputs=[llm_base_url, llm_api_key],
                             outputs=llm_model_dropdown
                         )
 
                         # Update Embeddings model choices when service type or base URL changes
                         embeddings_service_type.change(
-                            fn=update_model_choices,
+                            fn=update_embeddings_model_choices,
                             inputs=[embeddings_base_url, embeddings_api_key, embeddings_service_type],
                             outputs=embeddings_model_dropdown
                         )
+
                         embeddings_base_url.change(
-                            fn=update_model_choices,
+                            fn=update_embeddings_model_choices,
                             inputs=[embeddings_base_url, embeddings_api_key, embeddings_service_type],
                             outputs=embeddings_model_dropdown
                         )
@@ -1563,7 +1521,6 @@ def create_gradio_interface():
                                 max_tokens,
                                 llm_base_url, 
                                 llm_api_key,
-                                llm_service_type,
                                 embeddings_base_url,
                                 embeddings_api_key,
                                 embeddings_service_type
@@ -1571,16 +1528,24 @@ def create_gradio_interface():
                             outputs=[llm_settings_status]
                         )
 
+
                         refresh_llm_models_btn.click(
                             fn=update_model_choices,
                             inputs=[llm_base_url, llm_api_key, llm_service_type],
                             outputs=[llm_model_dropdown]
+                        ).then(
+                            fn=update_logs,
+                            outputs=[log_output]
                         )
+
 
                         refresh_embeddings_models_btn.click(
                             fn=update_model_choices,
                             inputs=[embeddings_base_url, embeddings_api_key, embeddings_service_type],
                             outputs=[embeddings_model_dropdown]
+                        ).then(
+                            fn=update_logs,
+                            outputs=[log_output]
                         )
 
                     with gr.TabItem("YAML Settings"):
@@ -1589,9 +1554,10 @@ def create_gradio_interface():
                             for key, value in settings.items():
                                 if key != 'llm':
                                     create_setting_component(key, value)
-
+                
                 with gr.Group(elem_id="log-container"):
-                    log_output = gr.TextArea(label="Logs", elem_id="log-output")
+                    gr.Markdown("### Logs")
+                    log_output = gr.TextArea(label="Logs", elem_id="log-output", interactive=False)
 
             with gr.Column(scale=2, elem_id="right-column"):
                 with gr.Group(elem_id="chat-container"):
@@ -1695,7 +1661,6 @@ def create_gradio_interface():
                             show_labels = gr.Checkbox(label="Show Node Labels", value=True)
                             label_size = gr.Slider(5, 20, 10, label="Label Size", step=1)
                         
-                        vis_status = gr.Textbox(label="Visualization Status", elem_id="vis-status", show_label=False)
 
         # Event handlers
         upload_btn.click(fn=upload_file, inputs=[file_upload], outputs=[upload_output, file_list, log_output])
@@ -1751,7 +1716,7 @@ def create_gradio_interface():
                 show_labels,
                 label_size
             ],
-            outputs=[vis_output, vis_status]
+            outputs=[vis_output]
         ).then(
             fn=update_logs,
             outputs=[log_output]
