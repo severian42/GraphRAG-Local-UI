@@ -39,10 +39,9 @@ def build_steps(
             "input": {"source": "workflow:create_base_entity_graph"},
         },
         {
-            "verb": "new_column",
+            "verb": "derive",
             "args": {
-                "column": "debug_columns",
-                "value": lambda df: logging.info(f"Available columns after unpack_graph: {list(df.columns)}")
+                "debug_columns": lambda df: logging.info(f"Available columns after unpack_graph: {list(df.columns)}")
             }
         },
         {"verb": "rename", "args": {"columns": {"label": "title"}}},
@@ -58,24 +57,21 @@ def build_steps(
             },
         },
         {
-            "verb": "new_column",
+            "verb": "derive",
             "args": {
-                "column": "human_readable_id",
-                "value": lambda row: row['id']  # Or some other logic to create this column
+                "human_readable_id": lambda row: row['id']  # Or some other logic to create this column
             }
         },
         {
-            "verb": "new_column",
+            "verb": "derive",
             "args": {
-                "column": "graph_embedding",
-                "value": lambda row: []  # Or the appropriate logic to create this column
+                "graph_embedding": lambda row: []  # Or the appropriate logic to create this column
             }
         },
         {
-            "verb": "new_column",
+            "verb": "derive",
             "args": {
-                "column": "source_id",
-                "value": lambda row: ""  # Or the appropriate logic to create this column
+                "source_id": lambda row: ""  # Or the appropriate logic to create this column
             }
         },
         {
