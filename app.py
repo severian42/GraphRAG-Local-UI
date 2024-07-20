@@ -16,6 +16,7 @@ import logging
 import queue
 import threading
 import time
+from collections import deque
 import re
 import glob
 from datetime import datetime
@@ -1253,7 +1254,7 @@ def refresh_indexing():
 
 
 
-def run_indexing(root_dir, config_file, verbose, nocache, resume, reporter, emit_formats, progress=gr.Progress()):
+def run_indexing(root_dir, config_file, verbose, nocache, resume, reporter, emit_formats):
     cmd = ["python", "-m", "graphrag.index", "--root", root_dir]
     if config_file:
         cmd.extend(["--config", config_file.name])
@@ -1266,9 +1267,11 @@ def run_indexing(root_dir, config_file, verbose, nocache, resume, reporter, emit
     cmd.extend(["--reporter", reporter])
     cmd.extend(["--emit", ",".join(emit_formats)])
     
+    logging.info(f"Executing command: {' '.join(cmd)}")
+    
     process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, bufsize=1, universal_newlines=True)
     
-    output = []
+    output = []  # Change back to a list
     progress_value = 0
     iterations_completed = 0
     
@@ -1295,28 +1298,21 @@ def run_indexing(root_dir, config_file, verbose, nocache, resume, reporter, emit
                 line = line.strip()
                 output.append(line)
                 
-                # Update progress based on specific output lines
                 if "Processing file" in line:
                     progress_value += 1
                     iterations_completed += 1
                 elif "Indexing completed" in line:
                     progress_value = 100
                 elif "ERROR" in line:
-                    # Highlight errors in the output
                     line = f"🚨 ERROR: {line}"
                 
-                # Use the actual CLI output for progress message
-                progress_msg = line
-                
-                # Yield an update for every line of output
                 yield ("\n".join(output), 
-                       progress_msg, 
+                       line,  # Use the latest line as progress message
                        progress_value, 
                        gr.update(interactive=False), 
                        gr.update(interactive=True),
                        gr.update(interactive=False),
                        str(iterations_completed))
-                time.sleep(0.1)  # Add a small delay to prevent overwhelming the UI
         except Exception as e:
             logging.error(f"Error during indexing: {str(e)}")
             return ("\n".join(output + [f"Error: {str(e)}"]), 
@@ -1453,6 +1449,7 @@ def create_gradio_interface():
                             label="Embeddings Service Type",
                             choices=["openai", "ollama"],
                             value=settings['embeddings']['llm'].get('type', 'openai'),
+                            visible=False,
                         )
 
                         embeddings_model_dropdown = gr.Dropdown(
