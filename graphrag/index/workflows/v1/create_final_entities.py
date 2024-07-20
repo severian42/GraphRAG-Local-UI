@@ -41,7 +41,10 @@ def build_steps(
         {
             "verb": "derive",
             "args": {
-                "debug_columns": lambda df: logging.info(f"Available columns after unpack_graph: {list(df.columns)}")
+                "to": "debug_columns",
+                "column1": "",
+                "column2": "",
+                "operator": lambda df: logging.info(f"Available columns after unpack_graph: {list(df.columns)}")
             }
         },
         {"verb": "rename", "args": {"columns": {"label": "title"}}},
