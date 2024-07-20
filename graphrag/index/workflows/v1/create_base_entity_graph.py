@@ -86,25 +86,13 @@ def build_steps(
         },
     ]
 
-    # Add steps for renaming columns and converting dictionaries to JSON
-    steps.extend([
-        {
-            "verb": "rename",
-            "args": {
-                "columns": {
-                    "function": "rename_and_convert_columns"
-                }
-            }
-        },
-    ])
-
-    # Add steps to handle duplicate columns
+    # Replace the existing steps from line 89 to 124 with these:
     steps.extend([
         {
             "verb": "select",
             "args": {
-                "columns": ["level", "entity_graph", "embeddings"] if embed_graph_enabled else ["level", "entity_graph"],
-            },
+                "columns": ["level", "entity_graph"] + (["embeddings"] if embed_graph_enabled else [])
+            }
         },
         {
             "verb": "rename",
@@ -112,15 +100,9 @@ def build_steps(
                 "columns": {
                     "level": "level_final",
                     "entity_graph": "entity_graph_final",
-                    "embeddings": "embeddings_final" if embed_graph_enabled else None,
+                    "embeddings": "embeddings_final" if embed_graph_enabled else None
                 }
             }
-        },
-        {
-            "verb": "select",
-            "args": {
-                "columns": ["level_final", "entity_graph_final", "embeddings_final"] if embed_graph_enabled else ["level_final", "entity_graph_final"],
-            },
         }
     ])
 
