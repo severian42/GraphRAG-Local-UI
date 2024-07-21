@@ -4,9 +4,9 @@
 """A module containing build_steps method definition."""
 
 from graphrag.index.config import PipelineWorkflowConfig, PipelineWorkflowStep
-from typing import Optional
 
 workflow_name = "create_final_entities"
+
 
 def build_steps(
     config: PipelineWorkflowConfig,
@@ -31,28 +31,9 @@ def build_steps(
 
     return [
         {
-            "verb": "derive",
-            "args": {
-                "to": "graph_column",
-                "value": lambda row: next((col for col in ["clustered_graph", "graph", "entity_graph"] if col in row), None)
-            }
-        },
-        {
-            "verb": "filter",
-            "args": {
-                "column": "graph_column",
-                "criteria": [
-                    {
-                        "type": "value",
-                        "operator": "is not empty",
-                    }
-                ],
-            },
-        },
-        {
             "verb": "unpack_graph",
             "args": {
-                "column": lambda df: df["graph_column"].iloc[0],
+                "column": "clustered_graph",
                 "type": "nodes",
             },
             "input": {"source": "workflow:create_base_entity_graph"},
@@ -73,11 +54,14 @@ def build_steps(
             },
         },
         {
+            # create_base_entity_graph has multiple levels of clustering, which means there are multiple graphs with the same entities
+            # this dedupes the entities so that there is only one of each entity
             "verb": "dedupe",
             "args": {"columns": ["id"]},
         },
         {"verb": "rename", "args": {"columns": {"title": "name"}}},
         {
+            # ELIMINATE EMPTY NAMES
             "verb": "filter",
             "args": {
                 "column": "name",
@@ -133,6 +117,7 @@ def build_steps(
             },
         },
         {
+            # ELIMINATE EMPTY DESCRIPTION EMBEDDINGS
             "verb": "filter",
             "enabled": not skip_description_embedding and not is_using_vector_store,
             "args": {
