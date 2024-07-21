@@ -43,8 +43,8 @@ def build_steps(
         },
     )
 
-    graphml_snapshot_enabled = config.get("graphml_snapshot", False)
-    embed_graph_enabled = config.get("embed_graph_enabled", False)
+    graphml_snapshot_enabled = config.get("graphml_snapshot", False) or False
+    embed_graph_enabled = config.get("embed_graph_enabled", False) or False
 
     steps = [
         {
@@ -86,25 +86,43 @@ def build_steps(
         },
     ]
 
-    # Replace the existing steps from line 89 to 124 with these:
-    steps.extend([
-        {
-            "verb": "select",
-            "args": {
-                "columns": ["level", "entity_graph"] + (["embeddings"] if embed_graph_enabled else [])
-            }
+    # Add a step to handle potential duplicate columns and ensure correct column names
+    steps.append({
+        "verb": "select",
+        "args": {
+            "columns": [
+                "level",
+                "clustered_graph",
+                "entity_graph",
+            ] + (["embeddings"] if embed_graph_enabled else []),
         },
-        {
-            "verb": "rename",
-            "args": {
-                "columns": {
-                    "level": "level_final",
-                    "entity_graph": "entity_graph_final",
-                    "embeddings": "embeddings_final" if embed_graph_enabled else None
-                }
-            }
-        }
-    ])
+    })
+
+    # Add a step to rename columns to their final names
+    rename_columns = {
+        "level": "level_final",
+        "clustered_graph": "entity_graph_final",
+    }
+    if embed_graph_enabled:
+        rename_columns["embeddings"] = "embeddings_final"
+
+    steps.append({
+        "verb": "rename",
+        "args": {
+            "columns": rename_columns,
+        },
+    })
+
+    # Add a final select step to ensure only the desired columns are present
+    steps.append({
+        "verb": "select",
+        "args": {
+            "columns": [
+                "level_final",
+                "entity_graph_final",
+            ] + (["embeddings_final"] if embed_graph_enabled else []),
+        },
+    })
 
     logger.info(f"Created {len(steps)} steps for {workflow_name}")
     return steps
