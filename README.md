@@ -45,7 +45,7 @@ My vision for GraphRAG Local UI is to become the ultimate GraphRAG app for local
 - [ ] Integration with popular knowledge management tools
 - [ ] Collaborative features for team-based knowledge graph building
 
-I am committed to making GraphRAG Local UI the most comprehensive and user-friendly tool for working with knowledge graphs and local language models. Your feedback and suggestions are much needed in shaping the future of this project.
+I am committed to making GraphRAG Local UI the most comprehensive and user-friendly tool for working with knowledge graphs and LLMs. Your feedback and suggestions are much needed in shaping the future of this project.
 
 Feel free to open an Issue if you run into an error, and we will try to address it as soon as possible to minimize any downtime you might experience.
 
