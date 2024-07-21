@@ -1,6 +1,6 @@
 #  🕸️ GraphRAG Local with Interactive UI
 
-Welcome to **GraphRAG Local with Interactive UI**! This is an adaptation of Microsoft's [GraphRAG](https://github.com/microsoft/graphrag), tailored to support local models and featuring a comprehensive interactive user interface.
+Welcome to **GraphRAG Local with Interactive UI**! This is an adaptation of Microsoft's [GraphRAG](https://github.com/microsoft/graphrag), tailored to support local models and featuring a comprehensive interactive user interface. The goal of this UI is to provide an easy-to-use and fully configurable frontend for any version of the GraphRAG library as a backend for local LLMs. Ideally, once all the bugs are worked out, you can drop in your GraphRAG directory (or use the provided one in the repo) and upload your documents to start indexing and query right away. 
 
 ## 📄 Research Paper
 
@@ -22,7 +22,7 @@ For more details on the original GraphRAG implementation, please refer to the [G
 
 ## 🗺️ Roadmap
 
-### **Important Note:** GraphRAG Local UI is currently a major work in progress and building a UI around the GraphRAG library has introduced a number of challenges; mainly with the Indexing process. As I strive to make the application more stable with local LLMs, users should expect to encounter some bugs and breaking changes. I appreciate your patience and feedback during this development phase.
+### **Important Note:** GraphRAG Local UI is currently a major work in progress and building a UI around the GraphRAG library has introduced a number of challenges; mainly with the Indexing process. The query works fantastic and provides a number of ways to easily and comprehensively utilize the GraphRAG library to query your indexed data. As I strive to make the application more stable with local LLMs, users should expect to encounter some bugs and breaking changes. I appreciate your patience and feedback during this development phase. If you encounter indexing issues while running this Gradio app while I am debugging it, you can typically run it straight in the terminal with the CLI args and have it work out 80-90% of the time.
 
 *The app gained traction much quicker than anticipated, so we are actively working to fix bugs and integrate suggested improvements. While it is currently functional, it has been primarily tested on a Mac Studio M2.*
 
