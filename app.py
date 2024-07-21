@@ -1269,7 +1269,7 @@ def run_indexing(root_dir, config_file, verbose, nocache, resume, reporter, emit
     
     logging.info(f"Executing command: {' '.join(cmd)}")
     
-    process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, bufsize=1, universal_newlines=True)
+    process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, bufsize=1, encoding='utf-8', universal_newlines=True)
     
     output = []  # Change back to a list
     progress_value = 0
