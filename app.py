@@ -1603,6 +1603,8 @@ def create_gradio_interface():
                             value=None,
                             interactive=True
                         )
+                        refresh_selected_folder_btn = gr.Button("Refresh Select Output Folder", variant="secondary")
+                        
                         
                         with gr.Group(visible=False) as custom_options:
                             community_level = gr.Slider(
@@ -1773,6 +1775,11 @@ def create_gradio_interface():
             outputs=[log_output]
         )
         
+        refresh_selected_folder_btn.click(fn=update_output_folder_list, outputs=[selected_folder]).then(
+            fn=update_logs,
+            outputs=[log_output]
+        )
+
         # Add this JavaScript to enable Shift+Enter functionality
         demo.load(js="""
         function addShiftEnterListener() {
