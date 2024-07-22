@@ -1098,6 +1098,22 @@ def update_file_content(file_path):
         logging.error(f"Error reading file: {str(e)}")
         return f"Error reading file: {str(e)}"
 
+def list_output_folders(root_dir):
+    output_dir = os.path.join(root_dir, "output")
+    folders = [f for f in os.listdir(output_dir) if os.path.isdir(os.path.join(output_dir, f))]
+    return sorted(folders, reverse=True)
+
+def list_folder_contents(folder_path):
+    contents = []
+    for item in os.listdir(folder_path):
+        item_path = os.path.join(folder_path, item)
+        if os.path.isdir(item_path):
+            contents.append(f"[DIR] {item}")
+        else:
+            _, ext = os.path.splitext(item)
+            contents.append(f"[{ext[1:].upper()}] {item}")
+    return contents
+
 def update_output_folder_list():
     root_dir = "./ragtest"
     folders = list_output_folders(root_dir)
@@ -1107,7 +1123,7 @@ def update_folder_content_list(folder_name):
     root_dir = "./ragtest"
     if not folder_name:
         return gr.update(choices=[])
-    contents = list_folder_contents(os.path.join(root_dir, "output", folder_name))
+    contents = list_folder_contents(os.path.join(root_dir, "output", folder_name, "artifacts"))
     return gr.update(choices=contents)
 
 def handle_content_selection(folder_name, selected_item):
@@ -1139,22 +1155,6 @@ def initialize_selected_folder(folder_name):
         return f"Artifacts folder not found in '{folder_name}'.", gr.update(choices=[])
     contents = list_folder_contents(folder_path)
     return f"Folder '{folder_name}/artifacts' initialized with {len(contents)} items.", gr.update(choices=contents)
-
-def list_output_folders(root_dir):
-    output_dir = os.path.join(root_dir, "output")
-    folders = [f for f in os.listdir(output_dir) if os.path.isdir(os.path.join(output_dir, f))]
-    return sorted(folders, reverse=True)
-
-def list_folder_contents(folder_path):
-    contents = []
-    for item in os.listdir(folder_path):
-        item_path = os.path.join(folder_path, item)
-        if os.path.isdir(item_path):
-            contents.append(f"[DIR] {item}")
-        else:
-            _, ext = os.path.splitext(item)
-            contents.append(f"[{ext[1:].upper()}] {item}")
-    return contents
 
 
 settings = load_settings()
@@ -1370,7 +1370,7 @@ def create_gradio_interface():
                         )
 
                     with gr.TabItem("Indexing Outputs/Visuals"):
-                        output_folder_list = gr.Dropdown(label="Select Output Folder (Select GraphML File to Visualize)", choices=[], interactive=True)
+                        output_folder_list = gr.Dropdown(label="Select Output Folder (Select GraphML File to Visualize)", choices=list_output_folders("./ragtest"), interactive=True)
                         refresh_folder_btn = gr.Button("Refresh Folder List", variant="secondary")
                         initialize_folder_btn = gr.Button("Initialize Selected Folder", variant="primary")
                         folder_content_list = gr.Dropdown(label="Select File or Directory", choices=[], interactive=True)
@@ -1635,10 +1635,14 @@ def create_gradio_interface():
             outputs=[chatbot, query_input]
         )
 
-        refresh_folder_btn.click(fn=update_output_folder_list, outputs=[output_folder_list]).then(
+        refresh_folder_btn.click(
+            fn=update_output_folder_list,
+            outputs=[output_folder_list]
+        ).then(
             fn=update_logs,
             outputs=[log_output]
         )
+
         output_folder_list.change(
             fn=update_folder_content_list,
             inputs=[output_folder_list],
@@ -1647,6 +1651,7 @@ def create_gradio_interface():
             fn=update_logs,
             outputs=[log_output]
         )
+
         folder_content_list.change(
             fn=handle_content_selection,
             inputs=[output_folder_list, folder_content_list],
@@ -1655,6 +1660,7 @@ def create_gradio_interface():
             fn=update_logs,
             outputs=[log_output]
         )
+
         initialize_folder_btn.click(
             fn=initialize_selected_folder,
             inputs=[output_folder_list],
@@ -1663,6 +1669,7 @@ def create_gradio_interface():
             fn=update_logs,
             outputs=[log_output]
         )
+
         vis_btn.click(
             fn=update_visualization,
             inputs=[
