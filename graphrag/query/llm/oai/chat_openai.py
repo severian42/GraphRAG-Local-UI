@@ -31,11 +31,11 @@ class ChatOpenAI(BaseLLM, OpenAILLMImpl):
 
     def __init__(
         self,
-        api_key: str | None = None,
+        api_key: str | None = "dummy_key",  # Change default to dummy_key
         model: str | None = None,
         azure_ad_token_provider: Callable | None = None,
         deployment_name: str | None = None,
-        api_base: str | None = None,
+        api_base: str | None = "http://localhost:8000",  # Change default to local endpoint
         api_version: str | None = None,
         api_type: OpenaiApiType = OpenaiApiType.OpenAI,
         organization: str | None = None,

@@ -4,9 +4,9 @@
 """A module containing build_steps method definition."""
 
 from graphrag.index.config import PipelineWorkflowConfig, PipelineWorkflowStep
-import logging
 
 workflow_name = "create_final_entities"
+
 
 def build_steps(
     config: PipelineWorkflowConfig,
@@ -29,7 +29,7 @@ def build_steps(
         is not None
     )
 
-    steps = [
+    return [
         {
             "verb": "unpack_graph",
             "args": {
@@ -37,13 +37,6 @@ def build_steps(
                 "type": "nodes",
             },
             "input": {"source": "workflow:create_base_entity_graph"},
-        },
-        {
-            "verb": "new_column",
-            "args": {
-                "column": "debug_columns",
-                "value": lambda df: logging.info(f"Available columns after unpack_graph: {list(df.columns)}")
-            }
         },
         {"verb": "rename", "args": {"columns": {"label": "title"}}},
         {
@@ -54,29 +47,11 @@ def build_steps(
                     "title",
                     "type",
                     "description",
+                    "human_readable_id",
+                    "graph_embedding",
+                    "source_id",
                 ],
             },
-        },
-        {
-            "verb": "new_column",
-            "args": {
-                "column": "human_readable_id",
-                "value": lambda row: row['id']  # Or some other logic to create this column
-            }
-        },
-        {
-            "verb": "new_column",
-            "args": {
-                "column": "graph_embedding",
-                "value": lambda row: []  # Or the appropriate logic to create this column
-            }
-        },
-        {
-            "verb": "new_column",
-            "args": {
-                "column": "source_id",
-                "value": lambda row: ""  # Or the appropriate logic to create this column
-            }
         },
         {
             # create_base_entity_graph has multiple levels of clustering, which means there are multiple graphs with the same entities
@@ -103,61 +78,56 @@ def build_steps(
             "args": {"separator": ",", "column": "source_id", "to": "text_unit_ids"},
         },
         {"verb": "drop", "args": {"columns": ["source_id"]}},
-    ]
-
-    if not skip_name_embedding:
-        steps.append({
+        {
             "verb": "text_embed",
+            "enabled": not skip_name_embedding,
             "args": {
                 "embedding_name": "entity_name",
                 "column": "name",
                 "to": "name_embedding",
                 **entity_name_embed_config,
             },
-        })
-
-    if not skip_description_embedding:
-        steps.extend([
-            {
-                "verb": "merge",
-                "args": {
-                    "strategy": "concat",
-                    "columns": ["name", "description"],
-                    "to": "name_description",
-                    "delimiter": ":",
-                    "preserveSource": True,
-                },
+        },
+        {
+            "verb": "merge",
+            "enabled": not skip_description_embedding,
+            "args": {
+                "strategy": "concat",
+                "columns": ["name", "description"],
+                "to": "name_description",
+                "delimiter": ":",
+                "preserveSource": True,
             },
-            {
-                "verb": "text_embed",
-                "args": {
-                    "embedding_name": "entity_name_description",
-                    "column": "name_description",
-                    "to": "description_embedding",
-                    **entity_name_description_embed_config,
-                },
+        },
+        {
+            "verb": "text_embed",
+            "enabled": not skip_description_embedding,
+            "args": {
+                "embedding_name": "entity_name_description",
+                "column": "name_description",
+                "to": "description_embedding",
+                **entity_name_description_embed_config,
             },
-            {
-                "verb": "drop",
-                "args": {
-                    "columns": ["name_description"],
-                },
+        },
+        {
+            "verb": "drop",
+            "enabled": not skip_description_embedding,
+            "args": {
+                "columns": ["name_description"],
             },
-        ])
-
-        if not is_using_vector_store:
-            steps.append({
-                # ELIMINATE EMPTY DESCRIPTION EMBEDDINGS
-                "verb": "filter",
-                "args": {
-                    "column": "description_embedding",
-                    "criteria": [
-                        {
-                            "type": "value",
-                            "operator": "is not empty",
-                        }
-                    ],
-                },
-            })
-
-    return steps
+        },
+        {
+            # ELIMINATE EMPTY DESCRIPTION EMBEDDINGS
+            "verb": "filter",
+            "enabled": not skip_description_embedding and not is_using_vector_store,
+            "args": {
+                "column": "description_embedding",
+                "criteria": [
+                    {
+                        "type": "value",
+                        "operator": "is not empty",
+                    }
+                ],
+            },
+        },
+    ]

@@ -75,11 +75,6 @@ def _run_unpack(
     args: dict[str, Any],
 ) -> list[dict[str, Any]]:
     graph = load_graph(graphml_or_graph)
-    if graph is None:
-        # Log this error or handle it appropriately
-        print(f"Failed to load graph from {graphml_or_graph}")
-        return []  # Return an empty list instead of proceeding with None
-    
     if unpack_type == "nodes":
         return _unpack_nodes(graph, embeddings, args)
     if unpack_type == "edges":
@@ -91,8 +86,6 @@ def _run_unpack(
 def _unpack_nodes(
     graph: nx.Graph, embeddings: dict[str, list[float]], _args: dict[str, Any]
 ) -> list[dict[str, Any]]:
-    if graph is None:
-        return []
     return [
         {
             "label": label,
@@ -102,9 +95,8 @@ def _unpack_nodes(
         for label, node_data in graph.nodes(data=True)  # type: ignore
     ]
 
+
 def _unpack_edges(graph: nx.Graph, _args: dict[str, Any]) -> list[dict[str, Any]]:
-    if graph is None:
-        return []
     return [
         {
             "source": source_id,

@@ -43,6 +43,7 @@ DEFAULT_REDUCE_LLM_PARAMS = {
     "temperature": 0.0,
 }
 
+logger = logging.getLogger(__name__)
 log = logging.getLogger(__name__)
 
 
@@ -182,7 +183,7 @@ class GlobalSearch(BaseSearch):
                 search_response = await self.llm.agenerate(
                     messages=search_messages, streaming=False, **llm_kwargs
                 )
-                log.info("Map response: %s", search_response)
+                logger.info("Map response: %s", search_response)
             try:
                 # parse search response json
                 processed_response = self.parse_search_response(search_response)
@@ -193,7 +194,7 @@ class GlobalSearch(BaseSearch):
                     # parse search response json
                     processed_response = self.parse_search_response(search_response)
                 except ValueError:
-                    log.exception("Error parsing search response json")
+                    logger.exception("Error parsing search response json")
                     processed_response = []
 
             return SearchResult(
@@ -206,7 +207,7 @@ class GlobalSearch(BaseSearch):
             )
 
         except Exception:
-            log.exception("Exception in _map_response_single_batch")
+            logger.exception("Exception in _map_response_single_batch")
             return SearchResult(
                 response=[{"answer": "", "score": 0}],
                 context_data=context_data,
@@ -229,14 +230,31 @@ class GlobalSearch(BaseSearch):
         list[dict[str, Any]]
             A list of key points, each key point is a dictionary with "answer" and "score" keys
         """
-        parsed_elements = json.loads(search_response)["points"]
-        return [
-            {
-                "answer": element["description"],
-                "score": int(element["score"]),
-            }
-            for element in parsed_elements
-        ]
+        try:
+            if isinstance(search_response, tuple):
+                # If it's a tuple, assume the first element is the JSON string
+                search_response = search_response[0]
+            
+            parsed_elements = json.loads(search_response)["points"]
+            return [
+                {
+                    "answer": element["description"],
+                    "score": int(element["score"]),
+                }
+                for element in parsed_elements
+            ]
+        except json.JSONDecodeError as e:
+            logger.error(f"Failed to parse JSON: {e}")
+            logger.error(f"Raw response: {search_response}")
+            return []
+        except KeyError as e:
+            logger.error(f"Missing key in parsed JSON: {e}")
+            logger.error(f"Parsed JSON: {json.loads(search_response)}")
+            return []
+        except Exception as e:
+            logger.error(f"Unexpected error in parse_search_response: {e}")
+            logger.error(f"Raw response: {search_response}")
+            return []
 
     async def _reduce_response(
         self,

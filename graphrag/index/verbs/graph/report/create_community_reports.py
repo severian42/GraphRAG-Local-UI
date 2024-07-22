@@ -88,7 +88,18 @@ async def create_community_reports(
                 strategy=strategy,
             )
             tick()
-            return result
+            if isinstance(result, dict):
+                return result
+            elif hasattr(result, 'structured_output'):
+                return result.structured_output
+            elif isinstance(result, str):
+                try:
+                    import json
+                    return json.loads(result)
+                except json.JSONDecodeError:
+                    return {"text": result}
+            else:
+                return {"text": str(result)}
 
         local_reports = await derive_from_rows(
             level_contexts,

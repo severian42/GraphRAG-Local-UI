@@ -118,8 +118,6 @@ class LocalSearchMixedContext(LocalContextBuilder):
 
         Build a context by combining community reports and entity/relationship/covariate tables, and text units using a predefined ratio set by summary_prop.
         """
-        log.info(f"Building context for query: {query}")
-        log.info(f"Context builder parameters: {kwargs}")
         if include_entity_names is None:
             include_entity_names = []
         if exclude_entity_names is None:
@@ -149,7 +147,6 @@ class LocalSearchMixedContext(LocalContextBuilder):
             k=top_k_mapped_entities,
             oversample_scaler=2,
         )
-        log.info(f"Selected {len(selected_entities)} entities for context building")
 
         # build context
         final_context = list[str]()
@@ -186,7 +183,6 @@ class LocalSearchMixedContext(LocalContextBuilder):
             return_candidate_context=return_candidate_context,
             context_name=community_context_name,
         )
-        log.info(f"Built community context. Length: {len(community_context)}")
         if community_context.strip() != "":
             final_context.append(community_context)
             final_context_data = {**final_context_data, **community_context_data}
@@ -205,7 +201,6 @@ class LocalSearchMixedContext(LocalContextBuilder):
             return_candidate_context=return_candidate_context,
             column_delimiter=column_delimiter,
         )
-        log.info(f"Built entity context. Length: {len(local_context)}")
         if local_context.strip() != "":
             final_context.append(str(local_context))
             final_context_data = {**final_context_data, **local_context_data}
@@ -217,14 +212,11 @@ class LocalSearchMixedContext(LocalContextBuilder):
             max_tokens=text_unit_tokens,
             return_candidate_context=return_candidate_context,
         )
-        log.info(f"Built text unit context. Length: {len(text_unit_context)}")
         if text_unit_context.strip() != "":
             final_context.append(text_unit_context)
             final_context_data = {**final_context_data, **text_unit_context_data}
 
-        final_context = "\n\n".join(filter(None, final_context))
-        log.info(f"Final context built. Total length: {len(final_context)}")
-        return (final_context, final_context_data)
+        return ("\n\n".join(final_context), final_context_data)
 
     def _build_community_context(
         self,

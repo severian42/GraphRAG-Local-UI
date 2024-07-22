@@ -9,7 +9,6 @@ Ideally this is just a straight read-thorugh into the object model.
 from typing import cast
 
 import pandas as pd
-import logging
 
 from graphrag.model import CommunityReport, Covariate, Entity, Relationship, TextUnit
 from graphrag.query.input.loaders.dfs import (
@@ -97,10 +96,6 @@ def read_indexer_entities(
     entity_df = final_nodes
     entity_embedding_df = final_entities
 
-    if entity_df.empty or entity_embedding_df.empty:
-        logging.warning("Entity or entity embedding DataFrame is empty. Returning empty list of entities.")
-        return []
-
     entity_df = _filter_under_community_level(entity_df, community_level)
     entity_df = cast(pd.DataFrame, entity_df[["title", "degree", "community"]]).rename(
         columns={"title": "name", "degree": "rank"}
@@ -137,9 +132,10 @@ def read_indexer_entities(
     )
 
 
-def _filter_under_community_level(df: pd.DataFrame, community_level: int) -> pd.DataFrame:
-    if df.empty or 'level' not in df.columns:
-        logging.warning("DataFrame is empty or doesn't have 'level' column. Returning empty DataFrame.")
-        return pd.DataFrame()
-
-    return df[df.level <= community_level]
+def _filter_under_community_level(
+    df: pd.DataFrame, community_level: int
+) -> pd.DataFrame:
+    return cast(
+        pd.DataFrame,
+        df[df.level <= community_level],
+    )

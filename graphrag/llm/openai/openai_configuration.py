@@ -21,7 +21,7 @@ class OpenAIConfiguration(Hashable, LLMConfig):
     """OpenAI Configuration class definition."""
 
     # Core Configuration
-    _api_key: str
+    _api_key: str | None
     _model: str
 
     _api_base: str | None
@@ -59,6 +59,9 @@ class OpenAIConfiguration(Hashable, LLMConfig):
     _concurrent_requests: int | None
     _encoding_model: str | None
     _sleep_on_rate_limit_recommendation: bool | None
+
+    # Provider
+    _provider: str = "openai"
 
     def __init__(
         self,
@@ -98,7 +101,7 @@ class OpenAIConfiguration(Hashable, LLMConfig):
                 return value > 0
             return cast(bool | None, config.get(key))
 
-        self._api_key = lookup_required("api_key")
+        self._api_key = lookup_str("api_key")
         self._model = lookup_required("model")
         self._deployment_name = lookup_str("deployment_name")
         self._api_base = lookup_str("api_base")
@@ -127,9 +130,10 @@ class OpenAIConfiguration(Hashable, LLMConfig):
             "sleep_on_rate_limit_recommendation"
         )
         self._raw_config = config
+        self._provider = config.get("provider", "openai")
 
     @property
-    def api_key(self) -> str:
+    def api_key(self) -> str | None:
         """API key property definition."""
         return self._api_key
 
@@ -264,6 +268,11 @@ class OpenAIConfiguration(Hashable, LLMConfig):
     def raw_config(self) -> dict:
         """Raw config method definition."""
         return self._raw_config
+
+    @property
+    def provider(self) -> str:
+        """Provider property definition."""
+        return self._provider
 
     def lookup(self, name: str, default_value: Any = None) -> Any:
         """Lookup method definition."""

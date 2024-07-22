@@ -4,9 +4,6 @@
 """A module containing build_steps method definition."""
 
 from graphrag.index.config import PipelineWorkflowConfig, PipelineWorkflowStep
-import logging
-
-logger = logging.getLogger(__name__)
 
 workflow_name = "create_base_entity_graph"
 
@@ -18,7 +15,7 @@ def build_steps(
     Create the base table for the entity graph.
 
     ## Dependencies
-    * `workflow:create_summarized_entities`
+    * `workflow:create_base_extracted_entities`
     """
     clustering_config = config.get(
         "cluster_graph",
@@ -38,10 +35,10 @@ def build_steps(
         },
     )
 
-    graphml_snapshot_enabled = config.get("graphml_snapshot", False)
-    embed_graph_enabled = config.get("embed_graph_enabled", False)
+    graphml_snapshot_enabled = config.get("graphml_snapshot", False) or False
+    embed_graph_enabled = config.get("embed_graph_enabled", False) or False
 
-    steps = [
+    return [
         {
             "verb": "cluster_graph",
             "args": {
@@ -50,29 +47,45 @@ def build_steps(
                 "to": "clustered_graph",
                 "level_to": "level",
             },
-            "input": {"source": "workflow:create_summarized_entities"},
-        }
-    ]
-
-    if embed_graph_enabled:
-        steps.append({
-            "verb": "embed_graph",
-            "args": {
-                **embed_graph_config,
-                "column": "clustered_graph",
-                "to": "embedded_graph",
-            },
-        })
-
-    if graphml_snapshot_enabled:
-        steps.append({
+            "input": ({"source": "workflow:create_summarized_entities"}),
+        },
+        {
             "verb": "snapshot_rows",
+            "enabled": graphml_snapshot_enabled,
             "args": {
-                "base_name": "entity_graph",
-                "column": "embedded_graph" if embed_graph_enabled else "clustered_graph",
+                "base_name": "clustered_graph",
+                "column": "clustered_graph",
                 "formats": [{"format": "text", "extension": "graphml"}],
             },
-        })
-
-    logger.info(f"Created {len(steps)} steps for {workflow_name}")
-    return steps
+        },
+        {
+            "verb": "embed_graph",
+            "enabled": embed_graph_enabled,
+            "args": {
+                "column": "clustered_graph",
+                "to": "embeddings",
+                **embed_graph_config,
+            },
+        },
+        {
+            "verb": "snapshot_rows",
+            "enabled": graphml_snapshot_enabled,
+            "args": {
+                "base_name": "embedded_graph",
+                "column": "entity_graph",
+                "formats": [{"format": "text", "extension": "graphml"}],
+            },
+        },
+        {
+            "verb": "select",
+            "args": {
+                # only selecting for documentation sake, so we know what is contained in
+                # this workflow
+                "columns": (
+                    ["level", "clustered_graph", "embeddings"]
+                    if embed_graph_enabled
+                    else ["level", "clustered_graph"]
+                ),
+            },
+        },
+    ]

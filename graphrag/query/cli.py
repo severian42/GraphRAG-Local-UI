@@ -4,13 +4,6 @@
 """Command line interface for the query module."""
 
 import os
-import glob
-import pandas as pd
-import logging
-
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
-
 from pathlib import Path
 from typing import cast
 
@@ -66,37 +59,14 @@ def run_global_search(
     community_level: int,
     response_type: str,
     query: str,
-    config: GraphRagConfig,
 ):
     """Run a global search with the given query."""
-    logger.info(f"Starting global search with query: {query}")
-    logger.info(f"Config root_dir: {config.root_dir}")
-    logger.info(f"Provided root_dir: {root_dir}")
-    logger.info(f"Provided data_dir: {data_dir}")
-    
-    if data_dir:
-        artifacts_dir = data_dir
-    elif root_dir:
-        artifacts_dir = os.path.join(root_dir, "output", "artifacts")
-    else:
-        artifacts_dir = os.path.join(config.root_dir, "output", "artifacts")
-    
-    logger.info(f"Using artifacts directory: {artifacts_dir}")
-    
-    parquet_path = os.path.join(artifacts_dir, "create_final_nodes.parquet")
-    logger.info(f"Looking for parquet file: {parquet_path}")
-    
-    if not os.path.exists(parquet_path):
-        raise FileNotFoundError(f"Parquet file not found: {parquet_path}")
-    
-    try:
-        final_nodes: pd.DataFrame = pd.read_parquet(parquet_path)
-        logger.info(f"Successfully read parquet file with {len(final_nodes)} rows")
-    except Exception as e:
-        logger.error(f"Error reading parquet file {parquet_path}: {str(e)}")
-        raise IOError(f"Error reading parquet file {parquet_path}: {str(e)}")
+    data_dir, root_dir, config = _configure_paths_and_settings(data_dir, root_dir)
+    data_path = Path(data_dir)
 
-    data_path = Path(artifacts_dir)
+    final_nodes: pd.DataFrame = pd.read_parquet(
+        data_path / "create_final_nodes.parquet"
+    )
     final_entities: pd.DataFrame = pd.read_parquet(
         data_path / "create_final_entities.parquet"
     )
@@ -127,7 +97,6 @@ def run_local_search(
     community_level: int,
     response_type: str,
     query: str,
-    config: GraphRagConfig,
 ):
     """Run a local search with the given query."""
     data_dir, root_dir, config = _configure_paths_and_settings(data_dir, root_dir)

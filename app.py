@@ -16,6 +16,7 @@ import logging
 import queue
 import threading
 import time
+from collections import deque
 import re
 import glob
 from datetime import datetime
@@ -52,6 +53,7 @@ from graphrag.query.structured_search.local_search.search import LocalSearch
 from graphrag.query.structured_search.global_search.community_context import GlobalCommunityContext
 from graphrag.query.structured_search.global_search.search import GlobalSearch
 from graphrag.vector_stores.lancedb import LanceDBVectorStore
+import textwrap
 
 
 
@@ -93,70 +95,6 @@ class QueueHandler(logging.Handler):
 queue_handler = QueueHandler(log_queue)
 logging.getLogger().addHandler(queue_handler)
 
-class OllamaLLM:
-    def __init__(self, api_base, model, max_retries=20):
-        self.api_base = api_base
-        self.model = model
-        self.max_retries = max_retries
-
-    async def __call__(self, prompt, **kwargs):
-        endpoint = f"{self.api_base}/v1/completions"
-        data = {
-            "model": self.model,
-            "prompt": prompt,
-            **kwargs
-        }
-        async with aiohttp.ClientSession() as session:
-            async with session.post(endpoint, json=data) as response:
-                if response.status == 200:
-                    result = await response.json()
-                    return result['response']
-                else:
-                    raise Exception(f"Error generating response: {await response.text()}")
-
-class VectorStoreWrapper:
-    def __init__(self, embedding_function, connection_string, table_name, collection_name):
-        self.embedding_function = embedding_function
-        self.connection_string = connection_string
-        self.table_name = table_name
-        self.collection_name = collection_name
-        self._vector_store = None
-
-    def get_vector_store(self):
-        if self._vector_store is None:
-            try:
-                from graphrag.vector_stores.lancedb import LanceDBVectorStore
-                self._vector_store = LanceDBVectorStore(
-                    embedding_function=self.embedding_function,
-                    connection_string=self.connection_string,
-                    table_name=self.table_name,
-                    collection_name=self.collection_name
-                )
-                logging.info("Vector store initialized successfully")
-            except Exception as e:
-                logging.error(f"Error initializing vector store: {str(e)}")
-                self._vector_store = None
-        return self._vector_store
-
-    def __getstate__(self):
-        # This method is called when pickling the object
-        state = self.__dict__.copy()
-        # Don't pickle _vector_store
-        state['_vector_store'] = None
-        return state
-
-    def __setstate__(self, state):
-        # This method is called when unpickling the object
-        self.__dict__.update(state)
-        # _vector_store will be None, but it will be recreated when needed    
-
-def create_vector_store_wrapper(text_embedder):
-    return VectorStoreWrapper(
-        embedding_function=text_embedder,
-        connection_string="lancedb",
-        table_name="documents",
-        collection_name="graphrag_collection"
-    )
 
 
 def initialize_models():
@@ -189,18 +127,9 @@ def initialize_models():
             api_type=OpenaiApiType.OpenAI,
             max_retries=20,
         )
-    elif llm_service_type.lower() == "ollama":
-        llm = OllamaLLM(
-            api_base=llm_api_base,
-            model=llm_model,
-            max_retries=20,
-        )
-    else:
-        raise ValueError(f"Unsupported LLM service type: {llm_service_type}")
-
     # Initialize OpenAI client for embeddings
     openai_client = OpenAI(
-        api_key=embeddings_api_key,
+        api_key=embeddings_api_key or "dummy_key",
         base_url=f"{embeddings_api_base}/v1"
     )
 
@@ -211,7 +140,7 @@ def initialize_models():
             "model": embeddings_model,
             "api_type": "open_ai",
             "api_base": embeddings_api_base,
-            "api_key": embeddings_api_key,
+            "api_key": embeddings_api_key or None,  # Change this line
             "provider": embeddings_service_type.lower()
         }
     )
@@ -424,26 +353,60 @@ def run_graphrag_query(cli_args):
         logging.error(f"Command output (stderr): {e.stderr}")
         raise RuntimeError(f"GraphRAG query failed: {e.stderr}")
 
+def parse_query_response(response: str):
+    try:
+        # Split the response into metadata and content
+        parts = response.split("\n\n", 1)
+        if len(parts) < 2:
+            return response  # Return original response if it doesn't contain metadata
+
+        metadata_str, content = parts
+        metadata = json.loads(metadata_str)
+        
+        # Extract relevant information from metadata
+        query_type = metadata.get("query_type", "Unknown")
+        execution_time = metadata.get("execution_time", "N/A")
+        tokens_used = metadata.get("tokens_used", "N/A")
+        
+        # Remove unwanted lines from the content
+        content_lines = content.split('\n')
+        filtered_content = '\n'.join([line for line in content_lines if not line.startswith("INFO:") and not line.startswith("creating llm client")])
+        
+        # Format the parsed response
+        parsed_response = f"""
+Query Type: {query_type}
+Execution Time: {execution_time} seconds
+Tokens Used: {tokens_used}
+
+{filtered_content.strip()}
+"""
+        return parsed_response
+    except Exception as e:
+        print(f"Error parsing query response: {str(e)}")
+        return response 
+
 def send_message(query_type, query, history, system_message, temperature, max_tokens, preset, community_level, response_type, custom_cli_args, selected_folder):
     try:
         if query_type in ["global", "local"]:
             cli_args = construct_cli_args(query_type, preset, community_level, response_type, custom_cli_args, query, selected_folder)
             logging.info(f"Executing {query_type} search with command: {' '.join(cli_args)}")
             result = run_graphrag_query(cli_args)
-            logging.info(f"Query result: {result}")
+            parsed_result = parse_query_response(result)
+            logging.info(f"Parsed query result: {parsed_result}")
         else:  # Direct chat
             llm_model = os.getenv("LLM_MODEL")
-            llm_api_base = os.getenv("LLM_API_BASE")
-            logging.info(f"Executing direct chat with model: {llm_model}, API base: {llm_api_base}")
+            api_base = os.getenv("LLM_API_BASE")
+            logging.info(f"Executing direct chat with model: {llm_model}")
             
             try:
-                result = chat_with_llm(query, history, system_message, temperature, max_tokens, llm_model, llm_api_base)
-                logging.info(f"Direct chat result: {result[:100]}...")  # Log first 100 chars of result
+                result = chat_with_llm(query, history, system_message, temperature, max_tokens, llm_model, api_base)
+                parsed_result = result  # No parsing needed for direct chat
+                logging.info(f"Direct chat result: {parsed_result[:100]}...")  # Log first 100 chars of result
             except Exception as chat_error:
                 logging.error(f"Error in chat_with_llm: {str(chat_error)}")
                 raise RuntimeError(f"Direct chat failed: {str(chat_error)}")
         
-        history.append((query, result))
+        history.append((query, parsed_result))
     except Exception as e:
         error_message = f"An error occurred: {str(e)}"
         logging.error(error_message)
@@ -724,10 +687,13 @@ def update_visualization(folder_name, file_name, layout_type, node_size, edge_wi
 
         fig.update_layout(autosize=True)
         fig.update_layout(height=600)  # Set a fixed height
-        config = {'responsive': True}
-        return fig, f"Graph visualization generated successfully. Using file: {graph_path}", config
+        return fig, f"Graph visualization generated successfully. Using file: {graph_path}"
     except Exception as e:
-        return None, f"Error visualizing graph: {str(e)}"
+        return go.Figure(), f"Error visualizing graph: {str(e)}"
+
+
+
+
 
 def update_logs():
     logs = []
@@ -737,93 +703,67 @@ def update_logs():
 
 
 
-def update_model_choices(base_url, api_key, service_type="openai"):
-    if service_type.lower() == "ollama":
-        models = fetch_ollama_models(base_url)
-    else:  # OpenAI Compatible
-        models = fetch_openai_models(base_url, api_key)
-    
-    if not models:
-        logging.warning(f"No models fetched for {service_type}.")
-
-    # Get the current model from settings
-    current_model = settings['llm'].get('model')
-    
-    # If the current model is not in the list, add it
-    if current_model and current_model not in models:
-        models.append(current_model)
-    
-    return gr.update(choices=models, value=current_model if current_model in models else (models[0] if models else None))
-
-def fetch_ollama_models(base_url):
+def fetch_models(base_url, api_key, service_type):
     try:
-        # Remove '/v1' from the base_url if present
-        base_url = base_url.rstrip('/v1')
-        response = requests.get(f"{base_url}/api/tags", timeout=10)
-        logging.info(f"Raw Ollama API response: {response.text}")
+        if service_type.lower() == "ollama":
+            response = requests.get(f"{base_url}/tags", timeout=10)
+        else:  # OpenAI Compatible
+            headers = {
+                "Authorization": f"Bearer {api_key}",
+                "Content-Type": "application/json"
+            }
+            response = requests.get(f"{base_url}/models", headers=headers, timeout=10)
+
+        logging.info(f"Raw API response: {response.text}")
+        
         if response.status_code == 200:
             data = response.json()
-            if 'models' in data:
-                models = [model['name'] for model in data['models']]
-            else:
-                models = [tag['name'] for tag in data]  # The response is a list of tag objects
+            if service_type.lower() == "ollama":
+                models = [model.get('name', '') for model in data.get('models', data) if isinstance(model, dict)]
+            else:  # OpenAI Compatible
+                models = [model.get('id', '') for model in data.get('data', []) if isinstance(model, dict)]
+            
+            models = [model for model in models if model]  # Remove empty strings
             
             if not models:
-                logging.warning("No models found in Ollama API response")
+                logging.warning(f"No models found in {service_type} API response")
                 return ["No models available"]
             
-            logging.info(f"Successfully fetched Ollama models: {models}")
+            logging.info(f"Successfully fetched {service_type} models: {models}")
             return models
         else:
-            logging.error(f"Error fetching Ollama models. Status code: {response.status_code}, Response: {response.text}")
+            logging.error(f"Error fetching {service_type} models. Status code: {response.status_code}, Response: {response.text}")
             return ["Error fetching models"]
     except requests.RequestException as e:
-        logging.error(f"Exception while fetching Ollama models: {str(e)}")
+        logging.error(f"Exception while fetching {service_type} models: {str(e)}")
         return ["Error: Connection failed"]
     except Exception as e:
-        logging.error(f"Unexpected error in fetch_ollama_models: {str(e)}")
+        logging.error(f"Unexpected error in fetch_models: {str(e)}")
         return ["Error: Unexpected issue"]
 
-def fetch_openai_models(base_url, api_key):
-    try:
-        headers = {
-            "Authorization": f"Bearer {api_key}",
-            "Content-Type": "application/json"
-        }
-        response = requests.get(f"{base_url}/models", headers=headers)
-        if response.status_code == 200:
-            models = [model['id'] for model in response.json()['data']]
-            return models
-        else:
-            print(f"Error fetching OpenAI models: {response.text}")
-            return []
-    except Exception as e:
-        print(f"Error fetching OpenAI models: {str(e)}")
-        return []
-
-def fetch_models(base_url, api_key, service_type):
-    if service_type.lower() == "ollama":
-        return fetch_ollama_models(base_url)
-    else:  # OpenAI Compatible
-        return fetch_openai_models(base_url, api_key)
-
-def update_embeddings_model_choices(base_url, api_key, service_type):
-    if service_type.lower() == "ollama":
-        models = fetch_ollama_models(base_url)
-    else:  # OpenAI Compatible
-        models = fetch_openai_models(base_url, api_key)
+def update_model_choices(base_url, api_key, service_type, settings_key):
+    models = fetch_models(base_url, api_key, service_type)
     
     if not models:
         logging.warning(f"No models fetched for {service_type}.")
 
     # Get the current model from settings
-    current_model = settings['embeddings']['llm'].get('model')
+    current_model = settings.get(settings_key, {}).get('llm', {}).get('model')
     
     # If the current model is not in the list, add it
     if current_model and current_model not in models:
         models.append(current_model)
     
     return gr.update(choices=models, value=current_model if current_model in models else (models[0] if models else None))
+
+def update_llm_model_choices(base_url, api_key, service_type):
+    return update_model_choices(base_url, api_key, service_type, 'llm')
+
+def update_embeddings_model_choices(base_url, api_key, service_type):
+    return update_model_choices(base_url, api_key, service_type, 'embeddings')
+
+
+
 
 def update_llm_settings(llm_model, embeddings_model, context_window, system_message, temperature, max_tokens, 
                         llm_api_base, llm_api_key, 
@@ -1253,20 +1193,17 @@ def refresh_indexing():
 
 
 
-def run_indexing(root_dir, config_file, verbose, nocache, resume, reporter, emit_formats, progress=gr.Progress()):
-    cmd = ["python", "-m", "graphrag.index", "--root", root_dir]
-    if config_file:
-        cmd.extend(["--config", config_file.name])
-    if verbose:
-        cmd.append("--verbose")
-    if nocache:
-        cmd.append("--nocache")
-    if resume:
-        cmd.extend(["--resume", resume])
-    cmd.extend(["--reporter", reporter])
-    cmd.extend(["--emit", ",".join(emit_formats)])
+def run_indexing(root_dir, config_file, verbose, nocache, resume, reporter, emit_formats, custom_args):
+    cmd = ["python", "-m", "graphrag.index", "--root", "./ragtest"]
     
-    process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, bufsize=1, universal_newlines=True)
+    # Add custom CLI arguments
+    if custom_args:
+        cmd.extend(custom_args.split())
+    
+    logging.info(f"Executing command: {' '.join(cmd)}")
+    
+    process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, bufsize=1, encoding='utf-8', universal_newlines=True)
+
     
     output = []
     progress_value = 0
@@ -1295,28 +1232,21 @@ def run_indexing(root_dir, config_file, verbose, nocache, resume, reporter, emit
                 line = line.strip()
                 output.append(line)
                 
-                # Update progress based on specific output lines
                 if "Processing file" in line:
                     progress_value += 1
                     iterations_completed += 1
                 elif "Indexing completed" in line:
                     progress_value = 100
                 elif "ERROR" in line:
-                    # Highlight errors in the output
                     line = f"🚨 ERROR: {line}"
                 
-                # Use the actual CLI output for progress message
-                progress_msg = line
-                
-                # Yield an update for every line of output
                 yield ("\n".join(output), 
-                       progress_msg, 
+                       line,
                        progress_value, 
                        gr.update(interactive=False), 
                        gr.update(interactive=True),
                        gr.update(interactive=False),
                        str(iterations_completed))
-                time.sleep(0.1)  # Add a small delay to prevent overwhelming the UI
         except Exception as e:
             logging.error(f"Error during indexing: {str(e)}")
             return ("\n".join(output + [f"Error: {str(e)}"]), 
@@ -1341,15 +1271,13 @@ def run_indexing(root_dir, config_file, verbose, nocache, resume, reporter, emit
             gr.update(interactive=False),
             gr.update(interactive=True),
             str(iterations_completed))
-
 global_vector_store_wrapper = None
 
 def create_gradio_interface():
     global global_vector_store_wrapper
     llm_models, embeddings_models, llm_service_type, embeddings_service_type, llm_api_base, embeddings_api_base, text_embedder = initialize_models()
     settings = load_settings()
-    
-    global_vector_store_wrapper = create_vector_store_wrapper(text_embedder)
+
 
     log_output = gr.TextArea(label="Logs", elem_id="log-output", interactive=False, visible=False)
 
@@ -1384,16 +1312,37 @@ def create_gradio_interface():
                         config_file = gr.File(label="Config File (optional)")
                         with gr.Row():
                             verbose = gr.Checkbox(label="Verbose", value=True)
-                            nocache = gr.Checkbox(label="No Cache", value=False)
+                            nocache = gr.Checkbox(label="No Cache", value=True)
                         with gr.Row():
                             resume = gr.Textbox(label="Resume Timestamp (optional)")
-                            reporter = gr.Dropdown(label="Reporter", choices=["rich", "print", "none"], value="rich")
+                            reporter = gr.Dropdown(label="Reporter", choices=["rich", "print", "none"], value=None)
                         with gr.Row():
-                            emit_formats = gr.CheckboxGroup(label="Emit Formats", choices=["json", "csv", "parquet"], value=["parquet"])
+                            emit_formats = gr.CheckboxGroup(label="Emit Formats", choices=["json", "csv", "parquet"], value=None)
                         with gr.Row():
                             run_index_button = gr.Button("Run Indexing")
                             stop_index_button = gr.Button("Stop Indexing", variant="stop")
                             refresh_index_button = gr.Button("Refresh Indexing", variant="secondary")
+                        
+                        with gr.Accordion("Custom CLI Arguments", open=True):
+                            custom_cli_args = gr.Textbox(
+                                label="Custom CLI Arguments",
+                                placeholder="--arg1 value1 --arg2 value2",
+                                lines=3
+                            )
+                            cli_guide = gr.Markdown(
+                                textwrap.dedent("""
+                                ### CLI Argument Key Guide:
+                                - `--root <path>`: Set the root directory for the project
+                                - `--config <path>`: Specify a custom configuration file
+                                - `--verbose`: Enable verbose output
+                                - `--nocache`: Disable caching
+                                - `--resume <timestamp>`: Resume from a specific timestamp
+                                - `--reporter <type>`: Set the reporter type (rich, print, none)
+                                - `--emit <formats>`: Specify output formats (json, csv, parquet)
+                                
+                                Example: `--verbose --nocache --emit json,csv`
+                                """)
+                            )
                         
                         index_output = gr.Textbox(label="Indexing Output", lines=20, max_lines=30)
                         index_progress = gr.Textbox(label="Indexing Progress", lines=3)
@@ -1402,11 +1351,11 @@ def create_gradio_interface():
 
                         run_index_button.click(
                             fn=start_indexing,
-                            inputs=[root_dir, config_file, verbose, nocache, resume, reporter, emit_formats],
+                            inputs=[root_dir, config_file, verbose, nocache, resume, reporter, emit_formats, custom_cli_args],
                             outputs=[run_index_button, stop_index_button, refresh_index_button]
                         ).then(
                             fn=run_indexing,
-                            inputs=[root_dir, config_file, verbose, nocache, resume, reporter, emit_formats],
+                            inputs=[root_dir, config_file, verbose, nocache, resume, reporter, emit_formats, custom_cli_args],
                             outputs=[index_output, index_progress, run_index_button, stop_index_button, refresh_index_button, iterations_completed]
                         )
 
@@ -1420,8 +1369,8 @@ def create_gradio_interface():
                             outputs=[run_index_button, stop_index_button, refresh_index_button, refresh_status]
                         )
 
-                    with gr.TabItem("KG Chat/Outputs"):
-                        output_folder_list = gr.Dropdown(label="Select Output Folder", choices=[], interactive=True)
+                    with gr.TabItem("Indexing Outputs/Visuals"):
+                        output_folder_list = gr.Dropdown(label="Select Output Folder (Select GraphML File to Visualize)", choices=[], interactive=True)
                         refresh_folder_btn = gr.Button("Refresh Folder List", variant="secondary")
                         initialize_folder_btn = gr.Button("Initialize Selected Folder", variant="primary")
                         folder_content_list = gr.Dropdown(label="Select File or Directory", choices=[], interactive=True)
@@ -1453,6 +1402,7 @@ def create_gradio_interface():
                             label="Embeddings Service Type",
                             choices=["openai", "ollama"],
                             value=settings['embeddings']['llm'].get('type', 'openai'),
+                            visible=False,
                         )
 
                         embeddings_model_dropdown = gr.Dropdown(
@@ -1493,10 +1443,9 @@ def create_gradio_interface():
 
                         llm_base_url.change(
                             fn=update_model_choices,
-                            inputs=[llm_base_url, llm_api_key],
+                            inputs=[llm_base_url, llm_api_key, llm_service_type, gr.Textbox(value='llm', visible=False)],
                             outputs=llm_model_dropdown
                         )
-
                         # Update Embeddings model choices when service type or base URL changes
                         embeddings_service_type.change(
                             fn=update_embeddings_model_choices,
@@ -1505,8 +1454,8 @@ def create_gradio_interface():
                         )
 
                         embeddings_base_url.change(
-                            fn=update_embeddings_model_choices,
-                            inputs=[embeddings_base_url, embeddings_api_key, embeddings_service_type],
+                            fn=update_model_choices,
+                            inputs=[embeddings_base_url, embeddings_api_key, embeddings_service_type, gr.Textbox(value='embeddings', visible=False)],
                             outputs=embeddings_model_dropdown
                         )
 
@@ -1531,17 +1480,16 @@ def create_gradio_interface():
 
                         refresh_llm_models_btn.click(
                             fn=update_model_choices,
-                            inputs=[llm_base_url, llm_api_key, llm_service_type],
+                            inputs=[llm_base_url, llm_api_key, llm_service_type, gr.Textbox(value='llm', visible=False)],
                             outputs=[llm_model_dropdown]
                         ).then(
                             fn=update_logs,
                             outputs=[log_output]
                         )
 
-
                         refresh_embeddings_models_btn.click(
                             fn=update_model_choices,
-                            inputs=[embeddings_base_url, embeddings_api_key, embeddings_service_type],
+                            inputs=[embeddings_base_url, embeddings_api_key, embeddings_service_type, gr.Textbox(value='embeddings', visible=False)],
                             outputs=[embeddings_model_dropdown]
                         ).then(
                             fn=update_logs,
@@ -1601,11 +1549,13 @@ def create_gradio_interface():
                             info="Select a preset or choose 'Custom Query' for manual configuration"
                         )
                         selected_folder = gr.Dropdown(
-                            label="Select Output Folder",
+                            label="Select Index Folder to Chat With",
                             choices=list_output_folders("./ragtest"),
                             value=None,
                             interactive=True
                         )
+                        refresh_folder_btn = gr.Button("Refresh Folders", variant="secondary")
+                        clear_chat_btn = gr.Button("Clear Chat", variant="secondary")
                         
                         with gr.Group(visible=False) as custom_options:
                             community_level = gr.Slider(
@@ -1675,6 +1625,16 @@ def create_gradio_interface():
         delete_btn.click(fn=delete_file, inputs=[file_list], outputs=[operation_status, file_list, log_output])
         save_btn.click(fn=save_file_content, inputs=[file_list, file_content], outputs=[operation_status, log_output])
 
+        refresh_folder_btn.click(
+            fn=lambda: gr.update(choices=list_output_folders("./ragtest")),
+            outputs=[selected_folder]
+        )
+
+        clear_chat_btn.click(
+            fn=lambda: ([], ""),
+            outputs=[chatbot, query_input]
+        )
+
         refresh_folder_btn.click(fn=update_output_folder_list, outputs=[output_folder_list]).then(
             fn=update_logs,
             outputs=[log_output]
@@ -1716,10 +1676,7 @@ def create_gradio_interface():
                 show_labels,
                 label_size
             ],
-            outputs=[vis_output]
-        ).then(
-            fn=update_logs,
-            outputs=[log_output]
+            outputs=[vis_output, gr.Textbox(label="Visualization Status")]
         )
 
         query_btn.click(
@@ -1759,21 +1716,15 @@ def create_gradio_interface():
         )
         refresh_llm_models_btn.click(
             fn=update_model_choices,
-            inputs=[llm_base_url, llm_api_key, llm_service_type],
+            inputs=[llm_base_url, llm_api_key, llm_service_type, gr.Textbox(value='llm', visible=False)],
             outputs=[llm_model_dropdown]
-        ).then(
-            fn=update_logs,
-            outputs=[log_output]
         )
 
         # Update Embeddings model choices
         refresh_embeddings_models_btn.click(
             fn=update_model_choices,
-            inputs=[embeddings_base_url, embeddings_api_key, embeddings_service_type],
+            inputs=[embeddings_base_url, embeddings_api_key, embeddings_service_type, gr.Textbox(value='embeddings', visible=False)],
             outputs=[embeddings_model_dropdown]
-        ).then(
-            fn=update_logs,
-            outputs=[log_output]
         )
         
         # Add this JavaScript to enable Shift+Enter functionality

@@ -1,6 +1,6 @@
 #  🕸️ GraphRAG Local with Interactive UI
 
-Welcome to **GraphRAG Local with Interactive UI**! This is an adaptation of Microsoft's [GraphRAG](https://github.com/microsoft/graphrag), tailored to support local models and featuring a comprehensive interactive user interface.
+Welcome to **GraphRAG Local with Interactive UI**! This is an adaptation of Microsoft's [GraphRAG](https://github.com/microsoft/graphrag), tailored to support local models and featuring a comprehensive interactive user interface. The goal of this UI is to provide an easy-to-use and fully configurable frontend for any version of the GraphRAG library as a backend for local LLMs. Ideally, once all the bugs are worked out, you can drop in your GraphRAG directory (or use the provided one in the repo) and upload your documents to start indexing and query right away. 
 
 ## 📄 Research Paper
 
@@ -8,7 +8,7 @@ For more details on the original GraphRAG implementation, please refer to the [G
 
 ## 🌟 Features
 
-- **Local Model Support:** Leverage local models for LLM and embeddings, including compatibility with Ollama and OpenAI-compatible APIs. **Embedding providers that use a /v1/embeddings endpoint work best for now. Ollama's /api/embeddings tag can mess up the indexing 50% of the time due to a hack-work-around needed.**
+- **Local Model Support:** Leverage local models for LLM and embeddings, including compatibility with Ollama and OpenAI-compatible APIs.
 - **Cost-Effective:** Eliminate dependency on costly cloud-based models by using your own local models.
 - **Interactive UI:** User-friendly interface for managing data, running queries, and visualizing results.
 - **Real-time Graph Visualization:** Visualize your knowledge graph in 2D or 3D using Plotly.
@@ -22,7 +22,7 @@ For more details on the original GraphRAG implementation, please refer to the [G
 
 ## 🗺️ Roadmap
 
-**Important Note:** GraphRAG Local UI is currently a major work in progress. As I strive to make the application more stable with local LLMs, users should expect to encounter some bugs. I appreciate your patience and feedback during this development phase.
+### **Important Note:** GraphRAG Local UI is currently a major work in progress and building a UI around the GraphRAG library has introduced a number of challenges; mainly with the Indexing process. The query works fantastic and provides a number of ways to easily and comprehensively utilize the GraphRAG library to query your indexed data. As I strive to make the application more stable with local LLMs, users should expect to encounter some bugs and breaking changes. I appreciate your patience and feedback during this development phase. If you encounter indexing issues while running this Gradio app while I am debugging it, you can typically run it straight in the terminal with the CLI args and have it work out 80-90% of the time.
 
 *The app gained traction much quicker than anticipated, so we are actively working to fix bugs and integrate suggested improvements. While it is currently functional, it has been primarily tested on a Mac Studio M2.*
 
@@ -45,9 +45,9 @@ My vision for GraphRAG Local UI is to become the ultimate GraphRAG app for local
 - [ ] Integration with popular knowledge management tools
 - [ ] Collaborative features for team-based knowledge graph building
 
-I am committed to making GraphRAG Local UI the most comprehensive and user-friendly tool for working with knowledge graphs and local language models. Your feedback and suggestions are much needed in shaping the future of this project.
+I am committed to making GraphRAG Local UI the most comprehensive and user-friendly tool for working with knowledge graphs and LLMs. Your feedback and suggestions are much needed in shaping the future of this project.
 
-Feel free to open an Issue if you run into an error, and I will try to address it as soon as possible to minimize any downtime you might experience.
+Feel free to open an Issue if you run into an error, and we will try to address it as soon as possible to minimize any downtime you might experience.
 
 ## 📦 Installation and Setup
 
@@ -176,11 +176,6 @@ The UI includes a 2D/3D graph visualization feature:
 
 - On Windows, if you run into and encoding/UTF error, you can change it to the correct format in the YAML Settings menu
 
-- Indexing Errors: These are still tough to debug and track down as it is dependent on your specific pipeline of LLMs and embedders. If you encounter an error in the process follow these steps to see exactly what went wrong:
-    - Locate the folder of your latest Indexing run, i.e., `ragtest/output/20240719-103051`.
-    - Inside the Reports folder you will see a file named `indexing-engine.log` that will have a line by line debug of the workflow and traceback errors.
-    - Full file path: `ragtest/output/20240719-103051/reports/indexing-engine.log`
-
--  Right now it seems to be the creation of Empty Nodes/Data Frames when unpacking. I'll be investigating and keep trying to reinforce the Indexing process to make it more stable and robust.
+- Indexing Errors: These are still tough to debug a track down as it is dependant on your specific pipeline of llms and embedders. Right now it seems to call /v1/embeddings no matter what in the Index workflow, but I think I found a workaround that allows Ollama and other local options. I'll keep trying to reenforce the Indexing process to make it more stable and robust.
 
 For any issues or feature requests, please open an issue on the GitHub repository. Happy knowledge graphing!

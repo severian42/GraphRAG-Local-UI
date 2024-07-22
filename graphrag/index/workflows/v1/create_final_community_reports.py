@@ -96,6 +96,21 @@ def build_steps(
             },
         },
         {
+            "verb": "select",
+            "args": {
+                "columns": [
+                    "community",
+                    "level",
+                    "rank",
+                    "title",
+                    "rank_explanation",
+                    "summary",
+                    "report",
+                    "full_content"
+                ]
+            }
+        },
+        {
             # Generate a unique ID for each community report distinct from the community ID
             "verb": "window",
             "args": {"to": "id", "operation": "uuid", "column": "community"},
@@ -129,5 +144,21 @@ def build_steps(
                 "to": "title_embedding",
                 **community_report_title_embed_config,
             },
+        },
+        {
+            "verb": "select",
+            "args": {
+                "columns": [
+                    "id",
+                    "community",
+                    "level",
+                    "rank",
+                    "title",
+                    "rank_explanation",
+                    "summary",
+                    "report",
+                    "full_content",
+                ]
+            }
         },
     ]
