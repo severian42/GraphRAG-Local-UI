@@ -69,13 +69,6 @@ def cluster_graph(
     )
     output_df[to] = [None] * len(output_df)
 
-    # Handle empty graphs
-    if output_df[community_map_to].apply(len).sum() == 0:
-        log.warning("All graphs are empty. Skipping further processing.")
-        output_df[to] = None
-        output_df[level_to] = None
-        return TableContainer(table=output_df)
-
     num_total = len(output_df)
 
     # Go through each of the rows
@@ -99,40 +92,16 @@ def cluster_graph(
             )
             graph_level_pairs.append((level, graph))
         graph_level_pairs_column.append(graph_level_pairs)
-    
-    # Handle the case when there are no graph_level_pairs
-    if not graph_level_pairs_column:
-        log.warning("No graph level pairs generated. The graph may be empty.")
-        return TableContainer(table=output_df)
-
     output_df[to] = graph_level_pairs_column
 
-    # Explode the list of (level, graph) pairs into separate rows
+    # explode the list of (level, graph) pairs into separate rows
     output_df = output_df.explode(to, ignore_index=True)
 
-    # Split the (level, graph) pairs into separate columns dynamically
-    if output_df[to].notna().any():
-        # Get the number of elements in each tuple
-        num_elements = len(output_df[to].iloc[0])
-        
-        # Generate column names dynamically
-        column_names = [f"{to}_level"] + [f"{to}_{i}" for i in range(num_elements - 1)]
-        
-        # Split the tuples into separate columns
-        split_df = pd.DataFrame(output_df[to].tolist(), columns=column_names, index=output_df.index)
-        
-        # Assign the split columns back to the original DataFrame
-        for col in column_names:
-            output_df[col] = split_df[col]
-        
-        # Rename the level column if needed
-        if level_to != f"{to}_level":
-            output_df.rename(columns={f"{to}_level": level_to}, inplace=True)
-    else:
-        log.warning(f"Column '{to}' contains no valid data for splitting.")
-
-    # Drop the original column containing tuples
-    output_df.drop(columns=[to], inplace=True)
+    # split the (level, graph) pairs into separate columns
+    # TODO: There is probably a better way to do this
+    output_df[[level_to, to]] = pd.DataFrame(
+        output_df[to].tolist(), index=output_df.index
+    )
 
     # clean up the community map
     output_df.drop(columns=[community_map_to], inplace=True)

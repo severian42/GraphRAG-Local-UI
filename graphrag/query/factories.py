@@ -4,7 +4,8 @@
 """Query Factory methods to support CLI."""
 
 import tiktoken
-from azure.identity import DefaultAzureCredential, get_bearer_token_provider
+from graphrag.llm.openai.openai_embeddings_llm import OpenAIEmbeddingsLLM
+from graphrag.llm.openai.openai_configuration import OpenAIConfiguration
 
 from graphrag.config import (
     GraphRagConfig,
@@ -19,7 +20,6 @@ from graphrag.model import (
 )
 from graphrag.query.context_builder.entity_extraction import EntityVectorStoreKey
 from graphrag.query.llm.oai.chat_openai import ChatOpenAI
-from graphrag.query.llm.oai.embedding import OpenAIEmbedding
 from graphrag.query.llm.oai.typing import OpenaiApiType
 from graphrag.query.structured_search.global_search.community_context import (
     GlobalCommunityContext,
@@ -30,67 +30,36 @@ from graphrag.query.structured_search.local_search.mixed_context import (
 )
 from graphrag.query.structured_search.local_search.search import LocalSearch
 from graphrag.vector_stores import BaseVectorStore
-
+from graphrag.query.embedding_wrapper import EmbeddingWrapper
 
 def get_llm(config: GraphRagConfig) -> ChatOpenAI:
     """Get the LLM client."""
-    is_azure_client = (
-        config.llm.type == LLMType.AzureOpenAIChat
-        or config.llm.type == LLMType.AzureOpenAI
-    )
-    debug_llm_key = config.llm.api_key or ""
-    llm_debug_info = {
-        **config.llm.model_dump(),
-        "api_key": f"REDACTED,len={len(debug_llm_key)}",
-    }
-    if config.llm.cognitive_services_endpoint is None:
-        cognitive_services_endpoint = "https://cognitiveservices.azure.com/.default"
-    else:
-        cognitive_services_endpoint = config.llm.cognitive_services_endpoint
-    print(f"creating llm client with {llm_debug_info}")  # noqa T201
+    print(f"creating llm client with model: {config.llm.model}")  # noqa T201
+    
     return ChatOpenAI(
-        api_key=config.llm.api_key,
-        azure_ad_token_provider=get_bearer_token_provider(
-            DefaultAzureCredential(), cognitive_services_endpoint
-        )
-        if is_azure_client and not config.llm.api_key
-        else None,
-        api_base=config.llm.api_base,
         model=config.llm.model,
-        api_type=OpenaiApiType.AzureOpenAI if is_azure_client else OpenaiApiType.OpenAI,
-        deployment_name=config.llm.deployment_name,
-        api_version=config.llm.api_version,
+        api_base=config.llm.api_base,
         max_retries=config.llm.max_retries,
     )
 
 
-def get_text_embedder(config: GraphRagConfig) -> OpenAIEmbedding:
+def get_text_embedder(config: GraphRagConfig) -> EmbeddingWrapper:
     """Get the LLM client for embeddings."""
-    is_azure_client = config.embeddings.llm.type == LLMType.AzureOpenAIEmbedding
-    debug_embedding_api_key = config.embeddings.llm.api_key or ""
-    llm_debug_info = {
-        **config.embeddings.llm.model_dump(),
-        "api_key": f"REDACTED,len={len(debug_embedding_api_key)}",
-    }
-    if config.embeddings.llm.cognitive_services_endpoint is None:
-        cognitive_services_endpoint = "https://cognitiveservices.azure.com/.default"
-    else:
-        cognitive_services_endpoint = config.embeddings.llm.cognitive_services_endpoint
-    print(f"creating embedding llm client with {llm_debug_info}")  # noqa T201
-    return OpenAIEmbedding(
-        api_key=config.embeddings.llm.api_key,
-        azure_ad_token_provider=get_bearer_token_provider(
-            DefaultAzureCredential(), cognitive_services_endpoint
-        )
-        if is_azure_client and not config.embeddings.llm.api_key
-        else None,
-        api_base=config.embeddings.llm.api_base,
-        api_type=OpenaiApiType.AzureOpenAI if is_azure_client else OpenaiApiType.OpenAI,
-        model=config.embeddings.llm.model,
-        deployment_name=config.embeddings.llm.deployment_name,
-        api_version=config.embeddings.llm.api_version,
-        max_retries=config.embeddings.llm.max_retries,
+    llm_config = config.embeddings.llm
+    
+    print(f"creating embedding llm client with model: {llm_config.model}")  # noqa T201
+
+    embedder = OpenAIEmbeddingsLLM(
+        client=None,
+        configuration={
+            "model": llm_config.model,
+            "api_base": config.llm.api_base if hasattr(config.llm, 'api_base') else None,
+            "api_key": config.llm.api_key if hasattr(config.llm, 'api_key') else "dummy_key",
+            "max_retries": llm_config.max_retries,
+        }
     )
+    
+    return EmbeddingWrapper(embedder)
 
 
 def get_local_search_engine(

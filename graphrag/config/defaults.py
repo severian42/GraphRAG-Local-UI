@@ -2,8 +2,11 @@
 # Licensed under the MIT License
 
 """Common default configuration values."""
-
+from dotenv import load_dotenv
+import os
 from datashaper import AsyncType
+
+load_dotenv('ragtest/.env')
 
 from .enums import (
     CacheType,
@@ -21,7 +24,7 @@ ENCODING_MODEL = "cl100k_base"
 # LLM Parameters
 #
 LLM_TYPE = LLMType.OpenAIChat
-LLM_MODEL = "gpt-4-turbo-preview"
+LLM_MODEL = os.getenv("LLM_MODEL")
 LLM_MAX_TOKENS = 4000
 LLM_TEMPERATURE = 0
 LLM_TOP_P = 1
@@ -37,15 +40,15 @@ LLM_CONCURRENT_REQUESTS = 25
 # Text Embedding Parameters
 #
 EMBEDDING_TYPE = LLMType.OpenAIEmbedding
-EMBEDDING_MODEL = "text-embedding-3-small"
+EMBEDDING_MODEL = os.getenv("EMBEDDINGS_MODEL")
 EMBEDDING_BATCH_SIZE = 16
 EMBEDDING_BATCH_MAX_TOKENS = 8191
 EMBEDDING_TARGET = TextEmbeddingTarget.required
 
 CACHE_TYPE = CacheType.file
 CACHE_BASE_DIR = "cache"
-CHUNK_SIZE = 1024
-CHUNK_OVERLAP = 20
+CHUNK_SIZE = 300
+CHUNK_OVERLAP = 100
 CHUNK_GROUP_BY_COLUMNS = ["id"]
 CLAIM_DESCRIPTION = (
     "Any claims or facts that could be relevant to information discovery."

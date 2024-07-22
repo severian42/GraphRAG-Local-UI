@@ -68,25 +68,38 @@ async def _run_extractor(
     try:
         await rate_limiter.acquire()
         results = await extractor({"input_text": input})
-        report = results.structured_output
-        if report is None or len(report.keys()) == 0:
-            log.warning("No report found for community: %s", community)
+        
+        if isinstance(results, dict):
+            report = results
+        elif hasattr(results, 'structured_output'):
+            report = results.structured_output
+        elif isinstance(results, str):
+            # If the result is a string, try to parse it as JSON
+            try:
+                import json
+                report = json.loads(results)
+            except json.JSONDecodeError:
+                report = {"text": results}
+        else:
+            report = {"text": str(results)}
+
+        if not report or not isinstance(report, dict):
+            log.warning(f"Invalid report format for community: {community}")
             return None
 
         return CommunityReport(
             community=community,
-            full_content=results.output,
+            full_content=str(results),
             level=level,
             rank=_parse_rank(report),
             title=report.get("title", f"Community Report: {community}"),
             rank_explanation=report.get("rating_explanation", ""),
             summary=report.get("summary", ""),
-            findings=report.get("findings", []),
-            full_content_json=json.dumps(report, indent=4),
+            report=report.get("report", ""),
         )
     except Exception as e:
-        log.exception("Error processing community: %s", community)
-        reporter.error("Community Report Extraction Error", e, traceback.format_exc())
+        log.exception(f"Error processing community: {community}")
+        reporter.error(f"Error processing community: {community}", e, None)
         return None
 
 

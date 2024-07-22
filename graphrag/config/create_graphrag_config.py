@@ -80,8 +80,6 @@ def create_graphrag_config(
     ) -> LLMParameters:
         with reader.use(config.get("llm")):
             llm_type = reader.str(Fragment.type)
-            if llm_type == "ollama":
-                llm_type = "openai"
             llm_type = LLMType(llm_type) if llm_type else base.type
             api_key = reader.str(Fragment.api_key) or base.api_key
             api_base = reader.str(Fragment.api_base) or base.api_base
@@ -104,8 +102,6 @@ def create_graphrag_config(
             sleep_on_rate_limit = reader.bool(Fragment.sleep_recommendation)
             if sleep_on_rate_limit is None:
                 sleep_on_rate_limit = base.sleep_on_rate_limit_recommendation
-
-            provider = reader.str("provider") or "openai"
 
             return LLMParameters(
                 api_key=api_key,
@@ -134,7 +130,6 @@ def create_graphrag_config(
                 sleep_on_rate_limit_recommendation=sleep_on_rate_limit,
                 concurrent_requests=reader.int(Fragment.concurrent_requests)
                 or base.concurrent_requests,
-                provider=provider,
             )
 
     def hydrate_embeddings_params(
@@ -147,8 +142,6 @@ def create_graphrag_config(
             api_organization = reader.str("organization") or base.organization
             api_proxy = reader.str("proxy") or base.proxy
             api_type = reader.str(Fragment.type) or defs.EMBEDDING_TYPE
-            if api_type == "ollama":
-                api_type = "openai"
             api_type = LLMType(api_type) if api_type else defs.LLM_TYPE
             cognitive_services_endpoint = (
                 reader.str(Fragment.cognitive_services_endpoint)
@@ -167,8 +160,6 @@ def create_graphrag_config(
             sleep_on_rate_limit = reader.bool(Fragment.sleep_recommendation)
             if sleep_on_rate_limit is None:
                 sleep_on_rate_limit = base.sleep_on_rate_limit_recommendation
-
-            provider = reader.str("provider") or "openai"
 
             return LLMParameters(
                 api_key=api_key,
@@ -192,7 +183,6 @@ def create_graphrag_config(
                 sleep_on_rate_limit_recommendation=sleep_on_rate_limit,
                 concurrent_requests=reader.int(Fragment.concurrent_requests)
                 or defs.LLM_CONCURRENT_REQUESTS,
-                provider=provider,
             )
 
     def hydrate_parallelization_params(
@@ -224,8 +214,6 @@ def create_graphrag_config(
         with reader.envvar_prefix(Section.llm):
             with reader.use(values.get("llm")):
                 llm_type = reader.str(Fragment.type)
-                if llm_type == "ollama":
-                    llm_type = "openai"
                 llm_type = LLMType(llm_type) if llm_type else defs.LLM_TYPE
                 api_key = reader.str(Fragment.api_key) or fallback_oai_key
                 api_organization = (
@@ -250,8 +238,6 @@ def create_graphrag_config(
                 sleep_on_rate_limit = reader.bool(Fragment.sleep_recommendation)
                 if sleep_on_rate_limit is None:
                     sleep_on_rate_limit = defs.LLM_SLEEP_ON_RATE_LIMIT_RECOMMENDATION
-
-                provider = reader.str("provider") or "openai"
 
                 llm_model = LLMParameters(
                     api_key=api_key,
@@ -281,7 +267,6 @@ def create_graphrag_config(
                     sleep_on_rate_limit_recommendation=sleep_on_rate_limit,
                     concurrent_requests=reader.int(Fragment.concurrent_requests)
                     or defs.LLM_CONCURRENT_REQUESTS,
-                    provider=provider,
                 )
             with reader.use(values.get("parallelization")):
                 llm_parallelization_model = ParallelizationParameters(

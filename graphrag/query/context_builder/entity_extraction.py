@@ -4,13 +4,14 @@
 """Orchestration Context Builders."""
 
 from enum import Enum
+import logging
 
 from graphrag.model import Entity, Relationship
 from graphrag.query.input.retrieval.entities import (
     get_entity_by_key,
     get_entity_by_name,
 )
-from graphrag.query.llm.base import BaseTextEmbedding
+from graphrag.query.embedding_wrapper import EmbeddingWrapper 
 from graphrag.vector_stores import BaseVectorStore
 
 
@@ -35,7 +36,7 @@ class EntityVectorStoreKey(str, Enum):
 def map_query_to_entities(
     query: str,
     text_embedding_vectorstore: BaseVectorStore,
-    text_embedder: BaseTextEmbedding,
+    text_embedder: EmbeddingWrapper,
     all_entities: list[Entity],
     embedding_vectorstore_key: str = EntityVectorStoreKey.ID,
     include_entity_names: list[str] | None = None,
@@ -52,10 +53,15 @@ def map_query_to_entities(
     if query != "":
         # get entities with highest semantic similarity to query
         # oversample to account for excluded entities
-        search_results = text_embedding_vectorstore.similarity_search_by_text(
-            text=query,
-            text_embedder=lambda t: text_embedder.embed(t),
+        embedding = text_embedder.embed(query)
+        if embedding is None:
+            logging.error("Failed to generate embedding for query")
+            return []
+        
+        search_results = text_embedding_vectorstore.similarity_search_by_vector(
+            query_embedding=embedding,  # Change this line
             k=k * oversample_scaler,
+            embedding_vectorstore_key=embedding_vectorstore_key,
         )
         for result in search_results:
             matched = get_entity_by_key(

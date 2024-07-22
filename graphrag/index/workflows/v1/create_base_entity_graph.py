@@ -4,17 +4,9 @@
 """A module containing build_steps method definition."""
 
 from graphrag.index.config import PipelineWorkflowConfig, PipelineWorkflowStep
-import logging
-import json
-
-logger = logging.getLogger(__name__)
 
 workflow_name = "create_base_entity_graph"
 
-def convert_dict_to_json(value):
-    if isinstance(value, dict):
-        return json.dumps(value)
-    return value
 
 def build_steps(
     config: PipelineWorkflowConfig,
@@ -23,7 +15,7 @@ def build_steps(
     Create the base table for the entity graph.
 
     ## Dependencies
-    * `workflow:create_summarized_entities`
+    * `workflow:create_base_extracted_entities`
     """
     clustering_config = config.get(
         "cluster_graph",
@@ -46,7 +38,7 @@ def build_steps(
     graphml_snapshot_enabled = config.get("graphml_snapshot", False) or False
     embed_graph_enabled = config.get("embed_graph_enabled", False) or False
 
-    steps = [
+    return [
         {
             "verb": "cluster_graph",
             "args": {
@@ -55,7 +47,7 @@ def build_steps(
                 "to": "clustered_graph",
                 "level_to": "level",
             },
-            "input": {"source": "workflow:create_summarized_entities"},
+            "input": ({"source": "workflow:create_summarized_entities"}),
         },
         {
             "verb": "snapshot_rows",
@@ -84,45 +76,16 @@ def build_steps(
                 "formats": [{"format": "text", "extension": "graphml"}],
             },
         },
+        {
+            "verb": "select",
+            "args": {
+                # only selecting for documentation sake, so we know what is contained in
+                # this workflow
+                "columns": (
+                    ["level", "clustered_graph", "embeddings"]
+                    if embed_graph_enabled
+                    else ["level", "clustered_graph"]
+                ),
+            },
+        },
     ]
-
-    # Add a step to handle potential duplicate columns and ensure correct column names
-    steps.append({
-        "verb": "select",
-        "args": {
-            "columns": [
-                "level",
-                "clustered_graph",
-                "entity_graph",
-            ] + (["embeddings"] if embed_graph_enabled else []),
-        },
-    })
-
-    # Add a step to rename columns to their final names
-    rename_columns = {
-        "level": "level_final",
-        "clustered_graph": "entity_graph_final",
-    }
-    if embed_graph_enabled:
-        rename_columns["embeddings"] = "embeddings_final"
-
-    steps.append({
-        "verb": "rename",
-        "args": {
-            "columns": rename_columns,
-        },
-    })
-
-    # Add a final select step to ensure only the desired columns are present
-    steps.append({
-        "verb": "select",
-        "args": {
-            "columns": [
-                "level_final",
-                "entity_graph_final",
-            ] + (["embeddings_final"] if embed_graph_enabled else []),
-        },
-    })
-
-    logger.info(f"Created {len(steps)} steps for {workflow_name}")
-    return steps

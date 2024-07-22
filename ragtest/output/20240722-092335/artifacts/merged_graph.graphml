@@ -1,0 +1,728 @@
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+  <key id="d5" for="edge" attr.name="source_id" attr.type="string" />
+  <key id="d4" for="edge" attr.name="description" attr.type="string" />
+  <key id="d3" for="edge" attr.name="weight" attr.type="double" />
+  <key id="d2" for="node" attr.name="source_id" attr.type="string" />
+  <key id="d1" for="node" attr.name="description" attr.type="string" />
+  <key id="d0" for="node" attr.name="type" attr.type="string" />
+  <graph edgedefault="undirected">
+    <node id="&quot;MENG F&quot;">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">"Dr. Meng F is a researcher who contributed to the study on biomimetics for new smart adhesives based on tree frog adhesion properties.") ("entity"</data>
+      <data key="d2">b1365ab133c6be5ea45465f8f66fde20</data>
+    </node>
+    <node id="&quot;LONGJIAN XUE&quot;">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">"Longjian Xue contributed research on bioinspired adhesives through tree frog toe pad mimics."</data>
+      <data key="d2">2790f03c21ca0d9a522e2c1276ad4f6e</data>
+    </node>
+    <node id="&quot;W. JON P. BARNES&quot;">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">"W. Jon P. Barnes collaborated in the development of bioinspired adhesive materials and friction-generating devices based on biomimetic principles."</data>
+      <data key="d2">2790f03c21ca0d9a522e2c1276ad4f6e</data>
+    </node>
+    <node id="&quot;TREE FROG TOE PAD MIMICS&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"These are specific areas of study that focus on replicating biological features from tree frogs to design artificial adhesives and devices."</data>
+      <data key="d2">2790f03c21ca0d9a522e2c1276ad4f6e</data>
+    </node>
+    <node id="&quot;BIOMIMETICS&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"Biomimetics is a field of study that draws inspiration from nature's principles to solve complex human problems."
+"The field of biomimetics involves the study of natural systems for solving engineering problems, including developing new materials and devices based on biological principles."</data>
+      <data key="d2">2790f03c21ca0d9a522e2c1276ad4f6e,bc8c1b71a9bc00c67a64198dae0f5a42</data>
+    </node>
+    <node id="&quot;BIOINSPIRATION&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"Bioinspiration refers to the process of drawing ideas or innovations from natural phenomena for technological applications."</data>
+      <data key="d2">2790f03c21ca0d9a522e2c1276ad4f6e</data>
+    </node>
+    <node id="&quot;ADHESIVE MECHANISMS&quot;">
+      <data key="d0">"EVENT"</data>
+      <data key="d1">"The study involves research on how climbing animals, like tree frogs, adhere to surfaces and applying these principles in artificial materials."</data>
+      <data key="d2">2790f03c21ca0d9a522e2c1276ad4f6e</data>
+    </node>
+    <node id="&quot;CONTRIBUTOR_TO_RESEARCH&quot;">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">2790f03c21ca0d9a522e2c1276ad4f6e</data>
+    </node>
+    <node id="&quot;COLLABORATOR_IN_DEVELOPMENT&quot;">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">2790f03c21ca0d9a522e2c1276ad4f6e</data>
+    </node>
+    <node id="&quot;RESEARCH_FOCUS&quot;">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">2790f03c21ca0d9a522e2c1276ad4f6e</data>
+    </node>
+    <node id="&quot;INFLUENCE_ON_DEVELOPMENT&quot;">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">2790f03c21ca0d9a522e2c1276ad4f6e</data>
+    </node>
+    <node id="&quot;SOURCE_OF_RESEARCH&quot;">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">2790f03c21ca0d9a522e2c1276ad4f6e</data>
+    </node>
+    <node id="&quot;SUN &amp; BHUSHAN&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"Sun &amp; Bhushan are likely the authors of a recent review, suggesting they have expertise in biomimetics and adhesion mechanisms."</data>
+      <data key="d2">7393bb6f9d3837d8e11cfbef8c7d7959</data>
+    </node>
+    <node id="&quot;ORGANIZATION&quot;">
+      <data key="d0">"THE ROYAL SOCIETY"</data>
+      <data key="d1">"A scientific organization that publishes research journals including 'Phil.Trans.RoyalSoc.A'.")
+"It is a publisher and an academic organization that publishes research articles including those related to engineering sciences.")&lt;|"person"</data>
+      <data key="d2">3b302bec9259fbca0cf68da76392935c,dd615bbb350414d251cb1083b3142230</data>
+    </node>
+    <node id="&quot;TREE FROG&quot;">
+      <data key="d0">"SPECIES"</data>
+      <data key="d1">"The species being discussed is a gliding frog that resides in trees and uses its toe pads for attachment"|&gt;2)  ("entity"</data>
+      <data key="d2">86f10a539a2dae71ed0fb369a39cb0a5</data>
+    </node>
+    <node id="&quot;A OR JELLYFISH JELLY&quot;">
+      <data key="d0">"MATERIAL"</data>
+      <data key="d1">"Description of a material with an elastic modulus of approximately 3 kPa, which might relate to biological tissues like toe pads of frogs and other amphibians."</data>
+      <data key="d2">1e6b8071c30040b985c9f084d73831fb</data>
+    </node>
+    <node id="&quot;AFM INDENTER&quot;">
+      <data key="d0">"TOOL"</data>
+      <data key="d1">"An Atomic Force Microscope (AFM) indenter used for measuring the mechanical properties of materials, such as elasticity."</data>
+      <data key="d2">1e6b8071c30040b985c9f084d73831fb</data>
+    </node>
+    <node id="&quot;EXTERNAL SURFACE OF THE PAD&quot;">
+      <data key="d0">"SURFACE"</data>
+      <data key="d1">"The outermost layer of a toe pad structure that has been measured to have an elastic modulus significantly higher than internal layers."</data>
+      <data key="d2">1e6b8071c30040b985c9f084d73831fb</data>
+    </node>
+    <node id="&quot;INNERMOST LAYERS&quot;">
+      <data key="d0">"LAYER"</data>
+      <data key="d1">"Layers close to sub-dermal lymph spaces and a capillary network, which are much softer and pliable compared to the external surface of the pad."</data>
+      <data key="d2">1e6b8071c30040b985c9f084d73831fb</data>
+    </node>
+    <node id="&quot;KERATIN FILAMENTS&quot;">
+      <data key="d0">"MATERIAL"</data>
+      <data key="d1">"Structures that provide rigidity and strength to various biological tissues including toe pads and other skin components in amphibians."</data>
+      <data key="d2">1e6b8071c30040b985c9f084d73831fb</data>
+    </node>
+    <node id="&quot;SAM RIVERA&quot;">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">"Sam Rivera is a member of an unspecified organization involved in biological research on adhesive mechanisms in nature."
+"Sam Rivera is not mentioned in the provided real data.")|("entity"</data>
+      <data key="d2">777a1482c060a064af315a8488df370a,b01ac6d637b8d31e396081208c8162d0</data>
+    </node>
+    <node id="&quot;DROTLEF ET AL.&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"A team led by Sam Rivera that has conducted research and published findings related to cell structures and their adhesive capabilities."
+"An organization referenced for research on adhesion force tested with different velocities and hydrophilic/hydrophobic surfaces.")|("entity"</data>
+      <data key="d2">65e8dd210ebbbf33013fa2f40f86c71a,b01ac6d637b8d31e396081208c8162d0</data>
+    </node>
+    <node id="&quot;INTELLIGENCE&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"Sam Rivera's work involves complex biological concepts, specifically focusing on the intricate designs of cells and nanopillars as they relate to adhesion."</data>
+      <data key="d2">b01ac6d637b8d31e396081208c8162d0</data>
+    </node>
+    <node id="&quot;FIRST CONTACT&quot;">
+      <data key="d0">"EVENT"</data>
+      <data key="d1">"In this context, 'First Contact' refers to Sam Rivera's team understanding new forms of adhesion from studying natural structures such as those found in epithelial cells and nanopillars."</data>
+      <data key="d2">b01ac6d637b8d31e396081208c8162d0</data>
+    </node>
+    <node id="&quot;FEDERLE ET AL.&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"This refers to a group of researchers led by Federle who have conducted studies on water frogs' toe pads."
+"A research group referenced as the source of scientific findings about frog mucus properties, involved in studying adhesion mechanisms on surfaces.") ("entity"</data>
+      <data key="d2">136e4bfffb45ced656433f414fdc6b2f,fa424ca04288f43c5c699afb0d603c44</data>
+    </node>
+    <node id="&quot;CRAWFORD ET AL.&quot;">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">"The authors who have studied the adhesion ability of tree frogs to various rough surfaces in their natural habitat.")|("entity"</data>
+      <data key="d2">fffe8fad4dcfa583ff169283eb78ecb3</data>
+    </node>
+    <node id="&quot;IRM IMAGE&quot;">
+      <data key="d0">"GEO"</data>
+      <data key="d1">"The image produced by interference reflection microscopy which helps in estimating the thickness of fluid layer.")</data>
+      <data key="d2">e78095af9990d29b641c393cc4eef335</data>
+    </node>
+    <node id="&quot;TREE FROG ADHESION&quot;">
+      <data key="d0">"EVENT"</data>
+      <data key="d1">"Tree frog adhesion refers to the adhesive capabilities displayed by tree frogs, which is a topic under study with respect to physical principles and forces.")</data>
+      <data key="d2">7fb26cfacb7049c44680dc8301da770f</data>
+    </node>
+    <node id="&quot;EQUATION 2.1&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"The document contains equation 2.1, which simplifies to FL = &#8722;4 &#960;R&#947; .")  ("entity"</data>
+      <data key="d2">73f5b09aa4346c6324664d57dd868e8c</data>
+    </node>
+    <node id="&quot;STUDY&quot;">
+      <data key="d0">"EVENT"</data>
+      <data key="d1">"The recent study referred to in the text discusses the forces of adhesion in biological systems."</data>
+      <data key="d2">fa83531962b067f9e048396a31135c9e</data>
+    </node>
+    <node id="&quot;HARD SPHERE EQUATION&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"Equation (2.4) is used as a comparison point for discussing the extension of adhesive force equations to soft, elastic materials like tree frog toe pads."</data>
+      <data key="d2">fa83531962b067f9e048396a31135c9e</data>
+    </node>
+    <node id="&quot;LENGTH SCALING AND AREA SCALING&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"The text discusses how with increasing radius (r), adhesive forces may change from length scaling to area scaling."</data>
+      <data key="d2">fa83531962b067f9e048396a31135c9e</data>
+    </node>
+    <node id="&quot;EFFECTIVE ELASTIC MODULUS E_EFF&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"The term effective elastic modulus refers to the material's resistance to deformation, affecting adhesive force predictions."</data>
+      <data key="d2">fa83531962b067f9e048396a31135c9e</data>
+    </node>
+    <node id="&quot;LAPLACE PRESSURE COMPONENT OF ADHESION&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"Refers to one aspect of how adhesive forces are explained mathematically in relation to geometry and elasticity."</data>
+      <data key="d2">fa83531962b067f9e048396a31135c9e</data>
+    </node>
+    <node id="&quot;VISCOSITY-DEPENDENT HYDRODYNAMIC FORCES&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"Referred to as Stefan adhesion, these forces resist plate separation due to fluid flow dynamics."</data>
+      <data key="d2">fa83531962b067f9e048396a31135c9e</data>
+    </node>
+    <node id="&quot;TULCHINSKY &amp; GAT&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"Tulchinsky &amp; Gat introduced the concept of 'temporary adhesion' by considering only viscous flow and ignoring inertial and capillary effects."</data>
+      <data key="d2">92dc318eef4563c8f3fa73fb7b3978bc</data>
+    </node>
+    <node id="&quot;HYDRODYNAMIC FORCE BETWEEN SPHERE AND PLATE&quot;">
+      <data key="d0">"EVENT"</data>
+      <data key="d1">"Equation (2.9) describes this force, which involves a term with viscosity and radius of the sphere."</data>
+      <data key="d2">92dc318eef4563c8f3fa73fb7b3978bc</data>
+    </node>
+    <node id="&quot;VISCOUS-POROELASTIC ADHESION&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"Concept introduced by Tulchinsky &amp; Gat based on elastic deformation and viscous flow interactions."</data>
+      <data key="d2">92dc318eef4563c8f3fa73fb7b3978bc</data>
+    </node>
+    <node id="&quot;MODEL TOE PAD&quot;">
+      <data key="d0">"ITEM"</data>
+      <data key="d1">"A test subject used in studying adhesion, with forces resisting slip being measured during tests."</data>
+      <data key="d2">92dc318eef4563c8f3fa73fb7b3978bc</data>
+    </node>
+    <node id="&quot;TREE FROGS&quot;">
+      <data key="d0">"ORGANISM"</data>
+      <data key="d1">"Species capable of climbing using both adhesion and adduction forces on smaller structures."
+"Tree frogs, similarly to geckos, provide inspiration for materials development due to their adhesive capabilities though the mechanism is more complex."
+"Refers to the animals whose toe pad structure is being studied for wet adhesion properties."
+"Tree frogs are known for their remarkable wet adhesion properties."</data>
+      <data key="d2">48a7645a66fe18b7377a1a842f7242b0,70bb442f494ac5321d4f1d3bc233e919,92dc318eef4563c8f3fa73fb7b3978bc,bc8c1b71a9bc00c67a64198dae0f5a42</data>
+    </node>
+    <node id="&quot;VISCOSITY&quot;">
+      <data key="d0">"PROPERTY"</data>
+      <data key="d1">"Viscosity of the fluid is several orders of magnitude greater for silicone oil than tree frog mucus, affecting applicability of the viscous-poroelastic adhesion concept."</data>
+      <data key="d2">92dc318eef4563c8f3fa73fb7b3978bc</data>
+    </node>
+    <node id="&quot;ADHESION&quot;">
+      <data key="d0">"EVENT"</data>
+      <data key="d1">"Means by which tree frogs climb on flat surfaces using only adhesive forces."</data>
+      <data key="d2">92dc318eef4563c8f3fa73fb7b3978bc</data>
+    </node>
+    <node id="&quot;ADDUCTION FORCES&quot;">
+      <data key="d0">"ACTIVITY"</data>
+      <data key="d1">"Force used by tree frogs to climb small diameter structures, aiding in climbing with their digits."</data>
+      <data key="d2">92dc318eef4563c8f3fa73fb7b3978bc</data>
+    </node>
+    <node id="&quot;SUBARTICULAR TUBERCLES&quot;">
+      <data key="d0">"STRUCTURE"</data>
+      <data key="d1">"Components also contributing to climbing abilities alongside adhesion and adduction forces."</data>
+      <data key="d2">92dc318eef4563c8f3fa73fb7b3978bc</data>
+    </node>
+    <node id="&quot;EMERSON &amp; DIEHL&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"Developers of a simple procedure to measure adhesive forces generated by tree frogs."</data>
+      <data key="d2">82d1d20cbed7dd86fe58e59fed8d44ad</data>
+    </node>
+    <node id="&quot;FIGURE 11&quot;">
+      <data key="d0">"GEO"</data>
+      <data key="d1">"This refers to a graphical representation or diagram, likely used in academic literature."</data>
+      <data key="d2">1647a94c674950bc1429d956f341aba2</data>
+    </node>
+    <node id="&quot;WJP BARNES&quot;&amp;&quot;W FEDERLE&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"The development team of miniature force plates used in measuring friction and adhesive forces on frog toe pads.") ("entity"</data>
+      <data key="d2">bea216e0fcc7f946f0033c137012a930</data>
+    </node>
+    <node id="&quot;PROCEDURE&quot;">
+      <data key="d0">"EVENT"</data>
+      <data key="d1">"A procedure conducted to study effects on fluid layer thickness under a pad using interference reflection microscopy."</data>
+      <data key="d2">0888854b6766d37662902e4d32772d60</data>
+    </node>
+    <node id="&quot;INCREASE IN PAD-GROUND DISTANCE&quot;">
+      <data key="d0">"EFFECT"</data>
+      <data key="d1">"Increase observed in the distance between pad and ground as an outcome of the said procedure."</data>
+      <data key="d2">0888854b6766d37662902e4d32772d60</data>
+    </node>
+    <node id="&quot;REDUCTION OF ADHESION&quot;">
+      <data key="d0">"EFFECT"</data>
+      <data key="d1">"Diminished adhesion due to changes from viscosity-dependent hydrodynamic forces and van der Waals forces."</data>
+      <data key="d2">0888854b6766d37662902e4d32772d60</data>
+    </node>
+    <node id="&quot;CAPILLARY FORCES&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"A significant role for capillary forces in maintaining close contact between pad and ground."</data>
+      <data key="d2">0888854b6766d37662902e4d32772d60</data>
+    </node>
+    <node id="&quot;FURTHER ADHESIVE ACTION&quot;">
+      <data key="d0">"CONTEXT"</data>
+      <data key="d1">"The necessity of close contact for the manifestation of other adhesive actions, as suggested by the study."</data>
+      <data key="d2">0888854b6766d37662902e4d32772d60</data>
+    </node>
+    <node id="&quot;SINGLE PAD FORCE RECORDINGS&quot;">
+      <data key="d0">"EVENT"</data>
+      <data key="d1">"An experiment involving recording forces exerted by a single pad during horizontal pull."</data>
+      <data key="d2">0888854b6766d37662902e4d32772d60</data>
+    </node>
+    <node id="&quot;STATIC FRICTION&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"Evidence that toe pads can generate static friction, indicating contact between structures on toe pads and the surface."</data>
+      <data key="d2">0888854b6766d37662902e4d32772d60</data>
+    </node>
+    <node id="&quot;TOE PAD NANOPILLARS&quot;">
+      <data key="d0">"COMPONENT"</data>
+      <data key="d1">"Structures potentially involved in creating contact with the force plate during toe pad experiments."</data>
+      <data key="d2">0888854b6766d37662902e4d32772d60</data>
+    </node>
+    <node id="&quot;MAXIMUM ADHESIVE AND FRICTION FORCES&quot;">
+      <data key="d0">"MEASURE"</data>
+      <data key="d1">"Values measured using miniature force plates for tree frog toe pads."</data>
+      <data key="d2">0888854b6766d37662902e4d32772d60</data>
+    </node>
+    <node id="&quot;RHACOPHORUS DENNYSI&quot;">
+      <data key="d0">"SPECIES"</data>
+      <data key="d1">"A species of gliding frog mentioned in the study, used for calculating adhesive and friction forces."</data>
+      <data key="d2">0888854b6766d37662902e4d32772d60</data>
+    </node>
+    <node id="&quot;ADHESION VERSUS FRICTION&quot;">
+      <data key="d0">"COMPARISON"</data>
+      <data key="d1">"Supporting an argument suggesting toe pads are better developed for friction than adhesion based on observed data."</data>
+      <data key="d2">0888854b6766d37662902e4d32772d60</data>
+    </node>
+    <node id="&quot;GECKOS&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"Geckos are used in biomimetics studies for their unique abilities related to adhesion which inspire various material developments."</data>
+      <data key="d2">bc8c1b71a9bc00c67a64198dae0f5a42</data>
+    </node>
+    <node id="&quot;GECKO-INSPIRED MATERIALS/DEVICES&quot;">
+      <data key="d0">"PRODUCT"</data>
+      <data key="d1">"Materials or devices that replicate aspects of geckos' adhesion mechanisms, often focusing on van der Waals forces."</data>
+      <data key="d2">bc8c1b71a9bc00c67a64198dae0f5a42</data>
+    </node>
+    <node id="&quot;VAN DER WAALS FORCES&quot;">
+      <data key="d0">"CONCEPT"</data>
+      <data key="d1">"Force responsible for the adhesion capabilities in gecko-inspired materials, enabling simple pillar structure design and construction."</data>
+      <data key="d2">bc8c1b71a9bc00c67a64198dae0f5a42</data>
+    </node>
+    <node id="&quot;PILLAR ARRAYS&quot;">
+      <data key="d0">"PRODUCT"</data>
+      <data key="d1">"Structured formations made of multiple pillars that mimic natural systems like geckos' toe pads or tree frogs' adhesive mechanisms."</data>
+      <data key="d2">bc8c1b71a9bc00c67a64198dae0f5a42</data>
+    </node>
+    <node id="&quot;DERIVED FROM&quot;">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">bc8c1b71a9bc00c67a64198dae0f5a42</data>
+    </node>
+    <node id="&quot;AFFECTED BY&quot;">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">bc8c1b71a9bc00c67a64198dae0f5a42</data>
+    </node>
+    <node id="&quot;EFFECTIVE MODULUS ( E EFF)&quot;">
+      <data key="d0">"PROPERTY"</data>
+      <data key="d1">"E eff allows CNT forests to maximize contacts, increasing adhesion force."</data>
+      <data key="d2">c69e8300c5e976bc2e0c66e470f0371b</data>
+    </node>
+    <node id="&quot;CNT-BASED ADHESIVES&quot;">
+      <data key="d0">"MATERIAL"</data>
+      <data key="d1">"Shows shear adhesion of approximately 100 N cm&#8722;2, significantly higher than gecko foot-hairs."</data>
+      <data key="d2">c69e8300c5e976bc2e0c66e470f0371b</data>
+    </node>
+    <node id="&quot;FABRICATION PROCESS&quot;">
+      <data key="d0">"PROCESS"</data>
+      <data key="d1">"Hinders CNT forest applications due to complexity and durability issues."</data>
+      <data key="d2">c69e8300c5e976bc2e0c66e470f0371b</data>
+    </node>
+    <node id="&quot;POLYDIMETHYLSILOXANE (PDMS)&quot;">
+      <data key="d0">"MATERIAL"</data>
+      <data key="d1">"Has relatively low modulus, used widely for structured adhesives due to ease of handling and commercial availability."</data>
+      <data key="d2">c69e8300c5e976bc2e0c66e470f0371b</data>
+    </node>
+    <node id="&quot;STRUCTURED ADHESIVES&quot;">
+      <data key="d0">"TYPE"</data>
+      <data key="d1">"Built using PDMS micropillar arrays, showing remarkable decrease in effective modulus compared to flat surfaces."</data>
+      <data key="d2">c69e8300c5e976bc2e0c66e470f0371b</data>
+    </node>
+    <node id="&quot;E EFF (EFFECTIVE MODULUS)&quot;">
+      <data key="d0">"MEASUREMENT"</data>
+      <data key="d1">"Affects pull-off forces and elastic energy dissipation during contact surface interaction."</data>
+      <data key="d2">c69e8300c5e976bc2e0c66e470f0371b</data>
+    </node>
+    <node id="&quot;AR (ASPECT RATIO)&quot;">
+      <data key="d0">"FACTOR"</data>
+      <data key="d1">"Affects CNT forest applications, influencing adhesion forces based on height-to-side length ratio of pillars."</data>
+      <data key="d2">c69e8300c5e976bc2e0c66e470f0371b</data>
+    </node>
+    <node id="&quot;PDMS MICROPILLAR ARRAYS&quot;">
+      <data key="d0">"CONFIGURATION"</data>
+      <data key="d1">"Show a decrease in E eff with an increase in AR leading to higher contact and pull-off forces."</data>
+      <data key="d2">c69e8300c5e976bc2e0c66e470f0371b</data>
+    </node>
+    <node id="&quot;FROGS INSPIRED HEXAGONAL PILLARS&quot;">
+      <data key="d0">"INSPIRATION"</data>
+      <data key="d1">"Illustrate adhesion dependence on pillar AR, showing potential reduction of force at high ARs due to pillar bending and clustering."</data>
+      <data key="d2">c69e8300c5e976bc2e0c66e470f0371b</data>
+    </node>
+    <node id="&quot;TREE FROG TOE PADS&quot;">
+      <data key="d0">"APPLICATION"</data>
+      <data key="d1">"Typically exhibit small pillar height and channel width, likely for maximizing adhesive strength."</data>
+      <data key="d2">c69e8300c5e976bc2e0c66e470f0371b</data>
+    </node>
+    <node id="&quot;SMOOTH ADHESIVE PADS&quot;">
+      <data key="d0">"CLASSIFICATION"</data>
+      <data key="d1">"Conventionally described as smooth, but may actually display complex structural features enhancing adhesion."</data>
+      <data key="d2">c69e8300c5e976bc2e0c66e470f0371b</data>
+    </node>
+    <node id="&quot;FABRICATION&quot;">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">c69e8300c5e976bc2e0c66e470f0371b</data>
+    </node>
+    <node id="&quot;HEIGHT (H) AND SIDE LENGTH (L)&quot;">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">c69e8300c5e976bc2e0c66e470f0371b</data>
+    </node>
+    <node id="&quot;DIMENSION&quot;">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">c69e8300c5e976bc2e0c66e470f0371b</data>
+    </node>
+    <node id="&quot;TREE FROGS&quot;&amp;&quot;BUSH-CRICKETS&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"Tree frogs and bush-crickets refer to specific animal species which exhibit certain biological features and adhesive mechanisms.")&lt;br&gt;("entity"</data>
+      <data key="d2">10f68536dac42a1fe1015b64ac551c32</data>
+    </node>
+    <node id="&quot;MICRO-BULGES&quot;">
+      <data key="d0">"GEO"</data>
+      <data key="d1">"micro-bulges refer to the structures on pillar tops that contribute to increased friction forces."</data>
+      <data key="d2">c08200d48689acf908730b5b5a937f1a</data>
+    </node>
+    <node id="&quot;PDMS&quot;">
+      <data key="d0">"MATERIAL"</data>
+      <data key="d1">"Polydimethylsiloxane that can be used in microstructures to improve mechanical properties and enhance adhesion."</data>
+      <data key="d2">cfd357f03ebd53bb7b20477337baa849</data>
+    </node>
+    <node id="&quot;CHEN ET AL.&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"Chen et al.'s team is involved in the research that examines different patterns of micro and nanostructures for understanding wet adhesion mechanics, as published in journals such as Phil.Trans.R.Soc.A.")</data>
+      <data key="d2">56de28d5378ea95f859724f171540a25</data>
+    </node>
+    <node id="&quot;OCIETYPUBLISHING.ORG&quot;/&quot;ORGANIZATION&quot;">
+      <data key="d0">"PUBLISHING ORGANIZATION"</data>
+      <data key="d1">"This organization operates on the web, contributing to scientific publications and research dissemination."</data>
+      <data key="d2">7959e16097062f8a4801b98295269a6a</data>
+    </node>
+    <node id="&quot;BRIDGES&quot;/&quot;EVENT&quot;/&quot;SCIENTIFIC EXPERIMENT&quot;">
+      <data key="d0">"A SPECIFIC EXPERIMENT WAS CONDUCTED BY INCREASING RELATIVE HUMIDITY FOR OBSERVING ITS IMPACT ON SOLID-SOLID CONTACT RESISTANCE."</data>
+      <data key="d1">5</data>
+      <data key="d2">7959e16097062f8a4801b98295269a6a</data>
+    </node>
+    <node id="&quot;VOGEL ET AL.&quot;/&quot;PERSON&quot;/&quot;RESEARCH TEAM&quot;">
+      <data key="d0">"THE REFERENCE TO A NAMED GROUP SUGGESTS A TEAM OF RESEARCHERS INVOLVED IN DESIGNING AND IMPLEMENTING THE LIQUID BRIDGE FORMING DEVICE."</data>
+      <data key="d1">6</data>
+      <data key="d2">7959e16097062f8a4801b98295269a6a</data>
+    </node>
+    <node id="&quot;OCIETYPUBLISHING.ORG&quot;">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">7959e16097062f8a4801b98295269a6a</data>
+    </node>
+    <node id="&quot;PUBLISHES&quot;">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">7959e16097062f8a4801b98295269a6a</data>
+    </node>
+    <node id="&quot;PVS MICROCHANNEL BASE BIO-INSPIRED PATCH&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"This refers to a specific type of microchannel base bio-inspired patch that is being developed.") ("entity"</data>
+      <data key="d2">2e431df92f1954d7fdf7449771dac2e1</data>
+    </node>
+    <node id="&quot;NEINHUIS C&quot;">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">"Co-author with Barthlott W, Neinhuis C contributed to the study of purity and contamination issues related to biological surfaces."</data>
+      <data key="d2">e8c373a905cc6ee3e696c2eb69267455</data>
+    </node>
+    <node id="&quot;SUN J&quot;">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">"Sun J worked on nanomanufacturing bioinspired surfaces as presented in Tribol. Int."</data>
+      <data key="d2">e8c373a905cc6ee3e696c2eb69267455</data>
+    </node>
+    <node id="&quot;BHUSHAN B&quot;">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">"Bhushan B is associated with Sun J's research and the field of nanotechnology."</data>
+      <data key="d2">e8c373a905cc6ee3e696c2eb69267455</data>
+    </node>
+    <node id="&quot;AUTUMN K&quot;">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">"Karl Autumn authored multiple works related to gecko adhesion, including explanations on structure, function, and applications."</data>
+      <data key="d2">e8c373a905cc6ee3e696c2eb69267455</data>
+    </node>
+    <node id="&quot;ENDLEIN T&quot;">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">"Tobias Endlein contributed a study on wet adhesion in tree frogs which was part of an encyclopedia on nanotechnology."</data>
+      <data key="d2">e8c373a905cc6ee3e696c2eb69267455</data>
+    </node>
+    <node id="&quot;BARNES WJP&quot;">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">"W. J.P. Barnes co-authored the work by Endlein on wet adhesion and has expertise in this area."</data>
+      <data key="d2">e8c373a905cc6ee3e696c2eb69267455</data>
+    </node>
+    <node id="&quot;HANSEN WR&quot;">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">"Wilfred R Hansen, alongside Autumn K, provided evidence for self-cleaning in gecko setae as reported in Proc. Natl Acad. Sci."</data>
+      <data key="d2">e8c373a905cc6ee3e696c2eb69267455</data>
+    </node>
+    <node id="&quot;CRAWFORD N&quot;">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">"Nathaniel Crawford contributed research on self-cleaning mechanisms in tree frog toe pads without the need for grooming, as seen in J. Exp. Biol."</data>
+      <data key="d2">e8c373a905cc6ee3e696c2eb69267455</data>
+    </node>
+    <node id="&quot;HU S&quot;">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">"Sun Hu alongside Lopez S and Niewiarowski PH co-authored a paper on dynamic self-cleaning in gecko setae through digital hyperextension."</data>
+      <data key="d2">e8c373a905cc6ee3e696c2eb69267455</data>
+    </node>
+    <node id="&quot;LOPEZ S&quot;">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">"Co-author with Hu S, Lopez contributed to research on dynamic self-cleaning mechanisms in gecko setae."</data>
+      <data key="d2">e8c373a905cc6ee3e696c2eb69267455</data>
+    </node>
+    <node id="&quot;NIEWIAROWSKI PH&quot;">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">"Participated alongside Hu S and Lopez S in the study of dynamic self-cleaning processes in gecko setae."</data>
+      <data key="d2">e8c373a905cc6ee3e696c2eb69267455</data>
+    </node>
+    <node id="&quot;XIA Z&quot;">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">"Zeng Xia, together with Hu S et al., explored digital hyperextension mechanisms for self-cleaning in geckos."</data>
+      <data key="d2">e8c373a905cc6ee3e696c2eb69267455</data>
+    </node>
+    <node id="&quot;BARTHLOTT W&quot;">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">e8c373a905cc6ee3e696c2eb69267455</data>
+    </node>
+    <node id="&quot;WORK&quot;">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">e8c373a905cc6ee3e696c2eb69267455</data>
+    </node>
+    <node id="&quot;CO-AUTHORSHIP&quot;">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">e8c373a905cc6ee3e696c2eb69267455</data>
+    </node>
+    <node id="&quot;AUTHORSHIP&quot;">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">e8c373a905cc6ee3e696c2eb69267455</data>
+    </node>
+    <node id="&quot;AUTHORSHIP/CO-AUTHORSHIP&quot;">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">e8c373a905cc6ee3e696c2eb69267455</data>
+    </node>
+    <node id="&quot;CO-AUTHORSHIP/CONTRIBUTOR&quot;">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">e8c373a905cc6ee3e696c2eb69267455</data>
+    </node>
+    <node id="&quot;CO-AUTHORSHIP/EXPERTISE&quot;">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">e8c373a905cc6ee3e696c2eb69267455</data>
+    </node>
+    <node id="&quot;COLLABORATION/">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">e8c373a905cc6ee3e696c2eb69267455</data>
+    </node>
+    <node id="&quot;CONTRIBUTOR/RESEARCH&quot;">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">e8c373a905cc6ee3e696c2eb69267455</data>
+    </node>
+    <node id="&quot;STAUROIS PARVUS&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"Research focuses on the toe pads of this species as a source for developing new biomimetically inspired reversible adhesives.")&lt;br&gt;("entity"</data>
+      <data key="d2">4d8b21398c70d24c39cd26cfa1dba5c0</data>
+    </node>
+    <node id="&quot;AINO T.&quot;">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">"Aino T.'s research is focused on the high deformability of adhesive toe pads in White's tree frog, specifically through light and electron microscopic analyses.")|("entity"</data>
+      <data key="d2">39bb4090056fa3afa0591e818ff2e48b</data>
+    </node>
+    <node id="&quot;ASURING AND BEHAVIOUR-RECORDING SYSTEM&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"This system is comprised of 24 separate 3D force plates to study single limb forces in climbing animals on a quasi-cylindrical tower.") ("entity"</data>
+      <data key="d2">a2e84db4531e11bb05a5e5cbdb285bb8</data>
+    </node>
+    <node id="&quot;SAMUEL DS&quot;">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">"Samuel DS contributes to research on metamorphosis and maturation in hylid tree frogs at the Journal of Zoology.") ("entity"</data>
+      <data key="d2">b57944edc55bf9a8ed604f132186cac1</data>
+    </node>
+    <node id="&quot;XUE L&quot;">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">"Xue L contributed to research on bioinspired orientation-dependent friction as well as effective elastic modulus of structured adhesives.")|("entity"</data>
+      <data key="d2">8d4a6778098c667728901fd5eb6ae286</data>
+    </node>
+    <node id="&quot;GHATAK A&quot;">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">"A is a co-author in the publication 'Microfluidic adhesion induced by subsurface microstructures' published in Science in 2007.") ("entity"</data>
+      <data key="d2">221b04279ff2633a5d567aa14627c640</data>
+    </node>
+    <node id="&quot;BERG M.&quot;">
+      <data key="d0">"PERSON"</data>
+      <data key="d1">"Author Berg is associated with the publication 'Use of biomimetic hexagonal surface texture in friction against lubricated skin', indicating expertise or contribution to research in this field."</data>
+      <data key="d2">cda9b37513bc2f8036dfff4a389184d7</data>
+    </node>
+    <node id="&quot;KIM DW, BAIK S, MIN H, CHUN S, LEE HJ, KIM KH, LEE JY, PANG C.&quot;">
+      <data key="d0">"TEAM"</data>
+      <data key="d1">"The team of authors includes contributors from various institutions who together have published a paper on 'Highly permeable skin patch with conductive hierarchical architectures inspired by amphibians and octopi for omnidirectionally enhanced wet adhesion', showcasing collaborative research effort."</data>
+      <data key="d2">cda9b37513bc2f8036dfff4a389184d7</data>
+    </node>
+    <node id="&quot;ADVANCED FUNCTIONAL MATERIALS&quot;">
+      <data key="d0">"ORGANIZATION"</data>
+      <data key="d1">"The team of authors is associated with the publication in Advanced Functional Materials, suggesting that the paper has undergone peer review and was accepted for publication by this reputable scientific journal."</data>
+      <data key="d2">cda9b37513bc2f8036dfff4a389184d7</data>
+    </node>
+    <node id="&quot;PUBLICATION&quot;">
+      <data key="d0" />
+      <data key="d1" />
+      <data key="d2">cda9b37513bc2f8036dfff4a389184d7</data>
+    </node>
+    <edge source="&quot;LONGJIAN XUE&quot;" target="&quot;CONTRIBUTOR_TO_RESEARCH&quot;">
+      <data key="d3">1.0</data>
+      <data key="d4">"Longjian Xue contributed significantly to bioinspired adhesive development through studying tree frog toe pad structures."</data>
+      <data key="d5">2790f03c21ca0d9a522e2c1276ad4f6e</data>
+    </edge>
+    <edge source="&quot;W. JON P. BARNES&quot;" target="&quot;COLLABORATOR_IN_DEVELOPMENT&quot;">
+      <data key="d3">1.0</data>
+      <data key="d4">"W. Jon P. Barnes co-developed biomimetic adhesives and friction-generating devices with inspiration from natural climbing mechanisms."</data>
+      <data key="d5">2790f03c21ca0d9a522e2c1276ad4f6e</data>
+    </edge>
+    <edge source="&quot;TREE FROG TOE PAD MIMICS&quot;" target="&quot;RESEARCH_FOCUS&quot;">
+      <data key="d3">1.0</data>
+      <data key="d4">"The primary focus of research in this area involves replicating the complex structures found on tree frogs' toes to enhance material performance."</data>
+      <data key="d5">2790f03c21ca0d9a522e2c1276ad4f6e</data>
+    </edge>
+    <edge source="&quot;BIOINSPIRATION&quot;" target="&quot;INFLUENCE_ON_DEVELOPMENT&quot;">
+      <data key="d3">1.0</data>
+      <data key="d4">"Bioinspiration has influenced the development of artificial adhesives and devices by providing natural solutions for their design."</data>
+      <data key="d5">2790f03c21ca0d9a522e2c1276ad4f6e</data>
+    </edge>
+    <edge source="&quot;ADHESIVE MECHANISMS&quot;" target="&quot;SOURCE_OF_RESEARCH&quot;">
+      <data key="d3">1.0</data>
+      <data key="d4">"The study of adhesive mechanisms in nature, especially from climbing animals, serves as a fundamental source of information for bioinspired material advancements."</data>
+      <data key="d5">2790f03c21ca0d9a522e2c1276ad4f6e</data>
+    </edge>
+    <edge source="&quot;GECKO-INSPIRED MATERIALS/DEVICES&quot;" target="&quot;DERIVED FROM&quot;">
+      <data key="d3">1.0</data>
+      <data key="d4">"Inspired by the biological adhesion properties of geckos, leading to advancements in material science and engineering applications."</data>
+      <data key="d5">bc8c1b71a9bc00c67a64198dae0f5a42</data>
+    </edge>
+    <edge source="&quot;PILLAR ARRAYS&quot;" target="&quot;AFFECTED BY&quot;">
+      <data key="d3">1.0</data>
+      <data key="d4">"Young's modulus of different materials influences the effectiveness and stability of pillar array designs used for biomimetic adhesive development."</data>
+      <data key="d5">bc8c1b71a9bc00c67a64198dae0f5a42</data>
+    </edge>
+    <edge source="&quot;PDMS MICROPILLAR ARRAYS&quot;" target="&quot;FABRICATION&quot;">
+      <data key="d3">1.0</data>
+      <data key="d4">"Based on polydimethylsiloxane, a material known for its ease of handling and commercial availability."</data>
+      <data key="d5">c69e8300c5e976bc2e0c66e470f0371b</data>
+    </edge>
+    <edge source="&quot;HEIGHT (H) AND SIDE LENGTH (L)&quot;" target="&quot;DIMENSION&quot;">
+      <data key="d3">1.0</data>
+      <data key="d4">"Affects adhesion forces in hexagonal pillar configurations via AR calculations."</data>
+      <data key="d5">c69e8300c5e976bc2e0c66e470f0371b</data>
+    </edge>
+    <edge source="&quot;OCIETYPUBLISHING.ORG&quot;" target="&quot;PUBLISHES&quot;">
+      <data key="d3">1.0</data>
+      <data key="d4">"publishing organization is responsible for releasing scientific studies or findings like this study on tree frog-inspired adhesion."</data>
+      <data key="d5">7959e16097062f8a4801b98295269a6a</data>
+    </edge>
+    <edge source="&quot;NEINHUIS C&quot;" target="&quot;CO-AUTHORSHIP&quot;">
+      <data key="d3">1.0</data>
+      <data key="d4">"C was co-author with Barthlott W on work concerning purity and contamination issues related to biological surfaces."</data>
+      <data key="d5">e8c373a905cc6ee3e696c2eb69267455</data>
+    </edge>
+    <edge source="&quot;SUN J&quot;" target="&quot;AUTHORSHIP&quot;">
+      <data key="d3">1.0</data>
+      <data key="d4">"Sun J is an author of the paper on nanomanufacturing bioinspired surfaces in Tribol. Int."</data>
+      <data key="d5">e8c373a905cc6ee3e696c2eb69267455</data>
+    </edge>
+    <edge source="&quot;BHUSHAN B&quot;" target="&quot;AUTHORSHIP/CO-AUTHORSHIP&quot;">
+      <data key="d3">1.0</data>
+      <data key="d4">"Is associated with Sun J's research and the field of nanotechnology as a co-author or author."</data>
+      <data key="d5">e8c373a905cc6ee3e696c2eb69267455</data>
+    </edge>
+    <edge source="&quot;AUTUMN K&quot;" target="&quot;AUTHORSHIP&quot;">
+      <data key="d3">1.0</data>
+      <data key="d4">"Karl Autumn is an author of works on gecko adhesion, including structure, function, and applications."</data>
+      <data key="d5">e8c373a905cc6ee3e696c2eb69267455</data>
+    </edge>
+    <edge source="&quot;ENDLEIN T&quot;" target="&quot;CO-AUTHORSHIP/CONTRIBUTOR&quot;">
+      <data key="d3">1.0</data>
+      <data key="d4">"Tobias Endlein contributed to the study on wet adhesion in tree frogs as part of a broader work on nanotechnology."</data>
+      <data key="d5">e8c373a905cc6ee3e696c2eb69267455</data>
+    </edge>
+    <edge source="&quot;BARNES WJP&quot;" target="&quot;CO-AUTHORSHIP/EXPERTISE&quot;">
+      <data key="d3">1.0</data>
+      <data key="d4">"W. J.P. Barnes co-authored research with Endlein and likely has expertise in biological adhesion mechanisms."</data>
+      <data key="d5">e8c373a905cc6ee3e696c2eb69267455</data>
+    </edge>
+    <edge source="&quot;HANSEN WR&quot;" target="&quot;COLLABORATION/">
+      <data key="d3">1.0</data>
+      <data key="d4">"Wilfred Hansen, along with Karl Autumn, provided evidence for self-cleaning gecko setae."</data>
+      <data key="d5">e8c373a905cc6ee3e696c2eb69267455</data>
+    </edge>
+    <edge source="&quot;CRAWFORD N&quot;" target="&quot;CONTRIBUTOR/RESEARCH&quot;">
+      <data key="d3">1.0</data>
+      <data key="d4">"Nathaniel Crawford contributed research on self-cleaning mechanisms in tree frog toe pads as part of J. Exp. Biol."</data>
+      <data key="d5">e8c373a905cc6ee3e696c2eb69267455</data>
+    </edge>
+    <edge source="&quot;HU S&quot;" target="&quot;COLLABORATION/">
+      <data key="d3">1.0</data>
+      <data key="d4">"Sun Hu co-authored the study with Lopez and Niewiarowski on dynamic self-cleaning in gecko setae using digital hyperextension."</data>
+      <data key="d5">e8c373a905cc6ee3e696c2eb69267455</data>
+    </edge>
+    <edge source="&quot;BARTHLOTT W&quot;" target="&quot;WORK&quot;">
+      <data key="d3">1.0</data>
+      <data key="d4">"Barthlott W contributed to studies on purity and contamination of biological surfaces in Planta."</data>
+      <data key="d5">e8c373a905cc6ee3e696c2eb69267455</data>
+    </edge>
+    <edge source="&quot;BERG M.&quot;" target="&quot;PUBLICATION&quot;">
+      <data key="d3">1.0</data>
+      <data key="d4">"Author Berg is directly linked to the publication 'Use of biomimetic hexagonal surface texture in friction against lubricated skin', indicating a specific contribution or lead authorship to this research work."</data>
+      <data key="d5">cda9b37513bc2f8036dfff4a389184d7</data>
+    </edge>
+    <edge source="&quot;KIM DW, BAIK S, MIN H, CHUN S, LEE HJ, KIM KH, LEE JY, PANG C.&quot;" target="&quot;PUBLICATION&quot;">
+      <data key="d3">1.0</data>
+      <data key="d4">"The team of authors collectively contributed to the publication 'Highly permeable skin patch with conductive hierarchical architectures inspired by amphibians and octopi for omnidirectionally enhanced wet adhesion', highlighting their collaborative effort in advancing biomimetic research."</data>
+      <data key="d5">cda9b37513bc2f8036dfff4a389184d7</data>
+    </edge>
+    <edge source="&quot;ADVANCED FUNCTIONAL MATERIALS&quot;" target="&quot;PUBLICATION&quot;">
+      <data key="d3">1.0</data>
+      <data key="d4">"The publication 'Highly permeable skin patch with conductive hierarchical architectures' was published in this journal, indicating that the research meets high standards for originality and scientific rigor as required by peer-reviewed journals."</data>
+      <data key="d5">cda9b37513bc2f8036dfff4a389184d7</data>
+    </edge>
+  </graph>
+</graphml>
