@@ -1,6 +1,6 @@
 #  🕸️ GraphRAG Local with Interactive UI
 
-Welcome to **GraphRAG Local with Interactive UI**! This is an adaptation of Microsoft's [GraphRAG](https://github.com/microsoft/graphrag), tailored to support local models and featuring a comprehensive interactive user interface. The goal of this UI is to provide an easy-to-use and fully configurable frontend for any version of the GraphRAG library as a backend for local LLMs. Ideally, once all the bugs are worked out, you can drop in your GraphRAG directory (or use the provided one in the repo) and upload your documents to start indexing and query right away. 
+Welcome to **GraphRAG Local with Interactive UI**! This is an adaptation of Microsoft's [GraphRAG](https://github.com/microsoft/graphrag), tailored to support local models and featuring a comprehensive interactive user interface.
 
 ## 📄 Research Paper
 
