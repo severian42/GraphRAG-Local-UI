@@ -214,7 +214,7 @@ The UI includes a 2D/3D graph visualization feature:
 
 ## Troubleshooting
 
-- If you can't run `gradio app.py`, try running `pip install --upgrade gradio` and then exit out and start a new terminal. It should then load and launch properly as a Gradio app.
+- `No module named 'distutils'`: If you can't run `gradio app.py`, try running `pip install --upgrade gradio` and then exit out and start a new terminal. It should then load and launch properly as a Gradio app.
 
 - On Windows, if you run into an encoding/UTF error, you can change it to the correct format in the YAML Settings menu.
 
