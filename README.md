@@ -23,7 +23,8 @@ For more details on the original GraphRAG implementation, please refer to the [G
 
 ## 🗺️ Roadmap
 
-### **Important Note:** GraphRAG Local UI is currently a major work in progress and building a UI around the GraphRAG library has introduced a number of challenges; mainly with the Indexing process. The query is also a work in progress as it tends to go between functional and breaking with the changes to the GraphRAG library. As I strive to make the application more stable with local LLMs, users should expect to encounter some bugs and breaking changes. I appreciate your patience and feedback during this development phase. If you encounter indexing issues while running this Gradio app while I am debugging it, you can typically run it straight in the terminal with the CLI args and have it work out 80-90% of the time.
+### **Important Note:** GraphRAG Local UI is barely 2 weeks old and is currently a major work in progress and building a UI around the GraphRAG library has introduced a number of challenges; mainly with the Indexing process. The query is also a work in progress as it tends to go between functional and breaking with the changes to the GraphRAG library. I am rethinking my approach to make this app more robust and modular, especially for scaling. Expect major changes over the next few weeks as things get worked out and more refined.
+**Users should expect to encounter some bugs and breaking changes. I appreciate your patience and feedback during this development phase. If you encounter indexing issues while running this Gradio app while I am debugging it, you can typically run it straight in the terminal with the CLI args and have it work out 80-90% of the time.**
 
 *While it is currently functional, it has only been primarily tested on a Mac Studio M2.*
 
