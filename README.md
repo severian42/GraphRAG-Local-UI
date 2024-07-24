@@ -37,16 +37,13 @@ My vision for the GraphRAG Local UI ecosystem is to become the ultimate set of t
 - [x] Improved file management and output exploration
 - [x] Background task handling for long-running operations
 - [x] Enhanced configuration options through environment variables and YAML files
+- [x] Web search capabilities
 
 ### Upcoming Features
 - [ ] Dedicated Querying/Chat UI that interacts with the API
 - [ ] Dockerfile for easier deployment
-- [ ] Launch your own GraphRAG API server for use in external applications
 - [ ] Experimental: Mixture of Agents for Indexing/Query of knowledge graph
 - [ ] Support for more file formats (CSV, PDF, etc.)
-- [ ] Web search/Scraping capabilities
-- [ ] Enhanced error handling and user feedback
-- [ ] Improved performance and scalability
 - [ ] Advanced graph analysis tools
 - [ ] Integration with popular knowledge management tools
 - [ ] Collaborative features for team-based knowledge graph building
