@@ -8,7 +8,7 @@ import glob
 import queue
 import lancedb
 from datetime import datetime
-from dotenv import load_dotenv
+from dotenv import load_dotenv, set_key
 import yaml
 import pandas as pd
 from typing import List, Optional
@@ -738,15 +738,18 @@ def create_interface():
                 with gr.Row():
                     with gr.Column(scale=1):
                         gr.Markdown("## Indexing Configuration")
-                        
                         llm_name = gr.Dropdown(label="LLM Model", choices=local_models, value=settings['llm_model'])
                         embed_name = gr.Dropdown(label="Embedding Model", choices=local_models, value=settings['embedding_model'])
-                        
-                        root_dir = gr.Textbox(label="Root Directory", value=f"{ROOT_DIR}")
+                        save_config_button = gr.Button("Save Configuration", variant="primary")
+                        config_status = gr.Textbox(label="Configuration Status", lines=2)                        
+
                         
                         with gr.Row():
-                            verbose = gr.Checkbox(label="Verbose", value=True)
-                            nocache = gr.Checkbox(label="No Cache", value=True)
+                                with gr.Column(scale=1):
+                                    root_dir = gr.Textbox(label="Root Directory", value=f"{ROOT_DIR}")      
+                        with gr.Group():                                                         
+                            verbose = gr.Checkbox(label="Verbose", interactive=True, value=True)
+                            nocache = gr.Checkbox(label="No Cache", interactive=True, value=True)
                         
                         with gr.Accordion("Advanced Options", open=True):
                             resume = gr.Textbox(label="Resume Timestamp (optional)")
@@ -829,6 +832,8 @@ def create_interface():
                             
                             file_info = gr.Textbox(label="File Info", lines=3)
                             output_content = gr.TextArea(label="File Content", lines=10)
+
+                        
 
         # Event handlers
         llm_name.change(update_model_params, inputs=[llm_name])
@@ -938,11 +943,29 @@ def create_interface():
             outputs=[folder_content_list, file_info, output_content]
         )
 
+        # Event handler for saving configuration
+        save_config_button.click(
+            update_env_file,
+            inputs=[llm_name, embed_name],
+            outputs=[config_status]
+        )
+
         # Initialize file list and output folder list
         demo.load(update_file_list, outputs=[file_list])
         demo.load(update_output_folder_list, outputs=[output_folder_list])
 
     return demo
+
+def update_env_file(llm_model, embed_model):
+    env_path = os.path.join(ROOT_DIR, '.env')
+    
+    set_key(env_path, 'LLM_MODEL', llm_model)
+    set_key(env_path, 'EMBEDDINGS_MODEL', embed_model)
+    
+    # Reload the environment variables
+    load_dotenv(env_path, override=True)
+    
+    return f"Environment updated: LLM_MODEL={llm_model}, EMBEDDINGS_MODEL={embed_model}"
 
 demo = create_interface()
 
