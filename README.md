@@ -80,7 +80,7 @@ Follow these steps to set up and run the GraphRAG Local UI ecosystem:
     python index_app.py
     ```
 
-5. **Launch the main interactive UI (legacy app):**
+5. **Launch the main interactive UI (legacy app - DOES NOT USE THE API):**
     ```bash
     gradio app.py
     ```
