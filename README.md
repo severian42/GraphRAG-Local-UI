@@ -1,4 +1,4 @@
-#  🕸️ GraphRAG Local with Interactive UI
+#  🕸️ GraphRAG Local
 
 Welcome to **GraphRAG Local with Index/Prompt-Tuning and Querying/Chat UIs**! This project is an adaptation of Microsoft's [GraphRAG](https://github.com/microsoft/graphrag), tailored to support local models and featuring a comprehensive interactive user interface ecosystem. 
 
