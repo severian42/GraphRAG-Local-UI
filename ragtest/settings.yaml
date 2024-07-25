@@ -32,7 +32,7 @@ embeddings:
     api_key: ${GRAPHRAG_API_KEY}
     type: openai_embedding # or azure_openai_embedding
     model: nomic-embed-text:latest
-    api_base: http://localhost:11434/api
+    api_base: http://localhost:11434
     # api_version: 2024-02-15-preview
     # organization: <organization_id>
     # deployment_name: <azure_model_deployment_name>
