@@ -2,7 +2,7 @@
 
 ## Problem
 
-GraphRAG is designed to work with OpenAI-compatible APIs for both language models and embeddings. While Ollama provides an OpenAI-compatible API for its language models, its embedding API is not fully compatible with OpenAI's format. This incompatibility leads to errors when trying to use Ollama embeddings directly with GraphRAG.
+GraphRAG is designed to work with OpenAI-compatible APIs for both language models and embeddings and Ollama currently has their own way of doing embeddings.
 
 ## Solution: Embeddings Proxy
 
