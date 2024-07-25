@@ -82,6 +82,7 @@ def load_settings():
         'token_limit': int(os.getenv('TOKEN_LIMIT', config.get('token_limit', 4096))),
         'api_key': os.getenv('GRAPHRAG_API_KEY', config.get('api_key')),
         'api_base': os.getenv('LLM_API_BASE', config.get('api_base')),
+        'embeddings_api_base': os.getenv('EMBEDDINGS_API_BASE', config.get('embeddings_api_base')),
         'api_type': os.getenv('API_TYPE', config.get('api_type', 'openai')),
     }
 
@@ -365,53 +366,61 @@ current_timestamp = initialize_data()
 
 
 ###########MODELS##################
-def is_ollama_api(base_url):
+def normalize_api_base(api_base: str) -> str:
+    """Normalize the API base URL by removing trailing slashes and /v1 or /api suffixes."""
+    api_base = api_base.rstrip('/')
+    if api_base.endswith('/v1') or api_base.endswith('/api'):
+        api_base = api_base[:-3]
+    return api_base
+
+def is_ollama_api(base_url: str) -> bool:
+    """Check if the given base URL is for Ollama API."""
     try:
-        response = requests.get(f"{base_url}/api/tags")
+        response = requests.get(f"{normalize_api_base(base_url)}/api/tags")
         return response.status_code == 200
     except requests.RequestException:
         return False
 
-def get_local_models():
-    if is_ollama_api(LLM_API_BASE):
-        return get_ollama_models()
-    else:
-        return get_openai_models()
-
-def get_ollama_models():
+def get_ollama_models(base_url: str) -> List[str]:
+    """Fetch available models from Ollama API."""
     try:
-        response = requests.get(f"{LLM_API_BASE}/api/tags")
+        response = requests.get(f"{normalize_api_base(base_url)}/api/tags")
         response.raise_for_status()
-        models = response.json()['models']
+        models = response.json().get('models', [])
         return [model['name'] for model in models]
     except requests.RequestException as e:
         logger.error(f"Error fetching Ollama models: {str(e)}")
         return []
 
-def get_openai_models():
+def get_openai_compatible_models(base_url: str) -> List[str]:
+    """Fetch available models from OpenAI-compatible API."""
     try:
-        response = requests.get(f"{LLM_API_BASE}/v1/models")
+        response = requests.get(f"{normalize_api_base(base_url)}/v1/models")
         response.raise_for_status()
-        models = response.json()['data']
+        models = response.json().get('data', [])
         return [model['id'] for model in models]
     except requests.RequestException as e:
-        logger.error(f"Error fetching OpenAI models: {str(e)}")
+        logger.error(f"Error fetching OpenAI-compatible models: {str(e)}")
         return []
 
-def get_model_params(model_name):
-    if is_ollama_api(LLM_API_BASE):
-        return get_ollama_model_params(model_name)
-    return {}
+def get_local_models(base_url: str) -> List[str]:
+    """Get available models based on the API type."""
+    if is_ollama_api(base_url):
+        return get_ollama_models(base_url)
+    else:
+        return get_openai_compatible_models(base_url)
 
-def get_ollama_model_params(model_name):
-    try:
-        response = requests.post(f"{LLM_API_BASE}/api/show", json={"name": model_name})
-        response.raise_for_status()
-        model_info = response.json()
-        return model_info.get('parameters', {})
-    except requests.RequestException as e:
-        logger.error(f"Error fetching Ollama model parameters: {str(e)}")
-        return {}
+def get_model_params(base_url: str, model_name: str) -> dict:
+    """Get model parameters for Ollama models."""
+    if is_ollama_api(base_url):
+        try:
+            response = requests.post(f"{normalize_api_base(base_url)}/api/show", json={"name": model_name})
+            response.raise_for_status()
+            model_info = response.json()
+            return model_info.get('parameters', {})
+        except requests.RequestException as e:
+            logger.error(f"Error fetching Ollama model parameters: {str(e)}")
+    return {}
 
 
 
@@ -727,8 +736,9 @@ body, .gradio-container {
 
 
 def create_interface():
-    local_models = get_local_models()
     settings = load_settings()
+    llm_api_base = normalize_api_base(settings['api_base'])
+    embeddings_api_base = normalize_api_base(settings['embeddings_api_base'])
 
     with gr.Blocks(theme=gr.themes.Base(), css=css) as demo:
         gr.Markdown("# GraphRAG Indexer")
@@ -738,15 +748,21 @@ def create_interface():
                 with gr.Row():
                     with gr.Column(scale=1):
                         gr.Markdown("## Indexing Configuration")
-                        llm_name = gr.Dropdown(label="LLM Model", choices=local_models, value=settings['llm_model'])
-                        embed_name = gr.Dropdown(label="Embedding Model", choices=local_models, value=settings['embedding_model'])
+                        
+                        with gr.Row():
+                            llm_name = gr.Dropdown(label="LLM Model", choices=[], value=settings['llm_model'], allow_custom_value=True)
+                            refresh_llm_btn = gr.Button("🔄", scale=0.1)
+                        
+                        with gr.Row():
+                            embed_name = gr.Dropdown(label="Embedding Model", choices=[], value=settings['embedding_model'], allow_custom_value=True)
+                            refresh_embed_btn = gr.Button("🔄", scale=0.1)
+                        
                         save_config_button = gr.Button("Save Configuration", variant="primary")
-                        config_status = gr.Textbox(label="Configuration Status", lines=2)                        
-
+                        config_status = gr.Textbox(label="Configuration Status", lines=2)
                         
                         with gr.Row():
                                 with gr.Column(scale=1):
-                                    root_dir = gr.Textbox(label="Root Directory", value=f"{ROOT_DIR}")      
+                                    root_dir = gr.Textbox(label="Root Directory (Edit in .env file)", value=f"{ROOT_DIR}")      
                         with gr.Group():                                                         
                             verbose = gr.Checkbox(label="Verbose", interactive=True, value=True)
                             nocache = gr.Checkbox(label="No Cache", interactive=True, value=True)
@@ -836,8 +852,27 @@ def create_interface():
                         
 
         # Event handlers
-        llm_name.change(update_model_params, inputs=[llm_name])
-        embed_name.change(update_model_params, inputs=[embed_name])
+        def refresh_llm_models():
+            models = get_local_models(llm_api_base)
+            return gr.update(choices=models)
+
+        def refresh_embed_models():
+            models = get_local_models(embeddings_api_base)
+            return gr.update(choices=models)
+
+        refresh_llm_btn.click(
+            refresh_llm_models,
+            outputs=[llm_name]
+        )
+
+        refresh_embed_btn.click(
+            refresh_embed_models,
+            outputs=[embed_name]
+        )
+
+        # Initialize model lists on page load
+        demo.load(refresh_llm_models, outputs=[llm_name])
+        demo.load(refresh_embed_models, outputs=[embed_name])
 
         def create_indexing_request():
             return IndexingRequest(
