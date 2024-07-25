@@ -27,7 +27,6 @@ embeddings:
     concurrent_requests: 25
     model: nomic-embed-text:latest
     model_supports_json: true
-    provider: openai_embedding
     type: openai_embedding
 encoding_model: cl100k_base
 entity_extraction:
@@ -53,9 +52,8 @@ llm:
   max_tokens: 1024
   model: qwen2:7b
   model_supports_json: true
-  provider: openai_chat
   temperature: 0.5
-  type: openai
+  type: openai_chat
 local_search: null
 parallelization:
   num_threads: 50

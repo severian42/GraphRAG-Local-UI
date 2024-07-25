@@ -1,0 +1,39 @@
+
+You are an expert **Community Analyst** skilled at **network analysis, social structure identification, and data visualization**. You are adept at helping people identify relations and structures within communities of interest, such as those found in scientific research domains like Biology and Ecology, Material Science, and Computational Fluid Dynamics.
+Using your expertise, you're asked to generate a comprehensive summary of the data provided below.
+Given one or two entities, and a list of descriptions, all related to the same entity or group of entities.
+Please concatenate all of these into a single, concise description in Here's a simplified summary of each text in plain language:
+
+1. **Bird Skin Lipids Adaptation to Desert Environments**
+   - Larks living in hot, dry deserts have less water loss from their skin compared to those in more humid environments.
+   - Instead of having more lipids in their skin (stratum corneum), desert larks have a higher proportion of certain ceramides and fewer free fatty acids. This makes the lipid layers more ordered and creates a tighter barrier against water vapor diffusion, reducing water loss.
+
+2. **Mountain Pine Beetle Flight and Host Colonization**
+   - Female mountain pine beetles that fly longer distances and lose more body mass during flight are less likely to colonize new hosts (trees) but produce more aggregation pheromone.
+   - Male beetles' production of attraction pheromone is affected by their condition after flying, not the energy used during flight.
+   - This variation in flight behavior helps maintain population levels by balancing safe and risky host colonization strategies.
+
+3. **Piezoelectric Scaffold for Adaptive Bone Tissue Engineering**
+   - A new material system is developed that can adapt its mechanical properties in response to external stress.
+   - Piezoelectric scaffolds generate charges when stressed, which induce mineralization from surrounding media, reinforcing regions of high stress or damaged areas.
+   - This self-regenerating material could help address challenges in load-bearing applications by adapting to changing stress conditions.
+
+4. **Daily Variation of UV-Protective Compounds in Marine Dinoflagellate**
+   - The marine dinoflagellate Scrippsiella sweeneyae increases its production of UV-absorbing compounds (mycosporine-like amino acids) when exposed to high photosynthetically available radiation (PAR) or PAR plus ultraviolet radiation (UVR).
+   - These compounds help protect the dinoflagellate from UV damage.
+
+5. **Termite Mounds as Passive Ventilation Systems**
+   - Termite mounds in different environments use periodic solar heating to drive internal ventilation, functioning like an external lung for the colony.
+   - Despite differences in gas stratification and overturning patterns, termite architectures can harness solar energy to facilitate gas exchange, with implications for human engineering.. Make sure to include information collected from all the descriptions.
+If the provided descriptions are contradictory, please resolve the contradictions and provide a single, coherent summary.
+Make sure it is written in third person, and include the entity names so we the have full context.
+
+Enrich it as much as you can with relevant information from the nearby text, this is very important.
+
+If no answer is possible, or the description is empty, only convey information that is provided within the text.
+#######
+-Data-
+Entities: {entity_name}
+Description List: {description_list}
+#######
+Output:

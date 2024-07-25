@@ -1,0 +1,76 @@
+async_mode: threaded
+cache:
+  base_dir: cache
+  type: file
+chunks:
+  group_by_columns:
+  - id
+  overlap: 64
+  size: 512
+claim_extraction:
+  description: Any claims or facts that could be relevant to information discovery.
+  max_gleanings: 0
+  prompt: prompts/claim_extraction.txt
+cluster_graph:
+  max_cluster_size: 10
+community_reports:
+  max_input_length: 4000
+  max_length: 2000
+  prompt: prompts/community_report.txt
+embed_graph:
+  enabled: false
+embeddings:
+  async_mode: threaded
+  type: openai_embedding
+  api_key: ${GRAPHRAG_API_KEY}
+  api_base: ${EMBEDDINGS_API_BASE}
+  model: ${EMBEDDINGS_MODEL}
+  concurrent_requests: 25
+  max_retries: 3
+encoding_model: cl100k_base
+entity_extraction:
+  entity_types:
+  - organization
+  - person
+  - geo
+  - event
+  max_gleanings: 0
+  prompt: prompts/entity_extraction.txt
+global_search: null
+input:
+  base_dir: input
+  file_encoding: utf-8
+  file_pattern: .*\.txt$
+  file_type: text
+  type: file
+llm:
+  type: openai_chat
+  api_key: ${GRAPHRAG_API_KEY}
+  api_base: ${LLM_API_BASE}
+  model: ${LLM_MODEL}
+  api_key: ${GRAPHRAG_API_KEY}
+  concurrent_requests: 25
+  max_retries: 3
+  max_tokens: 1024
+  model_supports_json: true
+  temperature: 0.5
+local_search: null
+parallelization:
+  num_threads: 50
+  stagger: 0.3
+reporting:
+  base_dir: output/${timestamp}/reports
+  type: file
+skip_workflows: []
+snapshots:
+  graphml: false
+  raw_entities: false
+  top_level_nodes: false
+storage:
+  base_dir: output/${timestamp}/artifacts
+  type: file
+summarize_descriptions:
+  max_length: 500
+  prompt: prompts/summarize_descriptions.txt
+umap:
+  enabled: false

@@ -1,6 +1,6 @@
 #  🕸️ GraphRAG Local with Interactive UI
 
-Welcome to **GraphRAG Local with Interactive UI**! This is an adaptation of Microsoft's [GraphRAG](https://github.com/microsoft/graphrag), tailored to support local models and featuring a comprehensive interactive user interface. The goal of this UI is to provide an easy-to-use and fully configurable frontend for any version of the GraphRAG library as a backend for local LLMs. Ideally, once all the bugs are worked out, you can drop in your GraphRAG directory (or use the provided one in the repo) and upload your documents to start indexing and query right away. 
+Welcome to **GraphRAG Local with Index/Prompt-Tuning and Querying/Chat UIs**! This project is an adaptation of Microsoft's [GraphRAG](https://github.com/microsoft/graphrag), tailored to support local models and featuring a comprehensive interactive user interface ecosystem. 
 
 ## 📄 Research Paper
 
@@ -8,32 +8,38 @@ For more details on the original GraphRAG implementation, please refer to the [G
 
 ## 🌟 Features
 
+- **API-Centric Architecture:** A robust FastAPI-based server (`api.py`) serving as the core of the GraphRAG operations.
+- **Dedicated Indexing and Prompt Tuning UI:** A separate Gradio-based interface (`index_app.py`) for managing indexing and prompt tuning processes.
 - **Local Model Support:** Leverage local models for LLM and embeddings, including compatibility with Ollama and OpenAI-compatible APIs.
 - **Cost-Effective:** Eliminate dependency on costly cloud-based models by using your own local models.
-- **Interactive UI:** User-friendly interface for managing data, running queries, and visualizing results.
-- **Real-time Graph Visualization:** Visualize your knowledge graph in 2D or 3D using Plotly.
+- **Interactive UI:** User-friendly interface for managing data, running queries, and visualizing results (main app).
+- **Real-time Graph Visualization:** Visualize your knowledge graph in 2D or 3D using Plotly (main app).
 - **File Management:** Upload, view, edit, and delete input files directly from the UI.
 - **Settings Management:** Easily update and manage your GraphRAG settings through the UI.
 - **Output Exploration:** Browse and view indexing outputs and artifacts.
 - **Logging:** Real-time logging for better debugging and monitoring.
-- **Flexible Querying:** Support for global, local, and direct chat queries with customizable parameters.
+- **Flexible Querying:** Support for global, local, and direct chat queries with customizable parameters (main app).
+- **Customizable Visualization:** Adjust graph layout, node sizes, colors, and more to suit your preferences (main app).
 
 ![GraphRAG UI](uiv2.png)
 
 ## 🗺️ Roadmap
 
-### **Important Note:** GraphRAG Local UI is currently a major work in progress and building a UI around the GraphRAG library has introduced a number of challenges; mainly with the Indexing process. The query works fantastic and provides a number of ways to easily and comprehensively utilize the GraphRAG library to query your indexed data. As I strive to make the application more stable with local LLMs, users should expect to encounter some bugs and breaking changes. I appreciate your patience and feedback during this development phase. If you encounter indexing issues while running this Gradio app while I am debugging it, you can typically run it straight in the terminal with the CLI args and have it work out 80-90% of the time.
+### **Important Note:** The GraphRAG Local UI ecosystem is currently undergoing a major transition. While the main app remains functional, I am actively developing separate applications for Indexing/Prompt Tuning and Querying/Chat, all built around a robust central API. Users should expect some changes and potential instability during this transition period.
 
-*The app gained traction much quicker than anticipated, so we are actively working to fix bugs and integrate suggested improvements. While it is currently functional, it has been primarily tested on a Mac Studio M2.*
+*While it is currently functional, it has only been primarily tested on a Mac Studio M2.*
 
-My vision for GraphRAG Local UI is to become the ultimate GraphRAG app for local LLMs, incorporating as many cool features and knowledge graph tools as possible. I am continuously working on improvements and new features.
+My vision for the GraphRAG Local UI ecosystem is to become the ultimate set of tools for working with GraphRAG and local LLMs, incorporating as many cool features and knowledge graph tools as possible. I am continuously working on improvements and new features.
 
 ### Recent Updates
-- [x] LLM agnostic: Use Ollama or set your own base URL and local model for LLM and Embedder
-- [x] Custom configurable graph visuals
-- [x] Preset Query/Indexing library options to quickly and easily harness all the GraphRAG args
+- [x] New API-centric architecture (`api.py`)
+- [x] Dedicated Indexing and Prompt Tuning UI (`index_app.py`)
+- [x] Improved file management and output exploration
+- [x] Background task handling for long-running operations
+- [x] Enhanced configuration options through environment variables and YAML files
 
 ### Upcoming Features
+- [ ] Dedicated Querying/Chat UI that interacts with the API
 - [ ] Dockerfile for easier deployment
 - [ ] Launch your own GraphRAG API server for use in external applications
 - [ ] Experimental: Mixture of Agents for Indexing/Query of knowledge graph
@@ -45,13 +51,15 @@ My vision for GraphRAG Local UI is to become the ultimate GraphRAG app for local
 - [ ] Integration with popular knowledge management tools
 - [ ] Collaborative features for team-based knowledge graph building
 
-I am committed to making GraphRAG Local UI the most comprehensive and user-friendly tool for working with knowledge graphs and LLMs. Your feedback and suggestions are much needed in shaping the future of this project.
+I am committed to making the GraphRAG Local UI ecosystem the most comprehensive and user-friendly toolset for working with knowledge graphs and LLMs. Your feedback and suggestions are much needed in shaping the future of this project.
 
-Feel free to open an Issue if you run into an error, and we will try to address it as soon as possible to minimize any downtime you might experience.
+Feel free to open an Issue if you run into an error, and I will try to address it as soon as possible to minimize any downtime you might experience.
+
+---
 
 ## 📦 Installation and Setup
 
-Follow these steps to set up and run GraphRAG Local with Interactive UI:
+Follow these steps to set up and run the GraphRAG Local UI ecosystem:
 
 1. **Create and activate a new conda environment:**
     ```bash
@@ -60,122 +68,135 @@ Follow these steps to set up and run GraphRAG Local with Interactive UI:
     ```
 
 2. **Install the required packages:**
+
+    First install the GraphRAG dir from this repo (has changes not present in the Microsoft repo):
+
+    ```bash
+    pip install -e ./graphrag
+    ```
+
+    Then install the rest of the dependencies:
+
     ```bash
     pip install -r requirements.txt
     ```
 
-3. **Launch the interactive UI:**
+3. **Launch the API server:**
+    ```bash
+    python api.py --host 0.0.0.0 --port 8012 --reload
+    ```
+
+4. **If using Ollama for embeddings, launch the embedding proxy:**
+    ```bash
+    python embedding_proxy.py --port 11435 --host http://localhost:11434
+    ```
+    Note: For detailed instructions on using Ollama embeddings with GraphRAG, refer to the EMBEDDING_PROXY_README.md file.
+
+5. **Launch the Indexing and Prompt Tuning UI:**
+    ```bash
+    gradio index_app.py
+    ```
+
+6. **Launch the main interactive UI (legacy app):**
     ```bash
     gradio app.py
     ```
-
     or
-
     ```bash
     python app.py
     ```
 
-4. **Access the UI:**
-    Open your web browser and navigate to `http://localhost:7860` to access the GraphRAG Local UI.
+7. **Access the UIs:**
+    - Indexing and Prompt Tuning UI: Open your web browser and navigate to `http://localhost:7861`
+    - Main UI (legacy): Open your web browser and navigate to `http://localhost:7860`
 
-## 🖥️ Using the GraphRAG Local UI
+## 🖥️ GraphRAG Application Ecosystem
 
-### Data Management
+The GraphRAG Local UI ecosystem consists of three main components, each serving a specific purpose in the knowledge graph creation and querying process:
 
-1. **File Upload:**
-   - Navigate to the "Data Management" tab.
-   - Use the "File Upload" section to upload .txt files to the input directory.
+### 1. Core API (`api.py`)
 
-2. **File Management:**
-   - View, edit, and delete uploaded files in the "File Management" section.
-   - Use the "Refresh File List" button to update the list of available files.
+The `api.py` file serves as the backbone of the GraphRAG system, providing a robust FastAPI-based server that handles all core operations.
 
-### Indexing
+Key features:
+- Manages indexing and prompt tuning processes
+- Handles various query types (local, global, and direct chat)
+- Integrates with local LLM and embedding models
+- Provides endpoints for file management and system configuration
 
-1. **Configure Indexing:**
-   - Go to the "Indexing" tab.
-   - Set the root directory (default is "./ragtest").
-   - Optionally upload a config file.
-   - Adjust other parameters like verbosity, caching, and output formats.
+Usage:
+```bash
+python api.py --host 0.0.0.0 --port 8012 --reload
+```
 
-2. **Run Indexing:**
-   - Click "Run Indexing" to start the indexing process.
-   - Monitor progress in real-time through the output box and progress bar.
-   - Use "Stop Indexing" if you need to halt the process.
+Note: If using Ollama for embeddings, make sure to run the embedding proxy (`embedding_proxy.py`) alongside `api.py`. Refer to the EMBEDDING_PROXY_README.md for detailed instructions.
 
-### KG Chat/Outputs
+### 2. Indexing and Prompt Tuning UI (`index_app.py`)
 
-1. **Explore Indexed Data:**
-   - Select an output folder from the dropdown.
-   - Browse through the folder contents and view file information and content.
+#### Workflow Integration
 
-2. **Visualize Graph:**
-   - Select a GraphML file from the output folder.
-   - Click "Visualize Graph" to generate a 2D or 3D visualization of your knowledge graph.
-   - Customize the visualization using the "Visualization Settings" accordion.
+1. Start the Core API (`api.py`) to enable backend functionality.
+2. If using Ollama for embeddings, start the embedding proxy (`embedding_proxy.py`).
+3. Use the Indexing and Prompt Tuning UI (`index_app.py`) to prepare your data and fine-tune the system.
+4. (Optional) Use the Main Interactive UI (`app.py`) for visualization and legacy features.
 
-### LLM Settings
+This modular approach allows for greater flexibility and easier maintenance of the GraphRAG system. As development continues, the functionality of `app.py` will be gradually integrated into new, specialized interfaces that interact with the core API.
 
-1. **Configure LLM and Embeddings:**
-   - Set API base URLs and keys for both LLM and embeddings.
-   - Choose the service type (OpenAI-compatible or Ollama).
-   - Select models from the dropdown or refresh the list.
+### 2. Indexing and Prompt Tuning UI (`index_app.py`)
 
-2. **Adjust Parameters:**
-   - Set the system message, context window, temperature, and max tokens.
-   - Click "Update LLM Settings" to save your changes.
+The `index_app.py` file provides a user-friendly Gradio interface for managing the indexing and prompt tuning processes.
 
-### Querying
+Key features:
+- Configure and run indexing tasks
+- Set up and execute prompt tuning
+- Manage input files and explore output data
+- Adjust LLM and embedding settings
 
-1. **Choose Query Type:**
-   - Select between global, local, or direct chat queries.
+Usage:
+```bash
+python index_app.py
+```
+Access the UI at `http://localhost:7861`
 
-2. **Select Preset or Custom Options:**
-   - Choose a preset query option or customize your query parameters.
+### 3. Main Interactive UI (Legacy App) (`app.py`)
 
-3. **Enter Your Query:**
-   - Type your query in the input box and click "Send Query" or press Shift+Enter.
+The `app.py` file is the pre-existing main application, which is being phased out but still provides useful functionality.
 
-4. **View Results:**
-   - See the chat history and responses in the chat interface.
+Key features:
+- Visualize knowledge graphs in 2D or 3D
+- Run queries and view results
+- Manage GraphRAG settings
+- Explore indexed data
 
-### Other Settings
+Usage:
+```bash
+python app.py
+```
+or
+```bash
+gradio app.py
+```
+Access the UI at `http://localhost:7860`
 
-- Adjust additional GraphRAG settings in the "YAML Settings" tab as needed.
+### Workflow Integration
 
-## 🛠️ Customization
+1. Start the Core API (`api.py`) to enable backend functionality.
+2. Use the Indexing and Prompt Tuning UI (`index_app.py`) to prepare your data and fine-tune the system.
+3. (Optional) Use the Main Interactive UI (`app.py`) for visualization and legacy features.
 
-Users can experiment with different models and settings:
-
-- For OpenAI-compatible APIs: Use any model compatible with the OpenAI API format.
-- For Ollama: Use models like llama2, mistral, phi-2, etc. Find the complete list of Ollama models [here](https://ollama.com/library).
-
-## 📊 Visualization
-
-The UI includes a 2D/3D graph visualization feature:
-
-1. Run indexing on your data.
-2. Go to the "KG Chat/Outputs" tab.
-3. Select the latest output folder and navigate to the GraphML file.
-4. Click the "Visualize Graph" button.
-5. Customize the visualization using the settings provided.
-
-## 🚀 Advanced Usage
-
-- **Custom CLI Arguments:** In the query interface, advanced users can add custom CLI arguments for more granular control over the query process.
+This modular approach allows for greater flexibility and easier maintenance of the GraphRAG system. As development continues, the functionality of `app.py` will be gradually integrated into new, specialized interfaces that interact with the core API.
 
 ## 📚 Citations
 
 - Original GraphRAG repository by Microsoft: [GraphRAG](https://github.com/microsoft/graphrag)
+- This project took inspiration and used the GraphRAG4OpenWebUI repository by win4r (https://github.com/win4r/GraphRAG4OpenWebUI) as a starting point for the API implementation.
 
 ---
 
 ## Troubleshooting
 
-- If you can't run `gradio app.py`, try running `pip install --upgrade gradio` and then exit out and start a new terminal. It should then load and launch properly as a Gradio app
-
-- On Windows, if you run into and encoding/UTF error, you can change it to the correct format in the YAML Settings menu
-
-- Indexing Errors: These are still tough to debug a track down as it is dependant on your specific pipeline of llms and embedders. Right now it seems to call /v1/embeddings no matter what in the Index workflow, but I think I found a workaround that allows Ollama and other local options. I'll keep trying to reenforce the Indexing process to make it more stable and robust.
+- If you encounter any issues with the new API or Indexing UI, please check the console logs for detailed error messages.
+- For the main app, if you can't run `gradio app.py`, try running `pip install --upgrade gradio` and then exit out and start a new terminal. It should then load and launch properly as a Gradio app.
+- On Windows, if you run into an encoding/UTF error, you can change it to the correct format in the YAML Settings menu.
 
 For any issues or feature requests, please open an issue on the GitHub repository. Happy knowledge graphing!

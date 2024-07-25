@@ -1,0 +1,242 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.gradio-container {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+#main-container {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+}
+
+#left-column, #right-column {
+    height: 100%;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+#left-column {
+    flex: 1;
+}
+
+#right-column {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+}
+
+#chat-container {
+    flex: 0 0 auto;  /* Don't allow this to grow */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid var(--color-accent);
+    border-radius: 8px;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+#chatbot {
+    overflow-y: hidden;
+    height: 100%;
+}
+
+#chat-input-row {
+    margin-top: 10px;
+}
+
+#visualization-plot {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    max-height: 600px;  /* Adjust this value as needed */
+}
+
+#vis-controls-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+#vis-controls-row > * {
+    flex: 1;
+    margin: 0 5px;
+}
+
+#vis-status {
+    margin-top: 10px;
+}
+
+/* Chat input styling */
+#chat-input-row {
+    display: flex;
+    flex-direction: column;
+}
+
+#chat-input-row > div {
+    width: 100% !important;
+}
+
+#chat-input-row input[type="text"] {
+    width: 100% !important;
+}
+
+/* Adjust padding for all containers */
+.gr-box, .gr-form, .gr-panel {
+    padding: 10px !important;
+}
+
+/* Ensure all textboxes and textareas have full height */
+.gr-textbox, .gr-textarea {
+    height: auto !important;
+    min-height: 100px !important;
+}
+
+/* Ensure all dropdowns have full width */
+.gr-dropdown {
+    width: 100% !important;
+}
+
+:root {
+    --color-background: #2C3639;
+    --color-foreground: #3F4E4F;
+    --color-accent: #A27B5C;
+    --color-text: #DCD7C9;
+}
+
+body, .gradio-container {
+    background-color: var(--color-background);
+    color: var(--color-text);
+}
+
+.gr-button {
+    background-color: var(--color-accent);
+    color: var(--color-text);
+}
+
+.gr-input, .gr-textarea, .gr-dropdown {
+    background-color: var(--color-foreground);
+    color: var(--color-text);
+    border: 1px solid var(--color-accent);
+}
+
+.gr-panel {
+    background-color: var(--color-foreground);
+    border: 1px solid var(--color-accent);
+}
+
+.gr-box {
+    border-radius: 8px;
+    margin-bottom: 10px;
+    background-color: var(--color-foreground);
+}
+
+.gr-padded {
+    padding: 10px;
+}
+
+.gr-form {
+    background-color: var(--color-foreground);
+}
+
+.gr-input-label, .gr-radio-label {
+    color: var(--color-text);
+}
+
+.gr-checkbox-label {
+    color: var(--color-text);
+}
+
+.gr-markdown {
+    color: var(--color-text);
+}
+
+.gr-accordion {
+    background-color: var(--color-foreground);
+    border: 1px solid var(--color-accent);
+}
+
+.gr-accordion-header {
+    background-color: var(--color-accent);
+    color: var(--color-text);
+}
+
+#visualization-container {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid var(--color-accent);
+    border-radius: 8px;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: var(--color-foreground);
+    height: calc(100vh - 300px);  /* Adjust this value as needed */
+}
+
+#visualization-plot {
+    width: 100%;
+    height: 100%;
+}
+
+#vis-controls-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+#vis-controls-row > * {
+    flex: 1;
+    margin: 0 5px;
+}
+
+#vis-status {
+    margin-top: 10px;
+}
+
+#log-container {
+    background-color: var(--color-foreground);
+    border: 1px solid var(--color-accent);
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 20px;
+    max-height: auto;
+    overflow-y: auto;
+}
+
+.setting-accordion .label-wrap {
+    cursor: pointer;
+}
+
+.setting-accordion .icon {
+    transition: transform 0.3s ease;
+}
+
+.setting-accordion[open] .icon {
+    transform: rotate(90deg);
+}
+
+.gr-form.gr-box {
+    border: none !important;
+    background: none !important;
+}
+
+.model-params {
+    border-top: 1px solid var(--color-accent);
+    margin-top: 10px;
+    padding-top: 10px;
+}

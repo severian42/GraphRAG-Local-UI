@@ -1,0 +1,85 @@
+
+-Goal-
+Given a text document that is potentially relevant to this activity and a list of entity types, identify all entities of those types from the text and all relationships among the identified entities.
+
+-Steps-
+1. Identify all entities. For each identified entity, extract the following information:
+- entity_name: Name of the entity, capitalized
+- entity_type: One of the following types: [Desert, Lark, Skin, Ceramide, Free fatty acid, Water vapor, Beetle, Mountain pine beetle, Bone, Piezoelectric scaffold, Shark, Wood frog, Mycosporine-like amino acid, Termite, Mound]
+- entity_description: Comprehensive description of the entity's attributes and activities
+Format each entity as ("entity"{tuple_delimiter}<entity_name>{tuple_delimiter}<entity_type>{tuple_delimiter}<entity_description>
+
+2. From the entities identified in step 1, identify all pairs of (source_entity, target_entity) that are *clearly related* to each other.
+For each pair of related entities, extract the following information:
+- source_entity: name of the source entity, as identified in step 1
+- target_entity: name of the target entity, as identified in step 1
+- relationship_description: explanation as to why you think the source entity and the target entity are related to each other
+- relationship_strength: an integer score between 1 to 10, indicating strength of the relationship between the source entity and target entity
+
+Format each relationship as ("relationship"{tuple_delimiter}<source_entity>{tuple_delimiter}<target_entity>{tuple_delimiter}<relationship_description>{tuple_delimiter}<relationship_strength>)
+
+3. Return output in Here's a simplified summary of each text in plain language:
+
+1. **Bird Skin Lipids Adaptation to Desert Environments**
+   - Larks living in hot, dry deserts have less water loss from their skin compared to those in more humid environments.
+   - Instead of having more lipids in their skin (stratum corneum), desert larks have a higher proportion of certain ceramides and fewer free fatty acids. This makes the lipid layers more ordered and creates a tighter barrier against water vapor diffusion, reducing water loss.
+
+2. **Mountain Pine Beetle Flight and Host Colonization**
+   - Female mountain pine beetles that fly longer distances and lose more body mass during flight are less likely to colonize new hosts (trees) but produce more aggregation pheromone.
+   - Male beetles' production of attraction pheromone is affected by their condition after flying, not the energy used during flight.
+   - This variation in flight behavior helps maintain population levels by balancing safe and risky host colonization strategies.
+
+3. **Piezoelectric Scaffold for Adaptive Bone Tissue Engineering**
+   - A new material system is developed that can adapt its mechanical properties in response to external stress.
+   - Piezoelectric scaffolds generate charges when stressed, which induce mineralization from surrounding media, reinforcing regions of high stress or damaged areas.
+   - This self-regenerating material could help address challenges in load-bearing applications by adapting to changing stress conditions.
+
+4. **Daily Variation of UV-Protective Compounds in Marine Dinoflagellate**
+   - The marine dinoflagellate Scrippsiella sweeneyae increases its production of UV-absorbing compounds (mycosporine-like amino acids) when exposed to high photosynthetically available radiation (PAR) or PAR plus ultraviolet radiation (UVR).
+   - These compounds help protect the dinoflagellate from UV damage.
+
+5. **Termite Mounds as Passive Ventilation Systems**
+   - Termite mounds in different environments use periodic solar heating to drive internal ventilation, functioning like an external lung for the colony.
+   - Despite differences in gas stratification and overturning patterns, termite architectures can harness solar energy to facilitate gas exchange, with implications for human engineering. as a single list of all the entities and relationships identified in steps 1 and 2. Use **{record_delimiter}** as the list delimiter. If you have to translate, just translate the descriptions, nothing else!
+
+4. When finished, output {completion_delimiter}
+
+-Examples-
+######################
+
+Example 1:
+
+entity_types: [Desert, Lark, Skin, Ceramide, Free fatty acid, Water vapor, Beetle, Mountain pine beetle, Bone, Piezoelectric scaffold, Shark, Wood frog, Mycosporine-like amino acid, Termite, Mound]
+text:
+ stiffly coupled to, and move together with, the flagellar shaft when stimulated at biologically relevant frequencies around 380 Hz. Because of this stiff coupling, forces acting on the hairs can be transmitted to the shaft and thus to the auditory sensory organ at the base of the flagellum, a process that is proposed to improve acoustic sensitivity. Indeed, the mechanical sensitivity of the male antenna not only exceeds the sensitivity of the female antenna but also those of all other arthropod movement receivers studied so far."
+SENSE_SOUND/VIBRATIONS,"Hyperacute directional hearing in a microscale auditory system The physics of sound propagation imposes fundamental constraints on sound localization: for a given frequency, the smaller the receiver, the smaller the available cues. Thus, the creation of nanoscale acoustic microphones with directional sensitivity is very difficult. The fly Ormia ochracea possesses an unusual 'ear' that largely overcomes these physical constraints; attempts to exploit principles derived from O. ochracea for improved
+------------------------
+output:
+**Entities:**
+
+("entity"{tuple_delimiter}"Ormia ochracea"{tuple_delimiter}"Beetle"{tuple_delimiter}"A species of beetle known for its unique hearing capabilities"}
+("entity"{tuple_delimiter}"ear"{tuple_delimiter}"Body part"{tuple_delimiter}"The organ responsible for detecting sound in an organism"}
+("entity"{tuple_delimiter}"sound"{tuple_delimiter}"Sound"{tuple_delimiter}"Vibrations that travel through the air or other mediums, detected by ears"}
+("entity"{tuple_delimiter}"frequency"{tuple_delimiter}"Frequency"{tuple_delimiter}"The number of vibrations per second in a sound wave"}
+("entity"{tuple_delimiter}"flagellum"{tuple_delimiter}"Body part"{tuple_delminer}"A long, whip-like structure found in some organisms, used for locomotion or sensing"}
+("entity"{tuple_delimiter}"auditory sensory organ"{tuple_delimiter}"Organ"{tuple_delimiter}"An organ responsible for detecting sound and converting it into neural signals"}
+
+**Relationships:**
+
+("relationship"{tuple_delimiter}"Ormia ochracea"{tuple_delimiter}"ear"{tuple_delimiter}"O. ochracea possesses an unusual 'ear' that largely overcomes physical constraints of sound localization"{tuple_delimiter}8"}
+("relationship"{tuple_delimiter}"Ormia ochracea"{tuple_delimiter}"sound"{tuple_delimiter}"The physics of sound propagation imposes fundamental constraints on sound localization in O. ochracea"{tuple_delimiter}7"}
+("relationship"{tuple_delimiter}"ear"{tuple_delimiter}"sound"{tuple_delimiter}"The ear is responsible for detecting sound"{tuple_delimiter}9"}
+("relationship"{tuple_delimiter}"Ormia ochracea"{tuple_delimiter}"flagellum"{tuple_delimiter}"Forces acting on the hairs of O. ochracea's antenna can be transmitted to the flagellar shaft"{tuple_delimiter}6"}
+("relationship"{tuple_delimiter}"flagellum"{tuple_delimiter}"auditory sensory organ"{tuple_delimiter}"The flagellum is connected to the auditory sensory organ at its base"{tuple_delimiter}7"}
+
+{completion_delimiter}
+#############################
+
+
+
+-Real Data-
+######################
+entity_types: [Desert, Lark, Skin, Ceramide, Free fatty acid, Water vapor, Beetle, Mountain pine beetle, Bone, Piezoelectric scaffold, Shark, Wood frog, Mycosporine-like amino acid, Termite, Mound]
+text: {input_text}
+######################
+output:

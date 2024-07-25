@@ -1,0 +1,16 @@
+LLM_PROVIDER=ollama  # Can be 'ollama' or 'openai' (only a variable in the .env file, not in the settings.yaml)
+API_URL=http://localhost:8012
+LLM_API_BASE=http://localhost:11434/v1
+LLM_API_KEY=12345
+
+EMBEDDINGS_PROVIDER=ollama  # Can be 'ollama' or 'openai' (only a variable in the .env file, not in the settings.yaml)
+EMBEDDINGS_API_BASE=http://localhost:11434/api
+LLM_MODEL=mistral-nemo:12b-instruct-2407-fp16
+EMBEDDINGS_MODEL=nomic-embed-text:latest
+EMBEDDINGS_API_KEY=12345
+
+
+GRAPHRAG_API_KEY=12345
+ROOT_DIR=indexing
+INPUT_DIR=${ROOT_DIR}/output/${timestamp}/artifacts
+API_PORT=8012
