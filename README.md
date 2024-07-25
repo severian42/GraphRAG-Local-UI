@@ -88,12 +88,14 @@ Follow these steps to set up and run the GraphRAG Local UI ecosystem:
     ```
     Note: For detailed instructions on using Ollama embeddings with GraphRAG, refer to the EMBEDDING_PROXY_README.md file.
 
-5. **Launch the Indexing and Prompt Tuning UI:**
+5. **Launch the Indexing and Prompt Tuning UI (Uses the API):**
     ```bash
     gradio index_app.py
     ```
 
-6. **Launch the main interactive UI (legacy app):**
+**OR**
+
+6. **Launch the main interactive UI (Legacy app that does not use the API):**
     ```bash
     gradio app.py
     ```
