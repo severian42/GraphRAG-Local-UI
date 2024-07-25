@@ -751,11 +751,11 @@ def create_interface():
                         
                         with gr.Row():
                             llm_name = gr.Dropdown(label="LLM Model", choices=[], value=settings['llm_model'], allow_custom_value=True)
-                            refresh_llm_btn = gr.Button("🔄", scale=0.1)
+                            refresh_llm_btn = gr.Button("🔄", size='sm', scale=0)
                         
                         with gr.Row():
                             embed_name = gr.Dropdown(label="Embedding Model", choices=[], value=settings['embedding_model'], allow_custom_value=True)
-                            refresh_embed_btn = gr.Button("🔄", scale=0.1)
+                            refresh_embed_btn = gr.Button("🔄", size='sm', scale=0)
                         
                         save_config_button = gr.Button("Save Configuration", variant="primary")
                         config_status = gr.Textbox(label="Configuration Status", lines=2)
