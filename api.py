@@ -50,10 +50,10 @@ logger = logging.getLogger(__name__)
 
 # Load environment variables
 load_dotenv('indexing/.env')
-LLM_API_BASE = os.getenv('LLM_API_BASE', '').rstrip('/')
+LLM_API_BASE = os.getenv('LLM_API_BASE', '')
 LLM_MODEL = os.getenv('LLM_MODEL')
 LLM_PROVIDER = os.getenv('LLM_PROVIDER', 'openai').lower()
-EMBEDDINGS_API_BASE = os.getenv('EMBEDDINGS_API_BASE', '').rstrip('/')
+EMBEDDINGS_API_BASE = os.getenv('EMBEDDINGS_API_BASE', '')
 EMBEDDINGS_MODEL = os.getenv('EMBEDDINGS_MODEL')
 EMBEDDINGS_PROVIDER = os.getenv('EMBEDDINGS_PROVIDER', 'openai').lower()
 INPUT_DIR = os.getenv('INPUT_DIR', './indexing/output')
@@ -122,11 +122,49 @@ def list_folder_contents(folder_name):
         return []
     return [item for item in os.listdir(folder_path) if item.endswith('.parquet')]
 
+def normalize_api_base(api_base: str) -> str:
+    """Normalize the API base URL by removing trailing slashes and /v1 or /api suffixes."""
+    api_base = api_base.rstrip('/')
+    if api_base.endswith('/v1') or api_base.endswith('/api'):
+        api_base = api_base[:-3]
+    return api_base
 
+def get_models_endpoint(api_base: str, api_type: str) -> str:
+    """Get the appropriate models endpoint based on the API type."""
+    normalized_base = normalize_api_base(api_base)
+    if api_type.lower() == 'openai':
+        return f"{normalized_base}/v1/models"
+    elif api_type.lower() == 'azure':
+        return f"{normalized_base}/openai/deployments?api-version=2022-12-01"
+    else:  # For other API types (e.g., local LLMs)
+        return f"{normalized_base}/models"
 
+async def fetch_available_models(settings: Dict[str, Any]) -> List[str]:
+    """Fetch available models from the API."""
+    api_base = settings['api_base']
+    api_type = settings['api_type']
+    api_key = settings['api_key']
+
+    models_endpoint = get_models_endpoint(api_base, api_type)
+    headers = {"Authorization": f"Bearer {api_key}"} if api_key else {}
+
+    try:
+        response = requests.get(models_endpoint, headers=headers, timeout=10)
+        response.raise_for_status()
+        data = response.json()
+
+        if api_type.lower() == 'openai':
+            return [model['id'] for model in data['data']]
+        elif api_type.lower() == 'azure':
+            return [model['id'] for model in data['value']]
+        else:
+            # Adjust this based on the actual response format of your local LLM API
+            return [model['name'] for model in data['models']]
+    except requests.exceptions.RequestException as e:
+        logger.error(f"Error fetching models: {str(e)}")
+        return []
 
 def load_settings():
-    # Try to load from a YAML config file
     config_path = os.getenv('GRAPHRAG_CONFIG', 'config.yaml')
     if os.path.exists(config_path):
         with open(config_path, 'r') as config_file:
@@ -134,7 +172,6 @@ def load_settings():
     else:
         config = {}
 
-    # Load settings, prioritizing environment variables over config file
     settings = {
         'llm_model': os.getenv('LLM_MODEL', config.get('llm_model')),
         'embedding_model': os.getenv('EMBEDDINGS_MODEL', config.get('embedding_model')),
@@ -142,37 +179,41 @@ def load_settings():
         'token_limit': int(os.getenv('TOKEN_LIMIT', config.get('token_limit', 4096))),
         'api_key': os.getenv('GRAPHRAG_API_KEY', config.get('api_key')),
         'api_base': os.getenv('LLM_API_BASE', config.get('api_base')),
+        'embeddings_api_base': os.getenv('EMBEDDINGS_API_BASE', config.get('embeddings_api_base')),
         'api_type': os.getenv('API_TYPE', config.get('api_type', 'openai')),
-        # Add more settings as needed
     }
+
+    return settings
 
     return settings
 
 async def setup_llm_and_embedder(settings):
     logger.info("Setting up LLM and embedder")
+    try:
+        llm = ChatOpenAI(
+            api_key=settings['api_key'],
+            api_base=f"{settings['api_base']}/v1",
+            model=settings['llm_model'],
+            api_type=OpenaiApiType[settings['api_type'].capitalize()],
+            max_retries=20,
+        )
 
-    llm = ChatOpenAI(
-        api_key=settings['api_key'],
-        api_base=settings['api_base'],
-        model=settings['llm_model'],
-        api_type=OpenaiApiType[settings['api_type'].capitalize()],
-        max_retries=20,
-    )
+        token_encoder = tiktoken.get_encoding("cl100k_base")
 
-    token_encoder = tiktoken.get_encoding("cl100k_base")
+        text_embedder = OpenAIEmbedding(
+            api_key=settings['api_key'],
+            api_base=f"{settings['embeddings_api_base']}/v1",
+            api_type=OpenaiApiType[settings['api_type'].capitalize()],
+            model=settings['embedding_model'],
+            deployment_name=settings['embedding_model'],
+            max_retries=20,
+        )
 
-    text_embedder = OpenAIEmbedding(
-        api_key=settings['api_key'],
-        api_base=settings['api_base'],
-        api_type=OpenaiApiType[settings['api_type'].capitalize()],
-        model=settings['embedding_model'],
-        deployment_name=settings['embedding_model'],
-        max_retries=20,
-    )
-
-    logger.info("LLM and embedder setup complete")
-    return llm, token_encoder, text_embedder
-
+        logger.info("LLM and embedder setup complete")
+        return llm, token_encoder, text_embedder
+    except Exception as e:
+        logger.error(f"Error setting up LLM and embedder: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to set up LLM and embedder: {str(e)}")
 
 async def load_context(selected_folder, settings):
     """
@@ -208,7 +249,6 @@ async def load_context(selected_folder, settings):
     except Exception as e:
         logger.error(f"Error loading context data: {str(e)}")
         raise
-
 
 async def setup_search_engines(llm, token_encoder, text_embedder, entities, relationships, reports, text_units,
                                description_embedding_store, covariates):
@@ -307,7 +347,6 @@ async def setup_search_engines(llm, token_encoder, text_embedder, entities, rela
     logger.info("Search engines setup complete")
     return local_search_engine, global_search_engine, local_context_builder, local_llm_params, local_context_params
 
-
 def format_response(response):
     """
     Format the response by adding appropriate line breaks and paragraph separations.
@@ -328,11 +367,6 @@ def format_response(response):
         formatted_paragraphs.append(para.strip())
 
     return '\n\n'.join(formatted_paragraphs)
-
-
-
-
-
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -412,8 +446,6 @@ async def chat_completions(request: ChatCompletionRequest):
         logger.error(f"Error in chat completion: {str(e)}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
 
-
-
 async def run_direct_chat(request: ChatCompletionRequest) -> ChatCompletionResponse:
     try:
         if not LLM_API_BASE:
@@ -433,7 +465,7 @@ async def run_direct_chat(request: ChatCompletionRequest) -> ChatCompletionRespo
         if request.max_tokens is not None:
             payload["max_tokens"] = request.max_tokens
         
-        full_url = f"{LLM_API_BASE}/api/chat"
+        full_url = f"{normalize_api_base(LLM_API_BASE)}/v1/chat/completions"
         
         logger.info(f"Sending request to: {full_url}")
         logger.info(f"Payload: {payload}")
@@ -442,18 +474,18 @@ async def run_direct_chat(request: ChatCompletionRequest) -> ChatCompletionRespo
             response = requests.post(full_url, json=payload, headers=headers, timeout=10)
             response.raise_for_status()
         except requests.exceptions.RequestException as req_ex:
-            logger.error(f"Request to Ollama failed: {str(req_ex)}")
+            logger.error(f"Request to LLM API failed: {str(req_ex)}")
             if isinstance(req_ex, requests.exceptions.ConnectionError):
-                raise HTTPException(status_code=503, detail="Unable to connect to Ollama. Is it running?")
+                raise HTTPException(status_code=503, detail="Unable to connect to LLM API. Please check your API settings.")
             elif isinstance(req_ex, requests.exceptions.Timeout):
-                raise HTTPException(status_code=504, detail="Request to Ollama timed out")
+                raise HTTPException(status_code=504, detail="Request to LLM API timed out")
             else:
-                raise HTTPException(status_code=500, detail=f"Request to Ollama failed: {str(req_ex)}")
+                raise HTTPException(status_code=500, detail=f"Request to LLM API failed: {str(req_ex)}")
         
         result = response.json()
         logger.info(f"Received response: {result}")
         
-        content = result['message']['content']
+        content = result['choices'][0]['message']['content']
         
         return ChatCompletionResponse(
             model=LLM_MODEL,
@@ -476,10 +508,9 @@ async def run_direct_chat(request: ChatCompletionRequest) -> ChatCompletionRespo
         logger.error(f"Unexpected error in direct chat: {str(e)}")
         raise HTTPException(status_code=500, detail=f"An unexpected error occurred during the direct chat: {str(e)}")
 
-
 def get_embeddings(text: str) -> List[float]:
-    if not EMBEDDINGS_API_BASE:
-        raise ValueError("EMBEDDINGS_API_BASE environment variable is not set")
+    settings = load_settings()
+    embeddings_api_base = settings['embeddings_api_base']
     
     headers = {"Content-Type": "application/json"}
     
@@ -488,17 +519,20 @@ def get_embeddings(text: str) -> List[float]:
             "model": EMBEDDINGS_MODEL,
             "prompt": text
         }
-        full_url = f"{EMBEDDINGS_API_BASE}/api/embeddings"
+        full_url = f"{embeddings_api_base}/api/embeddings"
     else:  # OpenAI-compatible API
         payload = {
             "model": EMBEDDINGS_MODEL,
             "input": text
         }
-        embed_endpoint = 'v1/embeddings' if '/v1' not in EMBEDDINGS_API_BASE else 'embeddings'
-        full_url = f"{EMBEDDINGS_API_BASE}/{embed_endpoint}"
+        full_url = f"{embeddings_api_base}/v1/embeddings"
     
-    response = requests.post(full_url, json=payload, headers=headers)
-    response.raise_for_status()
+    try:
+        response = requests.post(full_url, json=payload, headers=headers)
+        response.raise_for_status()
+    except requests.exceptions.RequestException as req_ex:
+        logger.error(f"Request to Embeddings API failed: {str(req_ex)}")
+        raise HTTPException(status_code=500, detail=f"Failed to get embeddings: {str(req_ex)}")
     
     result = response.json()
     
@@ -507,7 +541,6 @@ def get_embeddings(text: str) -> List[float]:
     else:
         return result['data'][0]['embedding']
     
-
 
 async def run_graphrag_query(request: ChatCompletionRequest) -> ChatCompletionResponse:
     try:
@@ -562,7 +595,6 @@ async def run_graphrag_query(request: ChatCompletionRequest) -> ChatCompletionRe
         logger.error(f"Error in GraphRAG query: {str(e)}")
         raise HTTPException(status_code=500, detail=f"An error occurred during the GraphRAG query: {str(e)}")
     
-
 
 def get_preset_args(preset: str) -> List[str]:
     preset_args = {
@@ -668,13 +700,25 @@ async def health_check():
 
 @app.get("/v1/models")
 async def list_models():
-    models = [
+    settings = load_settings()
+    try:
+        api_models = await fetch_available_models(settings)
+    except Exception as e:
+        logger.error(f"Error fetching API models: {str(e)}")
+        api_models = []
+
+    # Include the hardcoded models
+    hardcoded_models = [
         {"id": "graphrag-local-search:latest", "object": "model", "owned_by": "graphrag"},
         {"id": "graphrag-global-search:latest", "object": "model", "owned_by": "graphrag"},
         {"id": "duckduckgo-search:latest", "object": "model", "owned_by": "duckduckgo"},
         {"id": "full-model:latest", "object": "model", "owned_by": "combined"},
     ]
-    return JSONResponse(content={"data": models})
+
+    # Combine API models with hardcoded models
+    all_models = [{"id": model, "object": "model", "owned_by": "api"} for model in api_models] + hardcoded_models
+
+    return JSONResponse(content={"data": all_models})
 
 class PromptTuneRequest(BaseModel):
     root: str = "./{ROOT_DIR}"
@@ -690,7 +734,6 @@ class PromptTuneRequest(BaseModel):
 class PromptTuneResponse(BaseModel):
     status: str
     message: str
-
 
 # Global variable to store the latest logs
 prompt_tune_logs = deque(maxlen=100) 
@@ -783,6 +826,8 @@ async def prompt_tune_status():
 class IndexingRequest(BaseModel):
     llm_model: str
     embed_model: str
+    llm_api_base: str
+    embed_api_base: str
     root: str
     verbose: bool = False
     nocache: bool = False
@@ -817,7 +862,9 @@ async def run_indexing(request: IndexingRequest):
     env: Dict[str, Any] = os.environ.copy()
     env["GRAPHRAG_LLM_MODEL"] = request.llm_model
     env["GRAPHRAG_EMBED_MODEL"] = request.embed_model
-    
+    env["GRAPHRAG_LLM_API_BASE"] = LLM_API_BASE
+    env["GRAPHRAG_EMBED_API_BASE"] = EMBEDDINGS_API_BASE
+        
     # Set environment variables for LLM parameters
     for key, value in request.llm_params.items():
         env[f"GRAPHRAG_LLM_{key.upper()}"] = str(value)
