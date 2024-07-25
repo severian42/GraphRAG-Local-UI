@@ -30,6 +30,8 @@ ROOT_DIR = os.getenv('ROOT_DIR', 'indexing')
 class IndexingRequest(BaseModel):
     llm_model: str
     embed_model: str
+    llm_api_base: str
+    embed_api_base: str
     root: str
     verbose: bool = False
     nocache: bool = False
@@ -811,6 +813,7 @@ def create_interface():
                         pt_chunk_size = gr.Number(label="Chunk Size", value=200, precision=0, interactive=True)
                         pt_no_entity_types = gr.Checkbox(label="No Entity Types", value=False)
                         pt_output_dir = gr.Textbox(label="Output Directory", value=f"{ROOT_DIR}/prompts", interactive=True)
+                        save_pt_config_button = gr.Button("Save Prompt Tuning Configuration", variant="primary")
                         
                     with gr.Column(scale=1):
                         gr.Markdown("## Prompt Tuning Output")
@@ -878,6 +881,8 @@ def create_interface():
             return IndexingRequest(
                 llm_model=llm_name.value,
                 embed_model=embed_name.value,
+                llm_api_base=llm_api_base,
+                embed_api_base=embeddings_api_base,
                 root=root_dir.value,
                 verbose=verbose.value,
                 nocache=nocache.value,
@@ -985,6 +990,13 @@ def create_interface():
             outputs=[config_status]
         )
 
+        # Event handler for saving prompt tuning configuration
+        save_pt_config_button.click(
+            save_prompt_tuning_config,
+            inputs=[pt_root, pt_domain, pt_method, pt_limit, pt_language, pt_max_tokens, pt_chunk_size, pt_no_entity_types, pt_output_dir],
+            outputs=[pt_status]
+        )
+
         # Initialize file list and output folder list
         demo.load(update_file_list, outputs=[file_list])
         demo.load(update_output_folder_list, outputs=[output_folder_list])
@@ -1001,6 +1013,27 @@ def update_env_file(llm_model, embed_model):
     load_dotenv(env_path, override=True)
     
     return f"Environment updated: LLM_MODEL={llm_model}, EMBEDDINGS_MODEL={embed_model}"
+
+def save_prompt_tuning_config(root, domain, method, limit, language, max_tokens, chunk_size, no_entity_types, output_dir):
+    config = {
+        'prompt_tuning': {
+            'root': root,
+            'domain': domain,
+            'method': method,
+            'limit': limit,
+            'language': language,
+            'max_tokens': max_tokens,
+            'chunk_size': chunk_size,
+            'no_entity_types': no_entity_types,
+            'output': output_dir
+        }
+    }
+    
+    config_path = os.path.join(ROOT_DIR, 'prompt_tuning_config.yaml')
+    with open(config_path, 'w') as f:
+        yaml.dump(config, f)
+    
+    return f"Prompt Tuning configuration saved to {config_path}"
 
 demo = create_interface()
 
