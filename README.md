@@ -67,24 +67,6 @@ Follow these steps to set up and run the GraphRAG Local UI ecosystem:
     pip install -r requirements.txt
     ```
 
-3. **Launch the API server:**
-    ```bash
-    python api.py --host 0.0.0.0 --port 8012 --reload
-    ```
-
-4. **Launch the Indexing and Prompt Tuning UI:**
-    ```bash
-    python index_app.py
-    ```
-
-5. **Launch the main interactive UI (legacy app - DOES NOT USE THE API):**
-    ```bash
-    gradio app.py
-    ```
-    or
-    ```bash
-    python app.py
-    ```
 
 6. **Access the UIs:**
     - Indexing and Prompt Tuning UI: Open your web browser and navigate to `http://localhost:7861`
