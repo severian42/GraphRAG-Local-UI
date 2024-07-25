@@ -65,9 +65,17 @@ Follow these steps to set up and run the GraphRAG Local UI ecosystem:
     ```
 
 2. **Install the required packages:**
+
+    First install the GraphRAG dir from this repo (has changes not present in the Microsoft repo):
+
+    ```bash
+    pip install -e ./graphrag
+    ```
+
+    Then install the rest of the dependencies:
+
     ```bash
     pip install -r requirements.txt
-    ```
 
 3. **Launch the API server:**
     ```bash
