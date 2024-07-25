@@ -52,6 +52,8 @@ I am committed to making the GraphRAG Local UI ecosystem the most comprehensive 
 
 Feel free to open an Issue if you run into an error, and I will try to address it as soon as possible to minimize any downtime you might experience.
 
+---
+
 ## 📦 Installation and Setup
 
 Follow these steps to set up and run the GraphRAG Local UI ecosystem:
@@ -67,8 +69,32 @@ Follow these steps to set up and run the GraphRAG Local UI ecosystem:
     pip install -r requirements.txt
     ```
 
+3. **Launch the API server:**
+    ```bash
+    python api.py --host 0.0.0.0 --port 8012 --reload
+    ```
 
-6. **Access the UIs:**
+4. **If using Ollama for embeddings, launch the embedding proxy:**
+    ```bash
+    python embedding_proxy.py --port 11435 --host http://localhost:11434
+    ```
+    Note: For detailed instructions on using Ollama embeddings with GraphRAG, refer to the EMBEDDING_PROXY_README.md file.
+
+5. **Launch the Indexing and Prompt Tuning UI:**
+    ```bash
+    gradio index_app.py
+    ```
+
+6. **Launch the main interactive UI (legacy app):**
+    ```bash
+    gradio app.py
+    ```
+    or
+    ```bash
+    python app.py
+    ```
+
+7. **Access the UIs:**
     - Indexing and Prompt Tuning UI: Open your web browser and navigate to `http://localhost:7861`
     - Main UI (legacy): Open your web browser and navigate to `http://localhost:7860`
 
@@ -90,6 +116,19 @@ Usage:
 ```bash
 python api.py --host 0.0.0.0 --port 8012 --reload
 ```
+
+Note: If using Ollama for embeddings, make sure to run the embedding proxy (`embedding_proxy.py`) alongside `api.py`. Refer to the EMBEDDING_PROXY_README.md for detailed instructions.
+
+### 2. Indexing and Prompt Tuning UI (`index_app.py`)
+
+#### Workflow Integration
+
+1. Start the Core API (`api.py`) to enable backend functionality.
+2. If using Ollama for embeddings, start the embedding proxy (`embedding_proxy.py`).
+3. Use the Indexing and Prompt Tuning UI (`index_app.py`) to prepare your data and fine-tune the system.
+4. (Optional) Use the Main Interactive UI (`app.py`) for visualization and legacy features.
+
+This modular approach allows for greater flexibility and easier maintenance of the GraphRAG system. As development continues, the functionality of `app.py` will be gradually integrated into new, specialized interfaces that interact with the core API.
 
 ### 2. Indexing and Prompt Tuning UI (`index_app.py`)
 
