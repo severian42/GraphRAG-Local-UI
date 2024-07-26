@@ -21,7 +21,7 @@ For more details on the original GraphRAG implementation, please refer to the [G
 - **Flexible Querying:** Support for global, local, and direct chat queries with customizable parameters (main app).
 - **Customizable Visualization:** Adjust graph layout, node sizes, colors, and more to suit your preferences (main app).
 
-![GraphRAG UI](uiv3.png)
+![GraphRAG UI](uiv2.png)
 
 ## 🗺️ Roadmap
 
@@ -37,13 +37,14 @@ My vision for the GraphRAG Local UI ecosystem is to become the ultimate set of t
 - [x] Improved file management and output exploration
 - [x] Background task handling for long-running operations
 - [x] Enhanced configuration options through environment variables and YAML files
-- [x] Web search capabilities
 
 ### Upcoming Features
 - [ ] Dedicated Querying/Chat UI that interacts with the API
 - [ ] Dockerfile for easier deployment
+- [ ] Launch your own GraphRAG API server for use in external applications
 - [ ] Experimental: Mixture of Agents for Indexing/Query of knowledge graph
 - [ ] Support for more file formats (CSV, PDF, etc.)
+- [ ] Web search/Scraping capabilities
 - [ ] Advanced graph analysis tools
 - [ ] Integration with popular knowledge management tools
 - [ ] Collaborative features for team-based knowledge graph building
@@ -76,6 +77,7 @@ Follow these steps to set up and run the GraphRAG Local UI ecosystem:
 
     ```bash
     pip install -r requirements.txt
+    ```
 
 3. **Launch the API server:**
     ```bash
@@ -88,14 +90,12 @@ Follow these steps to set up and run the GraphRAG Local UI ecosystem:
     ```
     Note: For detailed instructions on using Ollama embeddings with GraphRAG, refer to the EMBEDDING_PROXY_README.md file.
 
-5. **Launch the Indexing and Prompt Tuning UI (Uses the API):**
+5. **Launch the Indexing and Prompt Tuning UI:**
     ```bash
     gradio index_app.py
     ```
 
-**OR**
-
-6. **Launch the main interactive UI (Legacy app that does not use the API):**
+6. **Launch the main interactive UI (legacy app):**
     ```bash
     gradio app.py
     ```
@@ -107,6 +107,65 @@ Follow these steps to set up and run the GraphRAG Local UI ecosystem:
 7. **Access the UIs:**
     - Indexing and Prompt Tuning UI: Open your web browser and navigate to `http://localhost:7861`
     - Main UI (legacy): Open your web browser and navigate to `http://localhost:7860`
+
+---
+
+## 🚀 Getting Started with GraphRAG Local
+
+GraphRAG is designed for flexibility, allowing you to quickly create and initialize your own indexing directory. Follow these steps to set up your environment:
+
+### 1. Create the Indexing Directory
+
+This repo comes with a pre-made Indexing folder but you may want to make your own, so here are the steps. First, create the required directory structure for your input data and indexing results:
+
+```bash
+mkdir -p ./indexing/input
+```
+
+This directory will store:
+- Input .txt files for indexing
+- Output results
+- Prompts for Prompt Tuning
+
+### 2. Add Sample Data (Optional)
+
+If you want to start with sample data, copy it to your new input directory:
+
+```bash
+cp input/* ./indexing/input
+```
+
+You can also add your own .txt files to this directory for indexing.
+
+### 3. Initialize the Indexing Folder
+
+Run the following command to initialize the ./indexing folder with the required files:
+
+```bash
+python -m graphrag.index --init --root ./indexing
+```
+
+### 4. Configure Settings
+
+Move the pre-configured `settings.yaml` file to your indexing directory:
+
+```bash
+mv settings.yaml ./indexing
+```
+
+This file contains the main configuration, pre-set for use with local models.
+
+### 5. Customization
+
+You can customize your setup by modifying the following environment variables:
+- `ROOT_DIR`: Points to your main indexing directory
+- `INPUT_DIR`: Specifies the location of your input files
+
+### 📚 Additional Resources
+
+For more detailed information and advanced usage, refer to the [official GraphRAG documentation](https://microsoft.github.io/graphrag/posts/get_started/).
+
+---
 
 ## 🖥️ GraphRAG Application Ecosystem
 
@@ -184,10 +243,12 @@ Access the UI at `http://localhost:7860`
 
 This modular approach allows for greater flexibility and easier maintenance of the GraphRAG system. As development continues, the functionality of `app.py` will be gradually integrated into new, specialized interfaces that interact with the core API.
 
+---
+
 ## 📚 Citations
 
 - Original GraphRAG repository by Microsoft: [GraphRAG](https://github.com/microsoft/graphrag)
-- This project took inspiration and used the repository by win4r [GraphRAG4OpenWebUI](https://github.com/win4r/GraphRAG4OpenWebUI) as a starting point for the API implementation.
+- This project took inspiration and used the GraphRAG4OpenWebUI repository by win4r (https://github.com/win4r/GraphRAG4OpenWebUI) as a starting point for the API implementation.
 
 ---
 
