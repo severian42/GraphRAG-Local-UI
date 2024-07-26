@@ -62,7 +62,7 @@ import warnings
 warnings.filterwarnings("ignore", category=UserWarning, module="gradio_client.documentation")
 
 
-load_dotenv('ragtest/.env')
+load_dotenv('indexing/.env')
 
 # Set default values for API-related environment variables
 os.environ.setdefault("LLM_API_BASE", os.getenv("LLM_API_BASE"))
@@ -105,8 +105,8 @@ def initialize_models():
     embeddings_api_base = os.getenv("EMBEDDINGS_API_BASE")
     embeddings_api_key = os.getenv("EMBEDDINGS_API_KEY")
     
-    llm_service_type = os.getenv("LLM_SERVICE_TYPE")
-    embeddings_service_type = os.getenv("EMBEDDINGS_SERVICE_TYPE")
+    llm_service_type = os.getenv("LLM_SERVICE_TYPE", "openai_chat").lower()  # Provide a default and lower it
+    embeddings_service_type = os.getenv("EMBEDDINGS_SERVICE_TYPE", "openai").lower()  # Provide a default and lower it
     
     llm_model = os.getenv("LLM_MODEL")
     embeddings_model = os.getenv("EMBEDDINGS_MODEL")
@@ -119,7 +119,7 @@ def initialize_models():
     embeddings_models = models
     
     # Initialize LLM
-    if llm_service_type.lower() == "openai_chat":
+    if llm_service_type == "openai_chat":
         llm = ChatOpenAI(
             api_key=llm_api_key,
             api_base=f"{llm_api_base}/v1",
@@ -140,15 +140,15 @@ def initialize_models():
             "model": embeddings_model,
             "api_type": "open_ai",
             "api_base": embeddings_api_base,
-            "api_key": embeddings_api_key or None,  # Change this line
-            "provider": embeddings_service_type.lower()
+            "api_key": embeddings_api_key or None,
+            "provider": embeddings_service_type
         }
     )
     
     return llm_models, embeddings_models, llm_service_type, embeddings_service_type, llm_api_base, embeddings_api_base, text_embedder
 
 def find_latest_output_folder():
-    root_dir = "./ragtest/output"
+    root_dir = "./indexing/output"
     folders = [f for f in os.listdir(root_dir) if os.path.isdir(os.path.join(root_dir, f))]
     
     if not folders:
@@ -251,7 +251,7 @@ def wait_for_api_server(port):
 
 def load_settings():
     try:
-        with open("ragtest/settings.yaml", "r") as f:
+        with open("indexing/settings.yaml", "r") as f:
             return yaml.safe_load(f) or {}
     except FileNotFoundError:
         return {}
@@ -264,7 +264,7 @@ def update_setting(key, value):
         settings[key] = value
     
     try:
-        with open("ragtest/settings.yaml", "w") as f:
+        with open("indexing/settings.yaml", "w") as f:
             yaml.dump(settings, f, default_flow_style=False)
         return f"Setting '{key}' updated successfully"
     except Exception as e:
@@ -301,11 +301,14 @@ def get_openai_client():
         llm_model = os.getenv("LLM_MODEL")
     )
 
-def chat_with_openai(messages, model, temperature, max_tokens, api_base):
+async def chat_with_openai(messages, model, temperature, max_tokens, api_base):
+    client = AsyncOpenAI(
+        base_url=api_base,
+        api_key=os.getenv("LLM_API_KEY")
+    )
+
     try:
-        logging.info(f"Attempting to use model: {model}")
-        client = OpenAI(base_url=api_base, api_key=os.getenv("LLM_API_KEY"))
-        response = client.chat.completions.create(
+        response = await client.chat.completions.create(
             model=model,
             messages=messages,
             temperature=temperature,
@@ -314,7 +317,7 @@ def chat_with_openai(messages, model, temperature, max_tokens, api_base):
         return response.choices[0].message.content
     except Exception as e:
         logging.error(f"Error in chat_with_openai: {str(e)}")
-        logging.error(f"Attempted with model: {model}, api_base: {api_base}")
+        return f"An error occurred: {str(e)}"
         return f"Error: {str(e)}"
 
 def chat_with_llm(query, history, system_message, temperature, max_tokens, model, api_base):
@@ -419,7 +422,7 @@ def construct_cli_args(query_type, preset, community_level, response_type, custo
     if not selected_folder:
         raise ValueError("No folder selected. Please select an output folder before querying.")
 
-    artifacts_folder = os.path.join("./ragtest/output", selected_folder, "artifacts")
+    artifacts_folder = os.path.join("./indexing/output", selected_folder, "artifacts")
     if not os.path.exists(artifacts_folder):
         raise ValueError(f"Artifacts folder not found in {artifacts_folder}")
 
@@ -464,7 +467,7 @@ def construct_cli_args(query_type, preset, community_level, response_type, custo
 
 def upload_file(file):
     if file is not None:
-        input_dir = os.path.join("ragtest", "input")
+        input_dir = os.path.join("indexing", "input")
         os.makedirs(input_dir, exist_ok=True)
         
         # Get the original filename from the uploaded file
@@ -487,7 +490,7 @@ def upload_file(file):
     return status, gr.update(choices=updated_file_list), update_logs()
 
 def list_input_files():
-    input_dir = os.path.join("ragtest", "input")
+    input_dir = os.path.join("indexing", "input")
     files = []
     if os.path.exists(input_dir):
         files = os.listdir(input_dir)
@@ -546,7 +549,7 @@ def save_file_content(file_path, content):
     return status, update_logs()
 
 def manage_data():
-    db = lancedb.connect("./ragtest/lancedb")
+    db = lancedb.connect("./indexing/lancedb")
     tables = db.table_names()
     table_info = ""
     if tables:
@@ -581,7 +584,7 @@ def find_latest_graph_file(root_dir):
     return latest_file
 
 def update_visualization(folder_name, file_name, layout_type, node_size, edge_width, node_color_attribute, color_scheme, show_labels, label_size):
-    root_dir = "./ragtest"
+    root_dir = "./indexing"
     if not folder_name or not file_name:
         return None, "Please select a folder and a GraphML file."
     file_name = file_name.split("] ")[1] if "]" in file_name else file_name  # Remove file type prefix
@@ -788,7 +791,7 @@ def update_llm_settings(llm_model, embeddings_model, context_window, system_mess
             "provider": embeddings_service_type
         })
         
-        with open("ragtest/settings.yaml", 'w') as f:
+        with open("indexing/settings.yaml", 'w') as f:
             yaml.dump(settings, f, default_flow_style=False)
         
         # Update .env file
@@ -813,7 +816,7 @@ def update_llm_settings(llm_model, embeddings_model, context_window, system_mess
         return f"Error updating LLM and embeddings settings: {str(e)}"
 
 def update_env_file(key, value):
-    env_path = 'ragtest/.env'
+    env_path = 'indexing/.env'
     with open(env_path, 'r') as file:
         lines = file.readlines()
     
@@ -1115,19 +1118,19 @@ def list_folder_contents(folder_path):
     return contents
 
 def update_output_folder_list():
-    root_dir = "./ragtest"
+    root_dir = "./"
     folders = list_output_folders(root_dir)
     return gr.update(choices=folders, value=folders[0] if folders else None)
 
 def update_folder_content_list(folder_name):
-    root_dir = "./ragtest"
+    root_dir = "./"
     if not folder_name:
         return gr.update(choices=[])
     contents = list_folder_contents(os.path.join(root_dir, "output", folder_name, "artifacts"))
     return gr.update(choices=contents)
 
 def handle_content_selection(folder_name, selected_item):
-    root_dir = "./ragtest"
+    root_dir = "./"
     if isinstance(selected_item, list) and selected_item:
         selected_item = selected_item[0]  # Take the first item if it's a list
     
@@ -1147,7 +1150,7 @@ def handle_content_selection(folder_name, selected_item):
         return gr.update(), "", ""
 
 def initialize_selected_folder(folder_name):
-    root_dir = "./ragtest"
+    root_dir = "./"
     if not folder_name:
         return "Please select a folder first.", gr.update(choices=[])
     folder_path = os.path.join(root_dir, "output", folder_name, "artifacts")
@@ -1194,7 +1197,7 @@ def refresh_indexing():
 
 
 def run_indexing(root_dir, config_file, verbose, nocache, resume, reporter, emit_formats, custom_args):
-    cmd = ["python", "-m", "graphrag.index", "--root", "./ragtest"]
+    cmd = ["python", "-m", "graphrag.index", "--root", "./indexing"]
     
     # Add custom CLI arguments
     if custom_args:
@@ -1271,6 +1274,7 @@ def run_indexing(root_dir, config_file, verbose, nocache, resume, reporter, emit
             gr.update(interactive=False),
             gr.update(interactive=True),
             str(iterations_completed))
+
 global_vector_store_wrapper = None
 
 def create_gradio_interface():
@@ -1308,7 +1312,7 @@ def create_gradio_interface():
                         
 
                     with gr.TabItem("Indexing"):
-                        root_dir = gr.Textbox(label="Root Directory", value="./ragtest")
+                        root_dir = gr.Textbox(label="Root Directory", value="./")
                         config_file = gr.File(label="Config File (optional)")
                         with gr.Row():
                             verbose = gr.Checkbox(label="Verbose", value=True)
@@ -1370,7 +1374,7 @@ def create_gradio_interface():
                         )
 
                     with gr.TabItem("Indexing Outputs/Visuals"):
-                        output_folder_list = gr.Dropdown(label="Select Output Folder (Select GraphML File to Visualize)", choices=list_output_folders("./ragtest"), interactive=True)
+                        output_folder_list = gr.Dropdown(label="Select Output Folder (Select GraphML File to Visualize)", choices=list_output_folders("./indexing"), interactive=True)
                         refresh_folder_btn = gr.Button("Refresh Folder List", variant="secondary")
                         initialize_folder_btn = gr.Button("Initialize Selected Folder", variant="primary")
                         folder_content_list = gr.Dropdown(label="Select File or Directory", choices=[], interactive=True)
@@ -1401,14 +1405,14 @@ def create_gradio_interface():
                         embeddings_service_type = gr.Radio(
                             label="Embeddings Service Type",
                             choices=["openai", "ollama"],
-                            value=settings['embeddings']['llm'].get('type', 'openai'),
+                            value=settings.get('embeddings', {}).get('llm', {}).get('type', 'openai'),
                             visible=False,
                         )
 
                         embeddings_model_dropdown = gr.Dropdown(
                             label="Embeddings Model",
                             choices=[],
-                            value=settings['embeddings']['llm'].get('model'),
+                            value=settings.get('embeddings', {}).get('llm', {}).get('model'),
                             allow_custom_value=True
                         )
                         refresh_embeddings_models_btn = gr.Button("Refresh Embedding Models", variant="secondary")
@@ -1550,7 +1554,7 @@ def create_gradio_interface():
                         )
                         selected_folder = gr.Dropdown(
                             label="Select Index Folder to Chat With",
-                            choices=list_output_folders("./ragtest"),
+                            choices=list_output_folders("./indexing"),
                             value=None,
                             interactive=True
                         )
@@ -1626,7 +1630,7 @@ def create_gradio_interface():
         save_btn.click(fn=save_file_content, inputs=[file_list, file_content], outputs=[operation_status, log_output])
 
         refresh_folder_btn.click(
-            fn=lambda: gr.update(choices=list_output_folders("./ragtest")),
+            fn=lambda: gr.update(choices=list_output_folders("./indexing")),
             outputs=[selected_folder]
         )
 
@@ -1755,9 +1759,10 @@ def create_gradio_interface():
 
     return demo.queue()
 
-def main():
+async def main():
     api_port = 8088
     gradio_port = 7860
+
 
     print(f"Starting API server on port {api_port}")
     start_api_server(api_port)
