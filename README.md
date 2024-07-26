@@ -21,7 +21,7 @@ For more details on the original GraphRAG implementation, please refer to the [G
 - **Flexible Querying:** Support for global, local, and direct chat queries with customizable parameters (main app).
 - **Customizable Visualization:** Adjust graph layout, node sizes, colors, and more to suit your preferences (main app).
 
-![GraphRAG UI](uiv2.png)
+![GraphRAG UI](uiv3.png)
 
 ## 🗺️ Roadmap
 
