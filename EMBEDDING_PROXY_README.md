@@ -29,7 +29,7 @@ To bridge this gap, let's use an embeddings proxy. This proxy acts as a middlewa
        api_key: ${GRAPHRAG_API_KEY}
        type: openai_embedding
        model: nomic-embed-text:latest
-       api_base: http://localhost:11434  # Point to your proxy
+       api_base: http://localhost:11435  # Point to your proxy
    ```
 
 4. **Run GraphRAG:**
