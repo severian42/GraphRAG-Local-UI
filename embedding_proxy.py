@@ -28,7 +28,7 @@ async def create_embedding(request: EmbeddingRequest):
         ollama_requests = [{"model": request.model, "prompt": text} for text in request.input]
 
         embeddings = []
-        total_tokens = 0
+
 
         for i, ollama_request in enumerate(ollama_requests):
             response = await client.post(f"{OLLAMA_URL}/api/embeddings", json=ollama_request)
@@ -41,13 +41,13 @@ async def create_embedding(request: EmbeddingRequest):
                 "embedding": result["embedding"],
                 "index": i
             })
-            total_tokens += result["usage"]["total_tokens"]
+            
 
         return EmbeddingResponse(
             object="list",
             data=embeddings,
             model=request.model,
-            usage={"prompt_tokens": total_tokens, "total_tokens": total_tokens}
+            
         )
 
 if __name__ == "__main__":
