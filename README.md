@@ -25,7 +25,8 @@ For more details on the original GraphRAG implementation, please refer to the [G
 
 ## 🗺️ Roadmap
 
-### **Important Note:** Updates have been slow due to the day job and lack of immediate time, but I promise I am working on errors/issues in the background when able to. Please feel free to contribute/create a PR if you want to help out and find a great solution to an issue presented. The GraphRAG Local UI ecosystem is currently undergoing a major transition. While the main app remains functional, I am actively developing separate applications for Indexing/Prompt Tuning and Querying/Chat, all built around a robust central API. Users should expect some changes and potential instability during this transition period.
+### *Important Note:** Updates have been slow due to the day job and lack of immediate time, but I promise I am working on errors/issues in the background when able to. Please feel free to contribute/create a PR if you want to help out and find a great solution to an issue presented.* 
+**The GraphRAG Local UI ecosystem is currently undergoing a major transition. While the main app remains functional, I am actively developing separate applications for Indexing/Prompt Tuning and Querying/Chat, all built around a robust central API. Users should expect some changes and potential instability during this transition period.**
 
 *While it is currently functional, it has only been primarily tested on a Mac Studio M2.*
 
