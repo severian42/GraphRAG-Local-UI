@@ -44,8 +44,17 @@ from graphrag.query.structured_search.global_search.community_context import Glo
 from graphrag.query.structured_search.global_search.search import GlobalSearch
 from graphrag.vector_stores.lancedb import LanceDBVectorStore
 
-# Set up logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+# Centralized logging configuration
+logging.basicConfig(
+    level=logging.DEBUG,  # Set to DEBUG to capture all log messages
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler("logs/api.log"), # Create a separate place to view logs
+        logging.StreamHandler()  # This outputs to the terminal
+    ]
+)
+
 logger = logging.getLogger(__name__)
 
 # Load environment variables

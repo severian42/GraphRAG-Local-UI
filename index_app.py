@@ -16,7 +16,6 @@ from pydantic import BaseModel
 
 # Set up logging
 log_queue = queue.Queue()
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
 load_dotenv('indexing/.env')
