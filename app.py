@@ -79,8 +79,6 @@ sys.path.insert(0, project_root)
 
 # Set up logging
 log_queue = queue.Queue()
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-
 
 llm = None
 text_embedder = None
@@ -93,7 +91,7 @@ class QueueHandler(logging.Handler):
     def emit(self, record):
         self.log_queue.put(self.format(record))
 queue_handler = QueueHandler(log_queue)
-logging.getLogger().addHandler(queue_handler)
+# logging.getLogger().addHandler(queue_handler)
 
 
 

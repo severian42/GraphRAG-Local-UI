@@ -304,11 +304,3 @@ def _enable_logging(root_dir: str, run_id: str, verbose: bool) -> None:
     logging_file.parent.mkdir(parents=True, exist_ok=True)
 
     logging_file.touch(exist_ok=True)
-
-    logging.basicConfig(
-        filename=str(logging_file),
-        filemode="a",
-        format="%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s",
-        datefmt="%H:%M:%S",
-        level=logging.DEBUG if verbose else logging.INFO,
-    )
