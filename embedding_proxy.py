@@ -17,9 +17,8 @@ class EmbeddingResponse(BaseModel):
     object: str
     data: List[dict]
     model: str
-    usage: dict
-
-@app.post("/v1/embeddings")
+    
+@app.post("/embeddings")
 async def create_embedding(request: EmbeddingRequest):
     async with httpx.AsyncClient() as client:
         if isinstance(request.input, str):
